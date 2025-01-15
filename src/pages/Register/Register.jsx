@@ -2,14 +2,16 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Input, Button, Card, Typography } from "@material-tailwind/react";
-import {  FaCloudUploadAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaCloudUploadAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { MdDelete } from 'react-icons/md';
-import uploadImage from "../../api/uploadImage";
+import { MdDelete } from "react-icons/md";
+import uploadImage, { saveUser } from "../../api/uploadImage";
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
+  const { user ,signInWithGoogle} = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -20,13 +22,14 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue
+    setValue,
   } = useForm();
-console.log(imagePreview );
-   // Image upload handlers
-   const handleImageChange = async(e) => {
+  console.log(imagePreview);
+  // Image upload handlers
+  const handleImageChange = async (e) => {
+    e.preventDefault();
     const file = e.target.files[0];
-    const photoURL = await uploadImage(file)
+    const photoURL = await uploadImage(file);
     console.log(photoURL);
     setImagePreview(photoURL);
     // setValue('photo', imagePreview);
@@ -34,10 +37,10 @@ console.log(imagePreview );
 
   const removeImage = () => {
     setImagePreview(null);
-    setValue('photo', null);
+    setValue("photo", null);
   };
 
-//  console.log(imagePreview);
+  //  console.log(imagePreview);
   const showSuccessAlert = () => {
     Swal.fire({
       title: "Registration Successful!",
@@ -61,10 +64,9 @@ console.log(imagePreview );
   };
 
   const onSubmit = async (data) => {
-    
     setIsLoading(true);
     try {
-      if(imagePreview === null){
+      if (imagePreview === null) {
         Swal.fire({
           title: "Image Required",
           text: "Please upload a profile picture",
@@ -90,6 +92,11 @@ console.log(imagePreview );
       // Add your Google authentication logic here
       // Example:
       // const result = await signInWithGoogle();
+      const user = await signInWithGoogle()
+      console.log(user.user);
+       // save user information in the database if he is new
+      //  await saveUser(user?.user);
+      //  navigate("/");
       showSuccessAlert();
     } catch (error) {
       showErrorAlert(error.message);
@@ -130,17 +137,16 @@ console.log(imagePreview );
           </Typography>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <motion.div variants={inputVariants} className="space-y-4">
+            <motion.div variants={inputVariants} className="space-y-4">
               <div className="flex flex-col items-center">
                 <input
                   type="file"
                   id="photo"
                   accept="image/*"
                   className="hidden"
-                 
                   onChange={handleImageChange}
                 />
-                
+
                 {imagePreview ? (
                   <div className="relative">
                     <img
@@ -153,8 +159,7 @@ console.log(imagePreview );
                       onClick={removeImage}
                       className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors"
                     >
-                      <MdDelete
-                       size={20} />
+                      <MdDelete size={20} />
                     </button>
                   </div>
                 ) : (
@@ -163,7 +168,9 @@ console.log(imagePreview );
                     className="w-24 h-24  border-4 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-colors"
                   >
                     <FaCloudUploadAlt size={30} className="text-gray-400" />
-                    <span className="text-sm text-gray-400 mt-2">Upload Photo</span>
+                    <span className="text-sm text-gray-400 mt-2">
+                      Upload Photo
+                    </span>
                   </label>
                 )}
                 {errors.photo && (
@@ -173,7 +180,7 @@ console.log(imagePreview );
                 )}
               </div>
             </motion.div>
-            
+
             <motion.div variants={inputVariants}>
               <Input
                 size="lg"
@@ -250,8 +257,6 @@ console.log(imagePreview );
                 </Typography>
               )}
             </motion.div>
-
-           
 
             <motion.div
               variants={inputVariants}

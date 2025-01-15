@@ -3,20 +3,27 @@ import {
   Button,
   IconButton,
   Collapse,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 export function StickyNavbar() {
+  const { user,logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
-
+  console.log(user, "StickyNavbar");
   useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
-
+  console.log(user?.photoURL);
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
       <Typography as="li" variant="small" className="p-1 font-normal">
@@ -55,24 +62,53 @@ export function StickyNavbar() {
         <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block ">{navList}</div>
           <div className="flex items-center gap-x-1">
-            <NavLink to={"/login"}>
-              <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block text-white"
+            {user?.email ? (
+              <Menu
+                animate={{
+                  mount: { y: 15 },
+                  unmount: { y: 45 },
+                }}
               >
-                <span>Log In</span>
-              </Button>
-            </NavLink>
-            <NavLink to={"/register"}>
-              <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Sign in</span>
-              </Button>
-            </NavLink>
+                <MenuHandler>
+                  <Avatar
+                    className="cursor-pointer"
+                    src={user ? user?.photoURL : ""}
+                    alt="avatar"
+                  />
+                </MenuHandler>
+                <MenuList>
+                  <Link to={"/dashboard"}>
+                    <MenuItem>Dashboard</MenuItem>
+                  </Link>
+                  <MenuItem>
+                    <Button onClick={logOut} variant="gradient" size="sm" className="">
+                      <span>Log Out</span>
+                    </Button>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            ) : (
+              <>
+                <NavLink to={"/login"}>
+                  <Button
+                    variant="text"
+                    size="sm"
+                    className="hidden lg:inline-block text-white"
+                  >
+                    <span>Log In</span>
+                  </Button>
+                </NavLink>
+                <NavLink to={"/register"}>
+                  <Button
+                    variant="gradient"
+                    size="sm"
+                    className="hidden lg:inline-block"
+                  >
+                    <span>Sign in</span>
+                  </Button>
+                </NavLink>
+              </>
+            )}
           </div>
           <IconButton
             variant="text"
@@ -115,13 +151,25 @@ export function StickyNavbar() {
       </div>
       <Collapse open={openNav}>
         {navList}
-        <div className="flex items-center gap-x-1 text-white">
-          <Button fullWidth variant="text" size="sm" className="">
-            <span>Log In</span>
-          </Button>
-          <Button fullWidth variant="gradient" size="sm" className="">
-            <span>Sign in</span>
-          </Button>
+        <div className="flex items-center gap-x-1 ">
+          <NavLink to={"/login"}>
+            <Button
+              variant="text"
+              size="sm"
+              className="hidden lg:inline-block text-white"
+            >
+              <span>Log In</span>
+            </Button>
+          </NavLink>
+          <NavLink to={"/register"}>
+            <Button
+              variant="gradient"
+              size="sm"
+              className="hidden lg:inline-block"
+            >
+              <span>Sign in</span>
+            </Button>
+          </NavLink>
         </div>
       </Collapse>
     </>

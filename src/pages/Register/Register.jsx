@@ -5,7 +5,7 @@ import { Input, Button, Card, Typography } from "@material-tailwind/react";
 import { FaCloudUploadAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import uploadImage, { saveUser } from "../../api/uploadImage";
 import useAuth from "../../hooks/useAuth";
@@ -301,12 +301,12 @@ const Register = () => {
 
           <Typography color="gray" className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="text-blue-500 hover:text-blue-700 transition-colors"
             >
               Login here
-            </a>
+            </Link>
           </Typography>
         </Card>
       </motion.div>

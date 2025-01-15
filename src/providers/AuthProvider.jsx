@@ -71,12 +71,12 @@ const AuthProvider = ({ children }) => {
           // );
         }
         // Get JWT token
-        const rs = await axiosPublic.post(
+        const result = await axiosPublic.post(
           `/jwt`,{
             email: currentUser?.email,
           }
         );
-        localStorage.setItem("token", rs.data.token);
+        localStorage.setItem("token", result.data.token);
       } else {
         setUser(currentUser);
         localStorage.removeItem("token");

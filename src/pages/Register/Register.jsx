@@ -11,7 +11,7 @@ import uploadImage, { saveUser } from "../../api/uploadImage";
 import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
-  const { user ,signInWithGoogle} = useAuth();
+  const { signInWithGoogle, createUser, updateUserProfile } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -76,8 +76,11 @@ const Register = () => {
         });
         return;
       }
-      // Here you'll add your registration logic
-      console.log(data);
+      const result = await createUser(data?.email, data?.password);
+      await updateUserProfile(data?.name, imagePreview);
+      await saveUser(result.user);
+      navigate("/");
+      reset();
       showSuccessAlert();
     } catch (error) {
       showErrorAlert(error.message);
@@ -89,14 +92,12 @@ const Register = () => {
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
-      // Add your Google authentication logic here
-      // Example:
-      // const result = await signInWithGoogle();
-      const user = await signInWithGoogle()
+
+      const user = await signInWithGoogle();
       console.log(user.user);
-       // save user information in the database if he is new
-      //  await saveUser(user?.user);
-      //  navigate("/");
+      // save user information in the database if he is new
+      await saveUser(user?.user);
+      navigate("/");
       showSuccessAlert();
     } catch (error) {
       showErrorAlert(error.message);

@@ -75,8 +75,9 @@ export function StickyNavbar() {
               >
                 <MenuHandler>
                   <Avatar
+                   withBorder={true}
                     onClick={() => setOpenNav(false)}
-                    className="cursor-pointer"
+                    className="cursor-pointer border-orange-900"
                     src={user ? user?.photoURL : ""}
                     alt={user ? user?.name : 'userImage'}
                   />
@@ -191,8 +192,9 @@ export function StickyNavbar() {
       >
         <MenuHandler>
           <Avatar
+           withBorder={true}
             onClick={() => setOpenNav(false)}
-            className="cursor-pointer"
+            className="cursor-pointer p-0.5 border-orange-900"
             src={user ? user?.photoURL : ""}
             alt={user ? user?.name : 'userImage'}
           />

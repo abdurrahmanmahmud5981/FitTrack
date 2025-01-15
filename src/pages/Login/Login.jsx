@@ -6,12 +6,14 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import { saveUser } from "../../api/uploadImage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signIn } = useAuth();
   const navigate = useNavigate();
+  const location  = useLocation();
+  const from = location.state?.from.pathname || "/";
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -39,9 +41,24 @@ const Login = () => {
     setIsLoading(true);
     try {
       // Handle login logic here
-      console.log(data);
+      await signIn(data?.email, data?.password);
+      Swal.fire({
+        title: "Login Successful!",
+        text: "Welcome back!",
+        icon: "success",
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#2196f3",
+      })
+      navigate(from);
     } catch (error) {
       console.error(error);
+      Swal.fire({
+        title: "Login Failed",
+        text: error.message || "Please try again later",
+        icon: "error",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#ef4444",
+      })
     } finally {
       setIsLoading(false);
     }

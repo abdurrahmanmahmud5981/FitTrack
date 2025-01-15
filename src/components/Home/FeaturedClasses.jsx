@@ -102,7 +102,7 @@ const FeaturedClasses = () => {
             >
               <CardHeader
                 floated={false}
-                className="relative h-48 bg-transparent border"
+                className="relative h-56 bg-transparent border"
               >
                 <img
                   src={fitnessClass.image}

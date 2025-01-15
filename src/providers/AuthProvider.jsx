@@ -12,6 +12,7 @@ import {
 
 import axios from "axios";
 import auth from "../firebase/firebase.config";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
@@ -19,6 +20,7 @@ export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,12 +59,6 @@ const AuthProvider = ({ children }) => {
         setUser(currentUser);
         setLoading(false);
 
-        console.log({
-          name: currentUser?.displayName,
-          image: currentUser?.photoURL,
-          email: currentUser?.email,
-          role: "customer",
-        });
         // // save user information in database
         if (currentUser?.displayName && currentUser?.photoURL) {
           // await axios.post(
@@ -75,13 +71,12 @@ const AuthProvider = ({ children }) => {
           // );
         }
         // Get JWT token
-        // await axios.post(
-        //   `${import.meta.env.VITE_API_URL}/jwt`,
-        //   {
-        //     email: currentUser?.email,
-        //   },
-        //   { withCredentials: true }
-        // );
+        const rs = await axiosPublic.post(
+          `/jwt`,{
+            email: currentUser?.email,
+          }
+        );
+        console.log(rs);
       } else {
         setUser(currentUser);
         // await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {

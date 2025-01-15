@@ -26,17 +26,17 @@ export function StickyNavbar() {
         </NavLink>
       </Typography>
       <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/" className="flex items-center">
+        <NavLink to="/allTrainer" className="flex items-center">
           All Trainer
         </NavLink>
       </Typography>
       <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/" className="flex items-center">
+        <NavLink to="/allClasses" className="flex items-center">
           All Classes
         </NavLink>
       </Typography>
       <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/" className="flex items-center">
+        <NavLink to="/community" className="flex items-center">
           Community
         </NavLink>
       </Typography>
@@ -45,7 +45,7 @@ export function StickyNavbar() {
 
   return (
     <>
-      <div className="flex items-center justify-between  ">
+      <div className="flex items-center justify-between ">
         <Typography
           as="a"
           href="#"

@@ -76,19 +76,18 @@ const AuthProvider = ({ children }) => {
             email: currentUser?.email,
           }
         );
-        console.log(rs);
+        localStorage.setItem("token", rs.data.token);
       } else {
         setUser(currentUser);
-        // await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
-        //   withCredentials: true,
-        // });
+        localStorage.removeItem("token");
+        setLoading(false);
         setLoading(false);
       }
     });
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,

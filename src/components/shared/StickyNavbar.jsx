@@ -14,7 +14,7 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 export function StickyNavbar() {
-  const { user,logOut } = useAuth();
+  const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
   console.log(user, "StickyNavbar");
   useEffect(() => {
@@ -61,9 +61,13 @@ export function StickyNavbar() {
         </Typography>
         <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block ">{navList}</div>
-          <div className="flex items-center gap-x-1">
+          <div
+            onClick={() => setOpenNav(false)}
+            className="flex items-center gap-x-1"
+          >
             {user?.email ? (
-              <Menu
+              <div className="hidden lg:block">
+                <Menu
                 animate={{
                   mount: { y: 15 },
                   unmount: { y: 45 },
@@ -71,9 +75,10 @@ export function StickyNavbar() {
               >
                 <MenuHandler>
                   <Avatar
+                    onClick={() => setOpenNav(false)}
                     className="cursor-pointer"
                     src={user ? user?.photoURL : ""}
-                    alt="avatar"
+                    alt={user ? user?.name : 'userImage'}
                   />
                 </MenuHandler>
                 <MenuList>
@@ -81,12 +86,18 @@ export function StickyNavbar() {
                     <MenuItem>Dashboard</MenuItem>
                   </Link>
                   <MenuItem>
-                    <Button onClick={logOut} variant="gradient" size="sm" className="">
+                    <Button
+                      onClick={logOut}
+                      variant="gradient"
+                      size="sm"
+                      className=""
+                    >
                       <span>Log Out</span>
                     </Button>
                   </MenuItem>
                 </MenuList>
               </Menu>
+              </div>
             ) : (
               <>
                 <NavLink to={"/login"}>
@@ -151,26 +162,57 @@ export function StickyNavbar() {
       </div>
       <Collapse open={openNav}>
         {navList}
-        <div className="flex items-center gap-x-1 ">
-          <NavLink to={"/login"}>
+        {!user?.email ? (
+          <div className="flex items-center gap-x-1 ">
+            <NavLink to={"/login"}>
+              <Button
+                variant="text"
+                size="sm"
+                className="lg:hidden inline-block text-white"
+              >
+                <span>Log In</span>
+              </Button>
+            </NavLink>
+            <NavLink to={"/register"}>
+              <Button
+                variant="gradient"
+                size="sm"
+                className="lg:hidden inline-block"
+              >
+                <span>Sign in</span>
+              </Button>
+            </NavLink>
+          </div>
+        ) :   <Menu
+        animate={{
+          mount: { y: 15 },
+          unmount: { y: 45 },
+        }}
+      >
+        <MenuHandler>
+          <Avatar
+            onClick={() => setOpenNav(false)}
+            className="cursor-pointer"
+            src={user ? user?.photoURL : ""}
+            alt={user ? user?.name : 'userImage'}
+          />
+        </MenuHandler>
+        <MenuList>
+          <Link to={"/dashboard"}>
+            <MenuItem>Dashboard</MenuItem>
+          </Link>
+          <MenuItem>
             <Button
-              variant="text"
-              size="sm"
-              className="hidden lg:inline-block text-white"
-            >
-              <span>Log In</span>
-            </Button>
-          </NavLink>
-          <NavLink to={"/register"}>
-            <Button
+              onClick={logOut}
               variant="gradient"
               size="sm"
-              className="hidden lg:inline-block"
+              className=""
             >
-              <span>Sign in</span>
+              <span>Log Out</span>
             </Button>
-          </NavLink>
-        </div>
+          </MenuItem>
+        </MenuList>
+      </Menu>}
       </Collapse>
     </>
   );

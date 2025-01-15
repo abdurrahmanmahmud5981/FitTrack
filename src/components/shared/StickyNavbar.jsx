@@ -55,20 +55,24 @@ export function StickyNavbar() {
         <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block ">{navList}</div>
           <div className="flex items-center gap-x-1">
-            <Button
-              variant="text"
-              size="sm"
-              className="hidden lg:inline-block text-white"
-            >
-              <span>Log In</span>
-            </Button>
-            <Button
-              variant="gradient"
-              size="sm"
-              className="hidden lg:inline-block"
-            >
-              <span>Sign in</span>
-            </Button>
+            <NavLink to={"/login"}>
+              <Button
+                variant="text"
+                size="sm"
+                className="hidden lg:inline-block text-white"
+              >
+                <span>Log In</span>
+              </Button>
+            </NavLink>
+            <NavLink to={"/register"}>
+              <Button
+                variant="gradient"
+                size="sm"
+                className="hidden lg:inline-block"
+              >
+                <span>Sign in</span>
+              </Button>
+            </NavLink>
           </div>
           <IconButton
             variant="text"
@@ -111,7 +115,7 @@ export function StickyNavbar() {
       </div>
       <Collapse open={openNav}>
         {navList}
-        <div className="flex items-center gap-x-1">
+        <div className="flex items-center gap-x-1 text-white">
           <Button fullWidth variant="text" size="sm" className="">
             <span>Log In</span>
           </Button>

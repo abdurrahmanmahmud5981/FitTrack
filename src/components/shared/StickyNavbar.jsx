@@ -1,9 +1,8 @@
 import {
-  Navbar,
-  MobileNav,
   Typography,
   Button,
   IconButton,
+  Collapse,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -110,7 +109,7 @@ export function StickyNavbar() {
           </IconButton>
         </div>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         {navList}
         <div className="flex items-center gap-x-1">
           <Button fullWidth variant="text" size="sm" className="">
@@ -120,7 +119,7 @@ export function StickyNavbar() {
             <span>Sign in</span>
           </Button>
         </div>
-      </MobileNav>
+      </Collapse>
     </>
   );
 }

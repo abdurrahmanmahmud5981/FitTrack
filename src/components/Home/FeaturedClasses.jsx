@@ -155,7 +155,7 @@ const FeaturedClasses = () => {
                   </Typography>
                 </div>
                 <div className="">{/* {fitnessClass.trainer.charAt(0)} */}</div>
-                <Typography v className="mb-6 text-gray-500">
+                <Typography  className="mb-6 text-gray-500">
                   {fitnessClass.description}
                 </Typography>
               </CardBody>

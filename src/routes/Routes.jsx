@@ -6,6 +6,8 @@ import AllClasses from '../pages/AllClasses';
 import Community from '../pages/Community';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
+import TrainerDetails from '../pages/TrainerDetails';
+import TrainerBooking from '../pages/TrainerBooking';
 
 const router = createBrowserRouter([
     {
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
         children:[
             {path: '', element: <Home/>},
             {path: '/allTrainer', element: <AllTrainer/>},
+            {path: '/trainer/:id', element: <TrainerDetails/>},
+            {path: '/bookTrainer/:slot', element: <TrainerBooking/>},
             {path: '/allClasses', element: <AllClasses/>},
             {path: '/community', element: <Community/>},
             {path: '/login', element: <Login/>},

@@ -2,8 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Input, Button, Typography, Card } from "@material-tailwind/react";
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import  Swal  from 'sweetalert2';
+
 
 const Newsletter = () => {
+  const axiosPublic = useAxiosPublic()
   const {
     register,
     handleSubmit,
@@ -11,10 +15,38 @@ const Newsletter = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("User Data:", data); // Replace with API call
-    reset();
-    alert("Thank you for subscribing!");
+  const onSubmit = async (data) => {
+   try {
+    const result =  await axiosPublic.post('/subscribers', data)
+    if(result.data?.insertedId){
+      Swal.fire({
+        title: 'Success!',
+        text: 'You have successfully subscribed to our newsletter!',
+        icon:'success',
+        confirmButtonText: 'Cool'
+      })
+      reset();
+    }else{
+      Swal.fire({
+        title: 'Oops!',
+        text: `${result.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'Thanks'
+      })
+      reset()
+    }
+    console.log(result.data);
+   } catch (error) {
+    console.error("Error subscribing user:", error);
+    
+    Swal.fire({
+      title: 'Error!',
+      text: `${error.message}`,
+      icon: 'error',
+      confirmButtonText: 'Cool'
+    })
+    
+   }
   };
 
   return (

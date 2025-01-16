@@ -11,6 +11,7 @@ import TrainerBooking from '../pages/TrainerBooking';
 import DashboardLayout from '../layouts/DashboardLayout';
 import UserProfile from '../pages/UserProfile';
 import AddNewSlot from '../pages/DashBoard/Trainer/AddSlot/AddNewSlot';
+import AddNewClass from '../pages/DashBoard/Admin/AddClass/AddNewClass';
 
 const router = createBrowserRouter([
     {
@@ -38,9 +39,19 @@ const router = createBrowserRouter([
                 path: '/dashboard/profile',
                 element: <UserProfile/>
             },
+            // trainer routes
             {
                 path: '/dashboard/add-new-slot',
                 element: <AddNewSlot/>
+            },
+            // admin routes
+            {
+                path: '/dashboard/all-trainer',
+                element: <AllTrainer/>
+            },
+            {
+                path: '/dashboard/add-new-class',
+                element: <AddNewClass/>
             }
         ],
     }

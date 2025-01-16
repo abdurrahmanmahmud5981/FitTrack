@@ -47,6 +47,13 @@ const DashboardLayout = () => {
             isActive={activeSection === "add-new-slot"}
             onClick={() => setActiveSection("add-new-slot")}
             />
+            <SidebarItem
+            icon={<FaBook />}
+            label="Add New Class "
+            to="dashboard/add-new-class"
+            isActive={activeSection === "add-new-class"}
+            onClick={() => setActiveSection("add-new-class")}
+            />
           <SidebarItem
             icon={<FaBook />}
             label="Classes"

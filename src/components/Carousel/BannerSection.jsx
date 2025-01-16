@@ -47,9 +47,9 @@ const BannerSection = () => {
                 </h2>
                 <p className="text-base md:text-lg mb-6">{slide.description}</p>
                 <Button
-                  color="lightBlue"
+                  color="deep-orange"
                   size="lg"
-                  ripple="light"
+                  ripple= {true}
                   onClick={() => navigate("/classes")}
                   className="px-6 py-3"
                 >

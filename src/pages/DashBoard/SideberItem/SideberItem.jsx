@@ -1,6 +1,6 @@
 import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-const SidebarItem = ({ icon, label, to = "/", isActive, onClick }) => {
+const SidebarItem = ({ icon, label, to = "", isActive, onClick }) => {
   return (
     <>
       <Link

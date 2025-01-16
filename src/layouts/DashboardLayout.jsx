@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaUser, FaChalkboardTeacher, FaBook, FaComments, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaChalkboardTeacher, FaBook, FaComments, FaSignOutAlt, FaPen } from "react-icons/fa";
 import { Typography, Avatar, Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import SidebarItem from "../pages/DashBoard/SideberItem/SideberItem";
@@ -24,9 +24,9 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 bg-fixed">
       {/* Sidebar */}
-      <aside className="w-64 bg-gradient-to-r from-black/90 to-orange-900 text-white flex flex-col">
+      <aside className="w-64 bg-gradient-to-r from-black/90 to-orange-900 text-white flex flex-col fixed h-screen">
         <div className="py-6 px-4 flex items-center justify-center">
           <Typography variant="h4" color="white" className="font-bold">
             FitTrack
@@ -40,6 +40,13 @@ const DashboardLayout = () => {
             isActive={activeSection === "profile"}
             onClick={() => setActiveSection("profile")}
           />
+          <SidebarItem
+            icon={<FaPen/>}
+            label="Add New Slot"
+            to="dashboard/add-new-slot"
+            isActive={activeSection === "add-new-slot"}
+            onClick={() => setActiveSection("add-new-slot")}
+            />
           <SidebarItem
             icon={<FaBook />}
             label="Classes"
@@ -69,7 +76,7 @@ const DashboardLayout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 ml-64">
         {/* Top Bar */}
         <div className="flex justify-between items-center bg-white p-4 rounded shadow mb-6">
           <Typography variant="h5" color="blue-gray">

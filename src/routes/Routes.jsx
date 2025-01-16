@@ -10,6 +10,7 @@ import TrainerDetails from '../pages/TrainerDetails';
 import TrainerBooking from '../pages/TrainerBooking';
 import DashboardLayout from '../layouts/DashboardLayout';
 import UserProfile from '../pages/UserProfile';
+import AddNewSlot from '../pages/DashBoard/Trainer/AddSlot/AddNewSlot';
 
 const router = createBrowserRouter([
     {
@@ -32,9 +33,14 @@ const router = createBrowserRouter([
         element: <DashboardLayout/>,
         children:[
             // Add dashboard routes here
+            // mamber routes
             {
                 path: '/dashboard/profile',
                 element: <UserProfile/>
+            },
+            {
+                path: '/dashboard/add-new-slot',
+                element: <AddNewSlot/>
             }
         ],
     }

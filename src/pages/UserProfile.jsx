@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
+  Badge,
   Button,
   Card,
   CardBody,
@@ -10,7 +11,7 @@ import {
   DialogHeader,
   Input,
   Typography,
-} from '@material-tailwind/react';
+} from "@material-tailwind/react";
 import {
   FaUserEdit,
   FaCamera,
@@ -18,32 +19,62 @@ import {
   FaTimes,
   FaEnvelope,
   FaClock,
-  FaUser
-} from 'react-icons/fa';
-import useAuth from '../hooks/useAuth';
+  FaUser,
+  FaCloudUploadAlt,
+} from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
+import { useQuery } from "react-query";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { MdDelete } from "react-icons/md";
+import uploadImage from "../api/uploadImage";
 
 const UserProfile = () => {
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: user?.displayName || '',
-    profilePic: user?.photoURL || ''
+
+  const {
+    data: userInfo = {},
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const response = await axiosSecure(`/users/${user?.email}`);
+      return response.data;
+    },
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const { name, image, email, role, _id } = userInfo;
+  const [imagePreview, setImagePreview] = useState(image);
+  const [userName, setUserName] = useState(name);
 
-  const handleUpdate = () => {
-    // Update logic here
-    console.log('Updated Profile:', formData);
-    setIsUpdateModalOpen(false);
+  const handleImageChange = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    const photoURL = await uploadImage(file);
+    console.log(photoURL);
+    setImagePreview(photoURL);
   };
-
+  const removeImage = () => {
+    setImagePreview(null);
+  };
+  const handleUpdate = async () => {
+    try {
+      const profileInfo = {
+        name: userName,
+        image: imagePreview,
+      };
+      const res = await axiosSecure.patch(`/users/${_id}`, profileInfo);
+      console.log(res.data);
+    } catch (error) {
+      console.error("Failed to update profile:", error.message);
+    } finally {
+      setIsUpdateModalOpen(false);
+      refetch();
+    }
+  };
+  console.log(imagePreview);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -57,32 +88,41 @@ const UserProfile = () => {
           <div className="flex flex-col items-center space-y-6">
             {/* Profile Picture */}
             <div className="relative">
-              <img
-                src={user?.photoURL || 'https://via.placeholder.com/150'}
-                alt="Profile"
-                className="w-32 h-32 rounded-full object-cover border-2 border-gray-200"
-              />
+              <Badge
+                content={`${role}`}
+                withBorder
+                placement="bottom-end"
+                className="-translate-x-0 -mb-1 px-3 w-full"
+                color="deep-orange"
+              >
+                <img
+                  src={image}
+                  alt={name}
+                  className="w-32 h-32 rounded-full object-cover border-2 border-gray-200"
+                />
+              </Badge>
             </div>
 
             {/* User Information */}
             <div className="text-center space-y-2">
               <Typography variant="h4" color="blue-gray">
-                {user?.displayName || 'User Name'}
+                {name || "User Name"}
               </Typography>
-              
+
               <div className="flex items-center justify-center gap-2">
                 <FaEnvelope className="text-blue-gray-400" />
                 <Typography color="blue-gray">
-                  {user?.email || 'email@example.com'}
+                  {email || "email@example.com"}
                 </Typography>
               </div>
 
               <div className="flex items-center justify-center gap-2">
                 <FaClock className="text-blue-gray-400" />
                 <Typography color="blue-gray" className="text-sm">
-                  Last login: {user?.metadata?.lastSignInTime
+                  Last login:{" "}
+                  {user?.metadata?.lastSignInTime
                     ? new Date(user.metadata.lastSignInTime).toLocaleString()
-                    : 'Not Available'}
+                    : "Not Available"}
                 </Typography>
               </div>
             </div>
@@ -109,40 +149,69 @@ const UserProfile = () => {
       >
         <DialogHeader>Update Profile</DialogHeader>
         <DialogBody divider className="space-y-4">
-          {/* Profile Picture Update */}
+          {/* Name Update */}
           <div className="space-y-2">
-            <Typography variant="small" color="blue-gray" className="font-medium">
-              Profile Picture URL
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-medium"
+            >
+              Display Name
             </Typography>
             <Input
-              name="profilePic"
-              value={formData.profilePic}
-              onChange={handleInputChange}
-              placeholder="Enter image URL"
-              icon={<FaCamera />}
-              className="!border-t-blue-gray-200 focus:!border-t-blue-500"
+              name="name"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter your name"
+              icon={<FaUser />}
+              className="!outline-none border-none ring-orange-900 ring focus:border focus:!border-blue-500"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
             />
           </div>
 
-          {/* Name Update */}
+          {/* Profile Picture Update */}
           <div className="space-y-2">
-            <Typography variant="small" color="blue-gray" className="font-medium">
-              Display Name
-            </Typography>
-            <Input
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Enter your name"
-              icon={<FaUser />}
-              className="!border-t-blue-gray-200 focus:!border-t-blue-500"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-            />
+            <div className="flex flex-col items-center">
+              <Typography variant="h5" color="blu-gray" className="font-medium">
+                Profile Picture
+              </Typography>
+              <input
+                type="file"
+                id="photo"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+
+              {imagePreview ? (
+                <div className="relative">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-44 h-44  rounded-full object-cover border-4 border-orange-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors"
+                  >
+                    <MdDelete size={20} />
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="photo"
+                  className="w-40 h-24  border-4 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-colors"
+                >
+                  <FaCloudUploadAlt size={30} className="text-gray-400" />
+                  <span className="text-sm text-gray-400 mt-2">
+                    Upload Photo
+                  </span>
+                </label>
+              )}
+            </div>
           </div>
         </DialogBody>
         <DialogFooter className="space-x-2">

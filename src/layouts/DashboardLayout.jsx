@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import SidebarItem from "../pages/DashBoard/SideberItem/SideberItem";
 import UserProfile from '../pages/UserProfile';
 import { Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
   const [activeSection, setActiveSection] = useState("overview");
-
+  const {user,logOut} = useAuth()
   const sections = {
     overview: <DashboardOverview />,
     profile: <UserProfile />,
@@ -72,15 +73,17 @@ const DashboardLayout = () => {
         {/* Top Bar */}
         <div className="flex justify-between items-center bg-white p-4 rounded shadow mb-6">
           <Typography variant="h5" color="blue-gray">
-            Welcome, [User Name]
+            Welcome, {user?.displayName || 'User Name'}!
           </Typography>
           <div className="flex items-center gap-4">
             <Avatar
-              src="https://via.placeholder.com/40"
+              src={user?.photoURL}
               alt="User Profile"
               size="sm"
+              withBorder
+              color="deep-orange"
             />
-            <Button color="orange" size="sm" onClick={handleLogout}>
+            <Button color="orange" size="sm" onClick={logOut}>
               Logout
             </Button>
           </div>

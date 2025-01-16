@@ -8,6 +8,7 @@ import ContactForm from "../components/Home/CotactForm";
 import TestimonialsCarousel from "../components/Home/Testimonials";
 import CommunityPosts from "../components/Home/CommunityPost";
 import Newsletter from "../components/Home/NewsLetter";
+import TeamSection from "../components/Home/TeamSection";
 
 const Home = () => {
   // Sample Classes Data
@@ -69,13 +70,16 @@ const Home = () => {
         <ContactForm />
       </section>
       <section>
-        <TestimonialsCarousel/>
+        <TestimonialsCarousel />
       </section>
       <section>
-        <CommunityPosts/>
+        <CommunityPosts />
       </section>
       <section>
-        <Newsletter/>
+        <Newsletter />
+      </section>
+      <section>
+        <TeamSection />
       </section>
     </div>
   );

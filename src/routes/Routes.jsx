@@ -12,6 +12,7 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import UserProfile from '../pages/UserProfile';
 import AddNewSlot from '../pages/DashBoard/Trainer/AddSlot/AddNewSlot';
 import AddNewClass from '../pages/DashBoard/Admin/AddClass/AddNewClass';
+import BeTrainer from '../pages/BeTrainer/BeTrainer';
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
             {path: '', element: <Home/>},
             {path: '/allTrainer', element: <AllTrainer/>},
             {path: '/trainer/:id', element: <TrainerDetails/>},
+            {path: '/become-a-trainer', element: <BeTrainer/>},
             {path: '/bookTrainer/:slot', element: <TrainerBooking/>},
             {path: '/allClasses', element: <AllClasses/>},
             {path: '/community', element: <Community/>},

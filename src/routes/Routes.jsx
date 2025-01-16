@@ -8,6 +8,8 @@ import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import TrainerDetails from '../pages/TrainerDetails';
 import TrainerBooking from '../pages/TrainerBooking';
+import DashboardLayout from '../layouts/DashboardLayout';
+import UserProfile from '../pages/UserProfile';
 
 const router = createBrowserRouter([
     {
@@ -27,7 +29,14 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: ''  // Default route for unknown paths
+        element: <DashboardLayout/>,
+        children:[
+            // Add dashboard routes here
+            {
+                path: '/dashboard/profile',
+                element: <UserProfile/>
+            }
+        ],
     }
    
 ])

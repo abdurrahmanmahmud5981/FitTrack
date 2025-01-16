@@ -27,7 +27,7 @@ const AboutSection = () => {
             stay active, FitTrack is here to guide you every step of the way.
           </p>
          
-           <Button color="deep-orange"  size="">
+           <Button color="deep-orange"  size="md">
                     Learn More
                   </Button>
         </div>

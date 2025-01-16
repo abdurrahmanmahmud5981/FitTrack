@@ -144,7 +144,7 @@ const AddNewSlot = () => {
               {/* Submit Button */}
               <div className="pt-4">
                 <Button
-                  color="deep-orange"
+                  color="orange"
                   type="submit"
                   fullWidth
                   className="transition-all duration-300 hover:shadow-lg"

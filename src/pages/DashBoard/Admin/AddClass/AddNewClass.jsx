@@ -8,7 +8,7 @@ import {
   Typography,
   CardHeader,
 } from "@material-tailwind/react";
-import uploadImage, { saveUser } from "../../../../api/uploadImage";
+import uploadImage from "../../../../api/uploadImage";
 import { FiImage, FiTrash2, FiUpload } from "react-icons/fi";
 import Swal from "sweetalert2";
 

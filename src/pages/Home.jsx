@@ -6,6 +6,7 @@ import AboutSection from "../components/Home/AboutSection";
 import FeaturedClasses from "../components/Home/FeaturedClasses";
 import ContactForm from "../components/Home/CotactForm";
 import TestimonialsCarousel from "../components/Home/Testimonials";
+import CommunityPosts from "../components/Home/CommunityPost";
 
 const Home = () => {
   // Sample Classes Data
@@ -68,6 +69,9 @@ const Home = () => {
       </section>
       <section>
         <TestimonialsCarousel/>
+      </section>
+      <section>
+        <CommunityPosts/>
       </section>
     </div>
   );

@@ -1,88 +1,53 @@
+import { useQuery } from "react-query";
 import {
-  Avatar,
-  Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Chip,
   Typography,
 } from "@material-tailwind/react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const FeaturedClasses = () => {
-  const classes = [
-    {
-      id: 1,
-      title: "Advanced HIIT Training",
-      description:
-        "High-intensity interval training with expert guidance. Perfect for fat burning and muscle building.",
-      totalBookings: 1250,
-      image: "/api/placeholder/600/400",
-      trainer: "Sarah Johnson",
-      duration: "45 mins",
-      intensity: "Advanced",
+  const axiosPublic = useAxiosPublic();
+
+  const {
+    data: featuredClasses = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["featuredClasses"],
+    queryFn: async () => {
+      const response = await axiosPublic("/featured-classes");
+      return response.data;
     },
-    {
-      id: 2,
-      title: "Power Yoga Flow",
-      description:
-        "Dynamic yoga sequences combining strength, flexibility, and mindfulness practices.",
-      totalBookings: 1180,
-      image: "/api/placeholder/600/400",
-      trainer: "Mike Chen",
-      duration: "60 mins",
-      intensity: "Intermediate",
-    },
-    {
-      id: 3,
-      title: "CrossFit Foundations",
-      description:
-        "Functional movements performed at high intensity to build strength and endurance.",
-      totalBookings: 1150,
-      image: "/api/placeholder/600/400",
-      trainer: "Alex Thompson",
-      duration: "50 mins",
-      intensity: "Advanced",
-    },
-    {
-      id: 4,
-      title: "Strength & Conditioning",
-      description:
-        "Comprehensive workout focusing on building muscle and improving overall fitness.",
-      totalBookings: 1100,
-      image: "/api/placeholder/600/400",
-      trainer: "David Wilson",
-      duration: "55 mins",
-      intensity: "Intermediate",
-    },
-    {
-      id: 5,
-      title: "Cardio Kickboxing",
-      description:
-        "High-energy kickboxing class combining martial arts techniques with fast-paced cardio.",
-      totalBookings: 1050,
-      image: "/api/placeholder/600/400",
-      trainer: "Emma Martinez",
-      duration: "45 mins",
-      intensity: "All Levels",
-    },
-    {
-      id: 6,
-      title: "Core & More",
-      description:
-        "Targeted core strengthening with full-body conditioning for optimal results.",
-      totalBookings: 1000,
-      image: "/api/placeholder/600/400",
-      trainer: "Chris Parker",
-      duration: "40 mins",
-      intensity: "All Levels",
-    },
-  ];
+  });
+
+  if (isLoading) {
+    return (
+      <section className="py-10 text-center">
+        <Typography variant="h5" className="text-gray-500">
+          Loading featured classes...
+        </Typography>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="py-10 text-center">
+        <Typography variant="h5" className="text-red-500">
+          Unable to load featured classes. Please try again later.
+        </Typography>
+      </section>
+    );
+  }
 
   return (
     <section className="py-10 text-white">
       <div className="">
-        <div className="text-center mb-16">
+        {/* Section Header */}
+        <div className="text-center mb-10">
           <Typography variant="h2" className="mb-4 text-3xl text-orange-700">
             Most Popular Classes
           </Typography>
@@ -90,89 +55,51 @@ const FeaturedClasses = () => {
             variant="lead"
             className="max-w-2xl mx-auto text-gray-400"
           >
-            Join our most booked fitness classes led by expert trainers
+            Join our most booked classes led by expert trainers and elevate your
+            skills to the next level.
           </Typography>
         </div>
 
+        {/* Featured Classes Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {classes.map((fitnessClass) => (
-            <Card
-              key={fitnessClass.id}
-              className=" text-white overflow-hidden bg-transparent border border-orange-900/70"
-            >
-              <CardHeader
-                floated={false}
-                className="relative h-56 bg-transparent border"
+          {featuredClasses.map(
+            ({ _id, name, image, description, totalBookings }) => (
+              <Card
+                key={_id}
+                className="text-white overflow-hidden bg-transparent border border-orange-900/70 hover:shadow-lg transition-shadow"
               >
-                <img
-                  src={fitnessClass.image}
-                  alt={fitnessClass.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 right-4">
-                  <Chip
-                    value={`${fitnessClass.totalBookings.toLocaleString()} bookings`}
-                    color="deep-orange"
-                    className="text-sm"
+                {/* Card Header with Image */}
+                <CardHeader
+                  floated={false}
+                  className="relative h-56 bg-transparent border"
+                >
+                  <img
+                    src={image}
+                    alt={name}
+                    className="w-full h-full object-cover"
                   />
-                </div>
-              </CardHeader>
-
-              <CardBody className="flex-grow pb-0">
-                <div className="mb-3">
-                  <Typography variant="h5" className="mb-2">
-                    {fitnessClass.title}
-                  </Typography>
-                  <div className="flex gap-4 mb-4">
+                  <div className="absolute top-4 right-4">
                     <Chip
-                      className="text-gray-400"
-                      size="sm"
-                      variant="ghost"
-                      value={fitnessClass.duration}
-                      icon={<span>⏱️</span>}
-                    />
-                    <Chip
-                      className="text-gray-400"
-                      size="sm"
-                      variant="ghost"
-                      value={fitnessClass.intensity}
-                      icon={<span>🎯</span>}
+                      value={`${totalBookings.toLocaleString()} bookings`}
+                      color="deep-orange"
+                      className="!text-[10px] rounded-full"
+                      size="small"
                     />
                   </div>
-                </div>
+                </CardHeader>
 
-                <div className="flex items-center mb-4">
-                  <Avatar
-                    size="sm"
-                    variant="circular"
-                    className="mr-3"
-                    alt={fitnessClass.trainer}
-                    src={fitnessClass.trainerImage}
-                  ></Avatar>
-
-                  <Typography variant="small">
-                    {fitnessClass.trainer}
+                {/* Card Body */}
+                <CardBody className="flex-grow pb-3">
+                  <Typography variant="h5" className="mb-2">
+                    {name}
                   </Typography>
-                </div>
-                <div className="">{/* {fitnessClass.trainer.charAt(0)} */}</div>
-                <Typography  className="mb-6 text-gray-500">
-                  {fitnessClass.description}
-                </Typography>
-              </CardBody>
-
-              <CardFooter className="pt-0 ">
-                <Button
-                  size="lg"
-                  fullWidth={true}
-                  color="deep-orange"
-                  variant="filled"
-                  className="shadow-none hover:shadow-lg"
-                >
-                  Join Class
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+                  <Typography className="text-gray-500">
+                    {description}
+                  </Typography>
+                </CardBody>
+              </Card>
+            )
+          )}
         </div>
       </div>
     </section>

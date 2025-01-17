@@ -34,6 +34,13 @@ const DashboardLayout = () => {
         </div>
         <nav className="flex flex-col px-4 space-y-4">
           <SidebarItem
+            icon={<FaChalkboardTeacher />}
+            label="All Subscribers"
+            to="dashboard/newsletter-subscribers"
+            isActive={activeSection === "newsletter-subscribers"}
+            onClick={() => setActiveSection("newsletter-subscribers")}
+            />
+          <SidebarItem
             icon={<FaUser />}
             label="Profile"
             to="dashboard/profile"

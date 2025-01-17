@@ -13,6 +13,7 @@ import UserProfile from '../pages/UserProfile';
 import AddNewSlot from '../pages/DashBoard/Trainer/AddSlot/AddNewSlot';
 import AddNewClass from '../pages/DashBoard/Admin/AddClass/AddNewClass';
 import BeTrainer from '../pages/BeTrainer/BeTrainer';
+import NewsletterSubscribers from '../pages/DashBoard/Admin/Subscribers/NewsletterSubscribers';
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
                 element: <AddNewSlot/>
             },
             // admin routes
+            {
+                path: '/dashboard/newsletter-subscribers',
+                element: <NewsletterSubscribers/>
+            },
             {
                 path: '/dashboard/all-trainer',
                 element: <AllTrainer/>

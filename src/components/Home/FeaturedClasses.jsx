@@ -66,19 +66,19 @@ const FeaturedClasses = () => {
             ({ _id, name, image, description, totalBookings }) => (
               <Card
                 key={_id}
-                className="text-white overflow-hidden bg-transparent border border-orange-900/70 hover:shadow-lg transition-shadow"
+                className="text-white overflow-hidden bg-transparent ring ring-orange-900/70 hover:shadow-lg transition-shadow"
               >
                 {/* Card Header with Image */}
                 <CardHeader
                   floated={false}
-                  className="relative h-56 bg-transparent border"
+                  className="relative h-56 bg-transparent border-orange-900 border-b-4 rounded-none px-0 m-0  "
                 >
                   <img
                     src={image}
                     alt={name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-4 right-4">
+                  <div className="absolute bottom-3 right-3">
                     <Chip
                       value={`${totalBookings.toLocaleString()} bookings`}
                       color="deep-orange"

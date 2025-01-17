@@ -1,182 +1,164 @@
-import { useState } from "react";
+import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardBody,
+  CardHeader,
   Typography,
+  Button,
   Avatar,
-
-  IconButton,
+  Tooltip,
+  CardFooter,
 } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { FiClock, FiUsers, FiCalendar, FiAward } from "react-icons/fi";
-
-const dummyClasses = [
-  {
-    id: 1,
-    title: "Yoga & Meditation",
-    description: "Find inner peace and physical harmony through our comprehensive yoga sessions combining traditional practices with modern wellness techniques.",
-    duration: "60 mins",
-    capacity: "20 students",
-    level: "All Levels",
-    schedule: "Mon, Wed, Fri",
-    trainers: [
-      { name: "John Doe", photo: "https://via.placeholder.com/80", id: 1, certification: "RYT-500" },
-      { name: "Jane Smith", photo: "https://via.placeholder.com/80", id: 2, certification: "E-RYT 200" },
-      { name: "Mike Johnson", photo: "https://via.placeholder.com/80", id: 3, certification: "RYT-200" }
-    ],
-  },
-  {
-    id: 2,
-    title: "High-Intensity Cardio",
-    description: "Transform your fitness with scientifically designed cardio workouts that maximize calorie burn and improve cardiovascular health.",
-    duration: "45 mins",
-    capacity: "15 students",
-    level: "Intermediate",
-    schedule: "Tue, Thu, Sat",
-    trainers: [
-      { name: "Emma Brown", photo: "https://via.placeholder.com/80", id: 4, certification: "NASM-CPT" },
-      { name: "David Wilson", photo: "https://via.placeholder.com/80", id: 5, certification: "ACE-CPT" }
-    ],
-  },
-  // Add more classes as needed...
-];
+import { useState } from "react";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const AllClasses = () => {
+  const axiosPublic = useAxiosPublic();
   const [currentPage, setCurrentPage] = useState(1);
   const classesPerPage = 6;
-  const navigate = useNavigate();
 
-  // Pagination Logic
-  const indexOfLastClass = currentPage * classesPerPage;
-  const indexOfFirstClass = indexOfLastClass - classesPerPage;
-  const currentClasses = dummyClasses.slice(indexOfFirstClass, indexOfLastClass);
-  const totalPages = Math.ceil(dummyClasses.length / classesPerPage);
+  const { data, isLoading, isError } = useQuery(
+    {
+      queryKey: ["allClasses", currentPage],
+      queryFn: async () => {
+        const response = await axiosPublic(
+          `/classes?page=${currentPage}&limit=${classesPerPage}`
+        );
+        return response.data;
+      },
+    } // Keep previous data while fetching new data
+  );
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+  if (isLoading) {
+    return (
+      <section className="py-10 text-center">
+        <Typography variant="h5" className="text-gray-500">
+          Loading classes...
+        </Typography>
+      </section>
+    );
+  }
 
-  const cardVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
+  if (isError) {
+    return (
+      <section className="py-10 text-center">
+        <Typography variant="h5" className="text-red-500">
+          Unable to load classes. Please try again later.
+        </Typography>
+      </section>
+    );
+  }
+
+  const { classes = [], totalPages } = data || {};
 
   return (
-    <section className="py-12 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <Typography variant="h1" color="blue-gray" className="mb-3">
-            Fitness Classes
+    <section className="py-10 text-white">
+      <div className="">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <Typography variant="h2" className="mb-4 text-3xl text-orange-700">
+            All Available Classes
           </Typography>
-          <Typography variant="lead" color="gray" className="opacity-80">
-            Discover our expert-led classes designed for every fitness level
+          <Typography
+            variant="lead"
+            className="max-w-2xl mx-auto text-gray-400"
+          >
+            Browse through our extensive range of classes and meet our expert
+            trainers.
           </Typography>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {currentClasses.map((classData) => (
-            <motion.div key={classData.id} variants={cardVariants}>
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <CardBody className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <Typography variant="h4" color="blue-gray" className="font-bold">
-                      {classData.title}
-                    </Typography>
-                    <span className="bg-blue-gray-50 text-blue-gray-700 px-3 py-1 rounded-full text-xs font-medium">
-                      {classData.level}
-                    </span>
-                  </div>
+        {/* All Classes Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {classes.map(({ _id, name, description, image, trainers }) => (
+            <Card
+              key={_id}
+              className="text-white overflow-hidden bg-transparent border border-orange-900/70 hover:shadow-lg transition-shadow"
+            >
+              {/* Class Image */}
+              <CardHeader
+                floated={false}
+                className="relative h-56 bg-transparent border"
+              >
+                <img
+                  src={image}
+                  alt={name}
+                  className="w-full h-full object-cover"
+                />
+              </CardHeader>
 
-                  <Typography className="text-gray-600 mb-6">
-                    {classData.description}
-                  </Typography>
-
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center text-gray-700">
-                      <FiClock className="mr-2" />
-                      <Typography variant="small">{classData.duration}</Typography>
-                    </div>
-                    <div className="flex items-center text-gray-700">
-                      <FiUsers className="mr-2" />
-                      <Typography variant="small">{classData.capacity}</Typography>
-                    </div>
-                    <div className="flex items-center text-gray-700">
-                      <FiCalendar className="mr-2" />
-                      <Typography variant="small">{classData.schedule}</Typography>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center">
-                      <FiAward className="mr-2" />
-                      <Typography variant="h6" color="blue-gray">
-                        Class Trainers
-                      </Typography>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {classData.trainers.slice(0, 5).map((trainer) => (
-                        <motion.div
-                          key={trainer.id}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
+              {/* Class Details */}
+              <CardBody className=" flex-grow pb-0">
+                <Typography variant="h5" className="mb-2">
+                  {name || "Not Found"}
+                </Typography>
+                <Typography className="text-gray-500 mb-4">
+                  {description || "Not Found"}
+                </Typography>
+              </CardBody>
+              <CardFooter className="pt-0">
+                {/* Trainers */}
+                <div>
+                  {/* <Typography variant="small" className="mb-2 text-orange-500">
+                    Trainers:
+                  </Typography> */}
+                  <div className="flex gap-3 flex-wrap">
+                    {[...Array(8)].slice(0, 5).map((trainer, idx) => (
+                      <Link
+                        to={`/trainer/${idx}`}
+                        key={idx}
+                        // className="rounded-full overflow-hidden w-12 h-12 border hover:ring-2 hover:ring-orange-700 transition"
+                      >
+                        <Tooltip
+                          content="Material Tailwind"
+                          animate={{
+                            mount: { scale: 1, y: 0 },
+                            unmount: { scale: 0, y: 25 },
+                          }}
                         >
                           <Avatar
-                            src={trainer.photo}
-                            alt={trainer.name}
-                            size="md"
-                            className="cursor-pointer border-2 border-white hover:border-blue-500 transition-colors"
-                            onClick={() => navigate(`/trainer/${trainer.id}`)}
-                            title={`${trainer.name} - ${trainer.certification}`}
+                            size="lg"
+                            alt="avatar"
+                            src="https://docs.material-tailwind.com/img/face-2.jpg"
+                            className="shadow-xl shadow-orange-900/20 ring-4 ring-orange-900/90"
                           />
-                        </motion.div>
-                      ))}
-                    </div>
+                        </Tooltip>
+                      </Link>
+                    ))}
                   </div>
-                </CardBody>
-              </Card>
-            </motion.div>
+                </div>
+              </CardFooter>
+            </Card>
           ))}
-        </motion.div>
+        </div>
 
-        {totalPages > 1 && (
-          <div className="flex justify-center gap-2 mt-10">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <IconButton
-                key={page}
-                variant={currentPage === page ? "filled" : "outlined"}
-                color="blue-gray"
-                onClick={() => setCurrentPage(page)}
-                className="rounded-full"
-              >
-                {page}
-              </IconButton>
-            ))}
-          </div>
-        )}
+        {/* Pagination */}
+        <div className="flex justify-center mt-10">
+          <Button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="mx-2"
+            variant="outlined"
+            color="orange"
+          >
+            Previous
+          </Button>
+          <Typography variant="h6" className="mx-4 text-orange-700">
+            Page {currentPage} of {totalPages}
+          </Typography>
+          <Button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="mx-2"
+            variant="outlined"
+            color="orange"
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </section>
   );

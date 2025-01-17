@@ -100,11 +100,13 @@ const BeTrainer = () => {
     try {
       const trainerData = {
         ...data,
+        fullName:user?.displayName,
         profileImage,
         availableDays: data.availableDays.map((day) => day.value),
         availableTime: data.availableTime.value,
         status: "Pending",
       };
+      console.log(trainerData);
       const result = await axiosSecure.post("/trainers", trainerData);
       console.log("Trainer Data:", result.data);
       if (result.data?.insertedId) {
@@ -142,7 +144,7 @@ const BeTrainer = () => {
                 <label className="block mb-2 font-medium">Full Name</label>
                 <Input
                   type="text"
-                  value={user?.displayName}
+                  defaultValue={user?.displayName}
                   readOnly
                   className="cursor-not-allowed"
                 />
@@ -153,7 +155,7 @@ const BeTrainer = () => {
                 <label className="block mb-2 font-medium">Email</label>
                 <Input
                   type="email"
-                  value={user?.email}
+                  defaultValue={user?.email}
                   readOnly
                   className="cursor-not-allowed"
                 />

@@ -69,9 +69,10 @@ const DashboardLayout = () => {
           />
           <SidebarItem
             icon={<FaChalkboardTeacher />}
-            label="Trainers"
-            isActive={activeSection === "trainers"}
-            onClick={() => setActiveSection("trainers")}
+            label="All Trainers"
+            to="dashboard/all-trainer"
+            isActive={activeSection === "all-trainer"}
+          onClick={() => setActiveSection("all-trainer")}
           />
           <SidebarItem
             icon={<FaComments />}

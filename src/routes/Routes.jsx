@@ -14,6 +14,7 @@ import AddNewSlot from '../pages/DashBoard/Trainer/AddSlot/AddNewSlot';
 import AddNewClass from '../pages/DashBoard/Admin/AddClass/AddNewClass';
 import BeTrainer from '../pages/BeTrainer/BeTrainer';
 import NewsletterSubscribers from '../pages/DashBoard/Admin/Subscribers/NewsletterSubscribers';
+import AllTrainers from '../pages/DashBoard/Admin/AllTrainers/AllTrainers';
 
 const router = createBrowserRouter([
     {
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/all-trainer',
-                element: <AllTrainer/>
+                element: <AllTrainers/>
             },
             {
                 path: '/dashboard/add-new-class',

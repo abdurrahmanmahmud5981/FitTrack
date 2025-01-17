@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Button,
   Input,
@@ -11,74 +11,79 @@ import {
 import uploadImage from "../../../../api/uploadImage";
 import { FiImage, FiTrash2, FiUpload } from "react-icons/fi";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useState } from "react";
 
 const AddNewClass = () => {
-  const [className, setClassName] = useState("");
   const [image, setImage] = useState(null);
-  const [details, setDetails] = useState("");
-  const [additionalInfo, setAdditionalInfo] = useState("");
+  const axiosSecure = useAxiosSecure();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  // Handle form submission
-  const handleSubmit = () => {
-    console.log(className);
-    console.log(image);
-    console.log(details);
-    if (!className || !image || !details) {
-        Swal.fire({
-            title: "Error",
-            text: "Please fill out all required fields!",
-            icon: "error",
-        })
-    //   alert("Please fill out all required fields!");
+  const onSubmit = async (data) => {
+    if (!data.className || !data.image || !data.details) {
+      Swal.fire({
+        title: "Error",
+        text: "Please fill out all required fields!",
+        icon: "error",
+      });
       return;
     }
-
-    const newClassData = {
-      className,
-      image, 
-      details,
-      additionalInfo,
-    };
-
-    console.log("New Class Data:", newClassData);
-    // Add API/database call here to save the new class
-    alert("Class added successfully!");
+    try {
+      const response = await axiosSecure.post("/classes", data);
+      console.log(response.data);
+      if (response.data.insertedId) {
+        Swal.fire({
+          title: "Success",
+          text: "Class added successfully!",
+          icon: "success",
+        });
+        setImage(null)
+        reset();
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: `${error.message}`,
+        icon: "error",
+      });
+    }
   };
-  console.log(image);
 
-  // Handle image upload
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const photoURL = await uploadImage(file);
-    console.log("Photo URL:", photoURL);
     if (photoURL) {
+      setValue("image", photoURL);
       setImage(photoURL);
-      console.log("Image uploaded successfully:", photoURL);
     }
   };
-  // Handle image removal
+
   const handleRemoveImage = () => {
+    setValue("image", null);
     setImage(null);
   };
 
   return (
-    <div className=" space-y-6">
-     
-
+    <div className="space-y-6">
       <Card className="shadow-lg max-w-screen-md mx-auto">
-      <CardHeader className="shadow-none mt-10 border-b rounded-none pb-5">
-           {/* Header Section */}
-      <div className="text-center">
-        <Typography variant="h3" color="blue-gray" className="font-bold">
-          Add New Class
-        </Typography>
-        <Typography variant="paragraph" className="text-gray-600 mt-2">
-          Use this form to create a new class with all the required details.
-        </Typography>
-      </div>
-      </CardHeader>
+        <CardHeader className="shadow-none mt-10 border-b rounded-none pb-5">
+          <div className="text-center">
+            <Typography variant="h3" color="blue-gray" className="font-bold">
+              Add New Class
+            </Typography>
+            <Typography variant="paragraph" className="text-gray-600 mt-2">
+              Use this form to create a new class with all the required details.
+            </Typography>
+          </div>
+        </CardHeader>
         <CardBody>
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {/* Class Name */}
             <div>
               <label
@@ -90,14 +95,16 @@ const AddNewClass = () => {
               <Input
                 id="className"
                 type="text"
-                value={className}
-                onChange={(e) => setClassName(e.target.value)}
+                {...register("className", {
+                  required: "Class Name is required",
+                })}
                 placeholder="Enter class name (e.g., Yoga)"
-                className="appearance-none !border-t-blue-gray-200 placeholder:text-blue-gray-300  placeholder:opacity-100 focus:!border-t-gray-900 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
               />
+              {errors.className && (
+                <p className="text-red-500 text-sm">
+                  {errors.className.message}
+                </p>
+              )}
             </div>
 
             {/* Image Upload */}
@@ -114,12 +121,10 @@ const AddNewClass = () => {
                   id="classImage"
                   type="file"
                   accept="image/*"
-                  onChange={handleImageUpload}
                   className="hidden"
+                  onChange={handleImageUpload}
                 />
               </div>
-
-              {/* Display uploaded image preview */}
               {image ? (
                 <div className="relative">
                   <img
@@ -130,6 +135,7 @@ const AddNewClass = () => {
                   <button
                     className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-all"
                     onClick={handleRemoveImage}
+                    type="button"
                   >
                     <FiTrash2 size={16} />
                   </button>
@@ -154,15 +160,13 @@ const AddNewClass = () => {
               </label>
               <Textarea
                 id="classDetails"
-                value={details}
-                onChange={(e) => setDetails(e.target.value)}
+                {...register("details", { required: "Details are required" })}
                 placeholder="Enter details about the class (e.g., duration, difficulty level)"
                 rows={5}
-                className="appearance-none !border-t-blue-gray-200 placeholder:text-blue-gray-300  placeholder:opacity-100 focus:!border-t-gray-900 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
               />
+              {errors.details && (
+                <p className="text-red-500 text-sm">{errors.details.message}</p>
+              )}
             </div>
 
             {/* Additional Info */}
@@ -176,8 +180,7 @@ const AddNewClass = () => {
               <Input
                 id="additionalInfo"
                 type="text"
-                value={additionalInfo}
-                onChange={(e) => setAdditionalInfo(e.target.value)}
+                {...register("additionalInfo")}
                 placeholder="Enter any additional information (optional)"
               />
             </div>
@@ -186,9 +189,9 @@ const AddNewClass = () => {
             <div className="pt-4">
               <Button
                 color="orange"
-                onClick={handleSubmit}
                 fullWidth
                 className="transition-all duration-300 hover:shadow-lg"
+                type="submit"
               >
                 Add Class
               </Button>

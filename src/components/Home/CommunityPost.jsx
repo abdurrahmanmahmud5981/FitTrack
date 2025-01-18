@@ -1,7 +1,8 @@
 
-import { Avatar, Card, CardBody, Typography } from "@material-tailwind/react";
+import { Avatar, Button, Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 
 const CommunityPosts = () => {
   const axiosPublic = useAxiosPublic();
@@ -34,6 +35,7 @@ const CommunityPosts = () => {
               date,
               role,
               authorImage,
+              link
             }) => (
               <Card
                 key={_id}
@@ -68,6 +70,15 @@ const CommunityPosts = () => {
                     {content}
                   </Typography>
                 </CardBody>
+                <CardFooter className="pt-0 pb-3">
+                  <div className="flex justify-between items-center">
+                   <Link target="_blank" to={link}>
+                   <Button size="sm" className="">
+                      Read More
+                    </Button></Link>
+                    
+                  </div>
+                </CardFooter>
                
               </Card>
             )

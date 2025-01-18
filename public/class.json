@@ -9,7 +9,8 @@
     "votes": {
       "upvotes": 15,
       "downvotes": 2
-    }
+    },
+    "link": "https://example.com/posts/the-benefits-of-morning-workouts"
   },
   {
     "title": "How to Stay Motivated on Your Fitness Journey",
@@ -21,7 +22,8 @@
     "votes": {
       "upvotes": 23,
       "downvotes": 1
-    }
+    },
+    "link": "https://example.com/posts/how-to-stay-motivated-on-your-fitness-journey"
   },
   {
     "title": "Understanding Calorie Deficits",
@@ -33,7 +35,8 @@
     "votes": {
       "upvotes": 18,
       "downvotes": 3
-    }
+    },
+    "link": "https://example.com/posts/understanding-calorie-deficits"
   },
   {
     "title": "Top 5 Yoga Poses for Flexibility",
@@ -45,7 +48,8 @@
     "votes": {
       "upvotes": 20,
       "downvotes": 0
-    }
+    },
+    "link": "https://example.com/posts/top-5-yoga-poses-for-flexibility"
   },
   {
     "title": "My First Marathon Experience",
@@ -57,7 +61,8 @@
     "votes": {
       "upvotes": 10,
       "downvotes": 2
-    }
+    },
+    "link": "https://example.com/posts/my-first-marathon-experience"
   },
   {
     "title": "The Importance of Rest Days",
@@ -69,7 +74,8 @@
     "votes": {
       "upvotes": 16,
       "downvotes": 1
-    }
+    },
+    "link": "https://example.com/posts/the-importance-of-rest-days"
   },
   {
     "title": "5 Healthy Snack Ideas for Gym-Goers",
@@ -81,7 +87,8 @@
     "votes": {
       "upvotes": 22,
       "downvotes": 0
-    }
+    },
+    "link": "https://example.com/posts/5-healthy-snack-ideas-for-gym-goers"
   },
   {
     "title": "Finding the Right Gym for You",
@@ -93,7 +100,8 @@
     "votes": {
       "upvotes": 9,
       "downvotes": 1
-    }
+    },
+    "link": "https://example.com/posts/finding-the-right-gym-for-you"
   },
   {
     "title": "Best Supplements for Muscle Growth",
@@ -105,7 +113,8 @@
     "votes": {
       "upvotes": 19,
       "downvotes": 4
-    }
+    },
+    "link": "https://example.com/posts/best-supplements-for-muscle-growth"
   },
   {
     "title": "How to Create a Sustainable Meal Plan",
@@ -117,7 +126,8 @@
     "votes": {
       "upvotes": 17,
       "downvotes": 2
-    }
+    },
+    "link": "https://example.com/posts/how-to-create-a-sustainable-meal-plan"
   },
   {
     "title": "Stretching Routines for Office Workers",
@@ -129,7 +139,8 @@
     "votes": {
       "upvotes": 14,
       "downvotes": 0
-    }
+    },
+    "link": "https://example.com/posts/stretching-routines-for-office-workers"
   },
   {
     "title": "How I Lost 20 Pounds in 3 Months",
@@ -141,6 +152,7 @@
     "votes": {
       "upvotes": 24,
       "downvotes": 5
-    }
+    },
+    "link": "https://example.com/posts/how-i-lost-20-pounds-in-3-months"
   }
 ]

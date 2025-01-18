@@ -12,7 +12,7 @@
     "availableDays": [
       "tuesday"
     ],
-    "availableTime": "morning",
+    "availableTime": ["morning"],
     "profileImage": "https://lh3.googleusercontent.com/a/ACg8ocIX2X0JBVLtFtrRr9UDHZjEXOYvWYppCNgQi8Bwb5wkptEWxSd3=s96-c",
     "status": "Pending"
   },
@@ -30,7 +30,7 @@
       "monday",
       "wednesday"
     ],
-    "availableTime": "afternoon",
+    "availableTime": ["afternoon"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -48,7 +48,7 @@
       "friday",
       "saturday"
     ],
-    "availableTime": "evening",
+    "availableTime": ["evening"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -66,7 +66,7 @@
       "monday",
       "thursday"
     ],
-    "availableTime": "morning",
+    "availableTime": ["morning"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -84,7 +84,7 @@
       "monday",
       "friday"
     ],
-    "availableTime": "afternoon",
+    "availableTime": ["afternoon"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -102,7 +102,7 @@
       "tuesday",
       "saturday"
     ],
-    "availableTime": "evening",
+    "availableTime": ["evening"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -120,7 +120,7 @@
       "monday",
       "wednesday"
     ],
-    "availableTime": "morning",
+    "availableTime": ["morning"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -138,7 +138,7 @@
       "thursday",
       "saturday"
     ],
-    "availableTime": "afternoon",
+    "availableTime": ["afternoon"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -156,7 +156,7 @@
       "tuesday",
       "friday"
     ],
-    "availableTime": "evening",
+    "availableTime": ["evening"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   },
@@ -174,7 +174,7 @@
       "wednesday",
       "friday"
     ],
-    "availableTime": "morning",
+    "availableTime": ["morning"],
     "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
     "status": "Pending"
   }

@@ -1,5 +1,5 @@
 import { Card, Typography, IconButton } from "@material-tailwind/react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery} from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
 
@@ -7,7 +7,6 @@ const TABLE_HEAD = ["#", "Name", "Email", "Actions"];
 
 const AppliedTrainer = () => {
   const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
 
   // Fetch trainers data using React Query
   const {
@@ -24,20 +23,7 @@ const AppliedTrainer = () => {
   });
 
   console.log(trainers);
-  // Mutation to delete a trainer
-  const deleteTrainerMutation = useMutation(
-    async (trainerId) => {
-      await axiosSecure.patch(`/trainers/${trainerId}/remove-role`, {
-        role: "Member",
-      });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("trainers"); // Refresh trainers list
-      },
-    }
-  );
-
+ 
   // Handle loading state
   if (isLoading) {
     return (
@@ -64,17 +50,13 @@ const AppliedTrainer = () => {
     );
   }
 
-  // Handle delete trainer
-  const handleDeleteTrainer = (trainerId) => {
-    deleteTrainerMutation.mutate(trainerId);
-  };
-
+  
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
       <Card className="shadow-lg">
-        <div className="bg-blue-500 text-white p-6 rounded-t-lg">
+        <div className="bg-orange-500 text-white p-6 rounded-t-lg">
           <Typography variant="h4" className="font-bold text-center uppercase">
-            All Trainers
+            Applied Trainers
           </Typography>
         </div>
         <div className="p-6">
@@ -115,8 +97,8 @@ const AppliedTrainer = () => {
                           variant="text"
                           color="red"
                           size="sm"
-                          onClick={() => handleDeleteTrainer(_id)}
-                          disabled={deleteTrainerMutation.isLoading}
+                          // onClick={() => handleDeleteTrainer(_id)}
+                          // disabled={deleteTrainerMutation.isLoading}
                         >
                           <MdDelete size={20} />
                         </IconButton>

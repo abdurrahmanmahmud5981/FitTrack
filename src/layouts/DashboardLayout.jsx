@@ -1,15 +1,23 @@
 import React, { useState } from "react";
-import { FaUser, FaChalkboardTeacher, FaBook, FaComments, FaSignOutAlt, FaPen } from "react-icons/fa";
+import {
+  FaUser,
+  FaChalkboardTeacher,
+  FaBook,
+  FaComments,
+  FaSignOutAlt,
+  FaPen,
+  FaDollarSign,
+} from "react-icons/fa";
 import { Typography, Avatar, Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import SidebarItem from "../pages/DashBoard/SideberItem/SideberItem";
-import UserProfile from '../pages/UserProfile';
+import UserProfile from "../pages/UserProfile";
 import { Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
   const [activeSection, setActiveSection] = useState("overview");
-  const {user,logOut} = useAuth()
+  const { user, logOut } = useAuth();
   const sections = {
     overview: <DashboardOverview />,
     profile: <UserProfile />,
@@ -39,7 +47,14 @@ const DashboardLayout = () => {
             to="dashboard/newsletter-subscribers"
             isActive={activeSection === "newsletter-subscribers"}
             onClick={() => setActiveSection("newsletter-subscribers")}
-            />
+          />
+          <SidebarItem
+            icon={<FaChalkboardTeacher />}
+            label="Activity Log"
+            to="dashboard/activity-log"
+            isActive={activeSection === "activity-log"}
+            onClick={() => setActiveSection("activity-log")}
+          />
           <SidebarItem
             icon={<FaUser />}
             label="Profile"
@@ -48,31 +63,53 @@ const DashboardLayout = () => {
             onClick={() => setActiveSection("profile")}
           />
           <SidebarItem
-            icon={<FaPen/>}
+            icon={<FaPen />}
             label="Add New Slot"
             to="dashboard/add-new-slot"
             isActive={activeSection === "add-new-slot"}
             onClick={() => setActiveSection("add-new-slot")}
-            />
-            <SidebarItem
+          />
+          <SidebarItem
+            icon={<FaPen />}
+            label="Manage Slot"
+            to="dashboard/manage-slot"
+            isActive={activeSection === "manage-slot"}
+            onClick={() => setActiveSection("manage-slot")}
+          />
+          <SidebarItem
             icon={<FaBook />}
             label="Add New Class "
             to="dashboard/add-new-class"
             isActive={activeSection === "add-new-class"}
             onClick={() => setActiveSection("add-new-class")}
-            />
+          />
           <SidebarItem
             icon={<FaBook />}
-            label="Classes"
-            isActive={activeSection === "classes"}
-            onClick={() => setActiveSection("classes")}
+            label="Booked Trainer"
+             to="dashboard/booked-trainer"
+            isActive={activeSection === "booked-trainer"}
+            onClick={() => setActiveSection("booked-trainer")}
           />
           <SidebarItem
             icon={<FaChalkboardTeacher />}
             label="All Trainers"
             to="dashboard/all-trainer"
             isActive={activeSection === "all-trainer"}
-          onClick={() => setActiveSection("all-trainer")}
+            onClick={() => setActiveSection("all-trainer")}
+          />
+          <SidebarItem
+            icon={<FaChalkboardTeacher />}
+            label="Applied Trainers"
+            to="dashboard/applied-trainers"
+            isActive={activeSection === "applied-trainers"}
+            onClick={() => setActiveSection("applied-trainers")}
+          />
+          <SidebarItem
+            icon={<FaDollarSign />}
+            label="Balance"
+            to="dashboard/balance"
+            isActive={activeSection === "balance"}
+            onClick={() => setActiveSection("balance")}
           />
           <SidebarItem
             icon={<FaComments />}
@@ -84,7 +121,7 @@ const DashboardLayout = () => {
           <SidebarItem
             icon={<FaSignOutAlt />}
             label="Logout"
-            to= ''
+            to=""
             onClick={handleLogout}
           />
         </nav>
@@ -95,7 +132,7 @@ const DashboardLayout = () => {
         {/* Top Bar */}
         <div className="flex justify-between items-center bg-white p-4 rounded shadow mb-6">
           <Typography variant="h5" color="blue-gray">
-            Welcome, {user?.displayName || 'User Name'}!
+            Welcome, {user?.displayName || "User Name"}!
           </Typography>
           <div className="flex items-center gap-4">
             <Avatar
@@ -118,7 +155,7 @@ const DashboardLayout = () => {
           transition={{ duration: 0.5 }}
         >
           {/* {sections[activeSection]} */}
-          <Outlet/>
+          <Outlet />
         </motion.div>
       </main>
     </div>
@@ -144,7 +181,9 @@ const DashboardOverview = () => (
     <Typography variant="h5" className="mb-4">
       Dashboard Overview
     </Typography>
-    <Typography>Welcome to your dashboard. Select a section from the sidebar to begin.</Typography>
+    <Typography>
+      Welcome to your dashboard. Select a section from the sidebar to begin.
+    </Typography>
   </div>
 );
 

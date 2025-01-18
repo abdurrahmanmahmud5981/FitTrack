@@ -15,6 +15,11 @@ import AddNewClass from '../pages/DashBoard/Admin/AddClass/AddNewClass';
 import BeTrainer from '../pages/BeTrainer/BeTrainer';
 import NewsletterSubscribers from '../pages/DashBoard/Admin/Subscribers/NewsletterSubscribers';
 import AllTrainers from '../pages/DashBoard/Admin/AllTrainers/AllTrainers';
+import AppliedTrainer from '../pages/DashBoard/Admin/AppliedTrainer/AppliedTrainer';
+import Balance from '../pages/DashBoard/Admin/Balance/Balance';
+import ManageSlot from '../pages/DashBoard/Trainer/ManageSlot/ManageSlot';
+import ActivityLog from '../pages/DashBoard/Member/ActivityLog/ActivityLog';
+import BookedTrainer from '../pages/DashBoard/Member/BookedTrainer/BookedTrainer';
 
 const router = createBrowserRouter([
     {
@@ -43,10 +48,22 @@ const router = createBrowserRouter([
                 path: '/dashboard/profile',
                 element: <UserProfile/>
             },
+            {
+                path: '/dashboard/activity-log',
+                element: <ActivityLog/>
+            },
+            {
+                path: '/dashboard/booked-trainer',
+                element: <BookedTrainer/>
+            },
             // trainer routes
             {
                 path: '/dashboard/add-new-slot',
                 element: <AddNewSlot/>
+            },
+            {
+                path: '/dashboard/manage-slot',
+                element: <ManageSlot/>
             },
             // admin routes
             {
@@ -56,6 +73,14 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/all-trainer',
                 element: <AllTrainers/>
+            },
+            {
+                path: '/dashboard/applied-trainers',
+                element: <AppliedTrainer/>
+            },
+            {
+                path: '/dashboard/balance',
+                element: <Balance/>
             },
             {
                 path: '/dashboard/add-new-class',

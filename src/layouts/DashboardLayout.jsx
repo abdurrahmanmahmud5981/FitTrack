@@ -7,6 +7,7 @@ import {
   FaSignOutAlt,
   FaPen,
   FaDollarSign,
+  FaHome,
 } from "react-icons/fa";
 import { Typography, Avatar, Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
@@ -14,23 +15,18 @@ import SidebarItem from "../pages/DashBoard/SideberItem/SideberItem";
 import UserProfile from "../pages/UserProfile";
 import { Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useGetRole from "../hooks/useGetRole";
 
 const DashboardLayout = () => {
-  const [activeSection, setActiveSection] = useState("overview");
+  const [role] = useGetRole();
+  const [activeSection, setActiveSection] = useState("profile");
   const { user, logOut } = useAuth();
-  const sections = {
-    overview: <DashboardOverview />,
-    profile: <UserProfile />,
-    classes: <ManageClasses />,
-    trainers: <ManageTrainers />,
-    community: <CommunityPosts />,
-  };
 
   const handleLogout = () => {
     alert("You have been logged out!");
     // Add logout functionality
   };
-
+  console.log("DashboardLayout", role);
   return (
     <div className="flex min-h-screen bg-gray-100 bg-fixed">
       {/* Sidebar */}
@@ -41,20 +37,101 @@ const DashboardLayout = () => {
           </Typography>
         </div>
         <nav className="flex flex-col px-4 space-y-4">
-          <SidebarItem
-            icon={<FaChalkboardTeacher />}
-            label="All Subscribers"
-            to="dashboard/newsletter-subscribers"
-            isActive={activeSection === "newsletter-subscribers"}
-            onClick={() => setActiveSection("newsletter-subscribers")}
-          />
-          <SidebarItem
-            icon={<FaChalkboardTeacher />}
-            label="Activity Log"
-            to="dashboard/activity-log"
-            isActive={activeSection === "activity-log"}
-            onClick={() => setActiveSection("activity-log")}
-          />
+          {/* admin routes */}
+          {role === "admin" && (
+            <>
+              <SidebarItem
+                icon={<FaChalkboardTeacher />}
+                label="All Subscribers"
+                to="dashboard/newsletter-subscribers"
+                isActive={activeSection === "newsletter-subscribers"}
+                onClick={() => setActiveSection("newsletter-subscribers")}
+              />
+              <SidebarItem
+                icon={<FaBook />}
+                label="Add New Class "
+                to="dashboard/add-new-class"
+                isActive={activeSection === "add-new-class"}
+                onClick={() => setActiveSection("add-new-class")}
+              />
+
+              <SidebarItem
+                icon={<FaChalkboardTeacher />}
+                label="All Trainers"
+                to="dashboard/all-trainer"
+                isActive={activeSection === "all-trainer"}
+                onClick={() => setActiveSection("all-trainer")}
+              />
+              <SidebarItem
+                icon={<FaChalkboardTeacher />}
+                label="Applied Trainers"
+                to="dashboard/applied-trainers"
+                isActive={activeSection === "applied-trainers"}
+                onClick={() => setActiveSection("applied-trainers")}
+              />
+              <SidebarItem
+                icon={<FaDollarSign />}
+                label="Balance"
+                to="dashboard/balance"
+                isActive={activeSection === "balance"}
+                onClick={() => setActiveSection("balance")}
+              />
+              <SidebarItem
+                icon={<FaComments />}
+                label="Add New Post"
+                to="community"
+                isActive={activeSection === "community"}
+                onClick={() => setActiveSection("community")}
+              />
+            </>
+          )}
+          {/* mamber routes */}
+          {role === "member" && (
+            <>
+              <SidebarItem
+                icon={<FaChalkboardTeacher />}
+                label="Activity Log"
+                to="dashboard/activity-log"
+                isActive={activeSection === "activity-log"}
+                onClick={() => setActiveSection("activity-log")}
+              />
+              <SidebarItem
+                icon={<FaBook />}
+                label="Booked Trainer"
+                to="dashboard/booked-trainer"
+                isActive={activeSection === "booked-trainer"}
+                onClick={() => setActiveSection("booked-trainer")}
+              />
+            </>
+          )}
+          {/* trainer  routes */}
+          {role === "trainer" && (
+            <>
+              <SidebarItem
+                icon={<FaPen />}
+                label="Add New Slot"
+                to="dashboard/add-new-slot"
+                isActive={activeSection === "add-new-slot"}
+                onClick={() => setActiveSection("add-new-slot")}
+              />
+              <SidebarItem
+                icon={<FaPen />}
+                label="Manage Slot"
+                to="dashboard/manage-slot"
+                isActive={activeSection === "manage-slot"}
+                onClick={() => setActiveSection("manage-slot")}
+              />
+
+              <SidebarItem
+                icon={<FaComments />}
+                label="Add New Post"
+                to="community"
+                isActive={activeSection === "community"}
+                onClick={() => setActiveSection("community")}
+              />
+            </>
+          )}
+          {/* User Profile */}
           <SidebarItem
             icon={<FaUser />}
             label="Profile"
@@ -63,65 +140,16 @@ const DashboardLayout = () => {
             onClick={() => setActiveSection("profile")}
           />
           <SidebarItem
-            icon={<FaPen />}
-            label="Add New Slot"
-            to="dashboard/add-new-slot"
-            isActive={activeSection === "add-new-slot"}
-            onClick={() => setActiveSection("add-new-slot")}
-          />
-          <SidebarItem
-            icon={<FaPen />}
-            label="Manage Slot"
-            to="dashboard/manage-slot"
-            isActive={activeSection === "manage-slot"}
-            onClick={() => setActiveSection("manage-slot")}
-          />
-          <SidebarItem
-            icon={<FaBook />}
-            label="Add New Class "
-            to="dashboard/add-new-class"
-            isActive={activeSection === "add-new-class"}
-            onClick={() => setActiveSection("add-new-class")}
-          />
-          <SidebarItem
-            icon={<FaBook />}
-            label="Booked Trainer"
-             to="dashboard/booked-trainer"
-            isActive={activeSection === "booked-trainer"}
-            onClick={() => setActiveSection("booked-trainer")}
-          />
-          <SidebarItem
-            icon={<FaChalkboardTeacher />}
-            label="All Trainers"
-            to="dashboard/all-trainer"
-            isActive={activeSection === "all-trainer"}
-            onClick={() => setActiveSection("all-trainer")}
-          />
-          <SidebarItem
-            icon={<FaChalkboardTeacher />}
-            label="Applied Trainers"
-            to="dashboard/applied-trainers"
-            isActive={activeSection === "applied-trainers"}
-            onClick={() => setActiveSection("applied-trainers")}
-          />
-          <SidebarItem
-            icon={<FaDollarSign />}
-            label="Balance"
-            to="dashboard/balance"
-            isActive={activeSection === "balance"}
-            onClick={() => setActiveSection("balance")}
-          />
-          <SidebarItem
-            icon={<FaComments />}
-            label="Community"
-            to="community"
-            isActive={activeSection === "community"}
-            onClick={() => setActiveSection("community")}
+            icon={<FaHome />}
+            label="Home"
+            to=""
+            isActive={activeSection === "home"}
+            onClick={() => setActiveSection("home")}
           />
           <SidebarItem
             icon={<FaSignOutAlt />}
             label="Logout"
-            to=""
+            to="login"
             onClick={handleLogout}
           />
         </nav>

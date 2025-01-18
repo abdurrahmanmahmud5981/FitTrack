@@ -14,7 +14,6 @@ import {
 } from "@material-tailwind/react";
 import {
   FaUserEdit,
-  FaCamera,
   FaSave,
   FaTimes,
   FaEnvelope,
@@ -55,7 +54,6 @@ const UserProfile = () => {
     e.preventDefault();
     const file = e.target.files[0];
     const photoURL = await uploadImage(file);
-    console.log(photoURL);
     setImagePreview(photoURL);
   };
   const removeImage = () => {
@@ -91,7 +89,7 @@ const UserProfile = () => {
     }
   };
   if (isLoading) return "Loading....";
-  console.log(imagePreview);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -124,20 +122,20 @@ const UserProfile = () => {
 
                 {/* User Information */}
                 <div className="text-center space-y-2">
-                  <Typography variant="h4" color="blue-gray">
+                  <Typography variant="h4" >
                     {name || "User Name"}
                   </Typography>
 
                   <div className="flex items-center justify-center gap-2">
                     <FaEnvelope className="text-blue-gray-400" />
-                    <Typography color="blue-gray">
+                    <Typography>
                       {email || "email@example.com"}
                     </Typography>
                   </div>
 
                   <div className="flex items-center justify-center gap-2">
                     <FaClock className="text-blue-gray-400" />
-                    <Typography color="blue-gray" className="text-sm">
+                    <Typography className="text-sm">
                       Last login:{" "}
                       {user?.metadata?.lastSignInTime
                         ? new Date(
@@ -174,7 +172,7 @@ const UserProfile = () => {
               <div className="space-y-2">
                 <Typography
                   variant="small"
-                  color="blue-gray"
+                 
                   className="font-medium"
                 >
                   Display Name
@@ -197,7 +195,7 @@ const UserProfile = () => {
                 <div className="flex flex-col items-center">
                   <Typography
                     variant="h5"
-                    color="blu-gray"
+                  
                     className="font-medium"
                   >
                     Profile Picture

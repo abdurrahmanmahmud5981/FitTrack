@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import useGetRole from "../hooks/useGetRole";
 import useAuth from "../hooks/useAuth";
 
+// eslint-disable-next-line react/prop-types
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const [role, isLoading] = useGetRole();

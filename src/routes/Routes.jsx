@@ -22,6 +22,8 @@ import ActivityLog from "../pages/DashBoard/Member/ActivityLog/ActivityLog";
 import BookedTrainer from "../pages/DashBoard/Member/BookedTrainer/BookedTrainer";
 import AdminRoute from "./AdminRoutes";
 import PrivatRoute from "./PrivatRoute";
+import TrainerRoute from "./TrainerRoute";
+import MemberRoute from "./MemberRoute";
 
 const router = createBrowserRouter([
   {
@@ -62,9 +64,9 @@ const router = createBrowserRouter([
         path: "/dashboard/activity-log",
         element: (
           <PrivatRoute>
-            <AdminRoute>
+            <MemberRoute>
               <ActivityLog />
-            </AdminRoute>
+            </MemberRoute>
           </PrivatRoute>
         ),
       },
@@ -72,9 +74,9 @@ const router = createBrowserRouter([
         path: "/dashboard/booked-trainer",
         element: (
           <PrivatRoute>
-            <AdminRoute>
+            <MemberRoute>
               <BookedTrainer />
-            </AdminRoute>
+            </MemberRoute>
           </PrivatRoute>
         ),
       },
@@ -83,15 +85,21 @@ const router = createBrowserRouter([
         path: "/dashboard/add-new-slot",
         element: (
           <PrivatRoute>
-            <AdminRoute>
+            <TrainerRoute>
               <AddNewSlot />
-            </AdminRoute>
+            </TrainerRoute>
           </PrivatRoute>
         ),
       },
       {
         path: "/dashboard/manage-slot",
-        element: <ManageSlot />,
+        element: (
+          <PrivatRoute>
+            <TrainerRoute>
+              <ManageSlot />
+            </TrainerRoute>
+          </PrivatRoute>
+        ),
       },
       // admin routes
       {

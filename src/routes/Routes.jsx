@@ -35,7 +35,14 @@ const router = createBrowserRouter([
       { path: "/allTrainer", element: <AllTrainer /> },
       { path: "/trainer/:trainerId", element: <TrainerDetails /> },
       { path: "/become-a-trainer", element: <BeTrainer /> },
-      { path: "/bookTrainer/:slot", element: <TrainerBooking /> },
+      {
+        path: "/bookTrainer/:slotId",
+        element: (
+          <PrivatRoute>
+            <TrainerBooking />
+          </PrivatRoute>
+        ),
+      },
       { path: "/allClasses", element: <AllClasses /> },
       { path: "/community", element: <Community /> },
       { path: "/login", element: <Login /> },

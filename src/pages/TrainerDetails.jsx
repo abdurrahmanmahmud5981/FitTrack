@@ -7,11 +7,10 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useQuery } from "react-query";
 import LoadingSpinner from "../components/shared/LodingSpinner";
-
 const socialLinks = [
   {
     name: "Facebook",
@@ -31,17 +30,26 @@ const socialLinks = [
 ];
 const TrainerDetails = () => {
   const { trainerId } = useParams();
-  console.log(trainerId);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const { data: trainer = {}, isLoading } = useQuery({
-    queryKey: ["trainer",trainerId],
+    queryKey: ["trainer", trainerId],
     queryFn: async () => {
       const response = await axiosPublic(`/trainers/${trainerId}`);
       return response.data;
     },
   });
-  console.log(trainer);
+  const { data:slots=[] } = useQuery({
+    queryKey: ["slots", trainer?.email],
+    enabled: !isLoading && !!trainer?.email,
+    queryFn: async () => {
+      const response = await axiosPublic(`/slots/${trainer?.email}`);
+      console.log(response);
+      return response.data;
+    },
+  });
+  console.log(!isLoading && !!trainer?.email);
+  console.log('kkkkkkkks',slots);
   if (isLoading) return <LoadingSpinner />;
 
   const fadeIn = {
@@ -133,14 +141,15 @@ const TrainerDetails = () => {
                       Available Days:
                     </Typography>
                     <div className="flex flex-col gap-3 mt-2">
-                      { trainer && trainer?.availableDays?.map((day, index) => (
-                        <p
-                          key={index}
-                          className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm w-fit"
-                        >
-                          {day}
-                        </p>
-                      ))}
+                      {trainer &&
+                        trainer?.availableDays?.map((day, index) => (
+                          <p
+                            key={index}
+                            className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm w-fit"
+                          >
+                            {day}
+                          </p>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -156,27 +165,32 @@ const TrainerDetails = () => {
             Available Time Slots
           </Typography>
           <div className="space-y-4">
-            {trainer && trainer?.availableTime?.map((slot, index) => (
-              <motion.div
-                key={index}
-                className="flex items-center justify-between p-3 bg-orange-50 rounded-lg text-gray-800"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-3">
-                  <FaClock className="text-orange-600 text-xl" />
-                  <Typography className="capitalize">{slot}</Typography>
-                </div>
-                <Button
-                  variant="outlined"
-                  color="orange"
-                  size="sm"
-                  onClick={() => navigate(`/bookTrainer/${slot.split(" ")[0]}`)}
+            {trainer &&
+              slots?.map((slot) => (
+                <motion.div
+                  key={slot?._id}
+                  className="flex items-center justify-between p-3 bg-orange-50 rounded-lg text-gray-800"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  Book
-                </Button>
-              </motion.div>
-            ))}
+                  <div className="flex items-center gap-3">
+                    <FaClock className="text-orange-600 text-xl" />
+                    <Typography className="capitalize">{slot?.slotName}</Typography>
+                  </div>
+                  <Link>
+                  <Button
+                    variant="outlined"
+                    color="orange"
+                    size="sm"
+                    onClick={() =>
+                      navigate(`/bookTrainer/${slot?._id}`)
+                    }
+                  >
+                    Book
+                  </Button>
+                  </Link>
+                </motion.div>
+              ))}
           </div>
         </Card>
       </motion.div>

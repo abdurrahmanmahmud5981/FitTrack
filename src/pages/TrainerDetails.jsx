@@ -1,24 +1,6 @@
+import { Card, Button, Typography } from "@material-tailwind/react";
 import {
-  Card,
-  Button,
-  Typography,
-  Avatar,
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
-import {
-  FaDumbbell,
-  FaHeart,
-  FaRunning,
   FaClock,
-  FaMedal,
-  FaCalendarAlt,
-  FaEnvelope,
-  FaStar,
-  FaCheckCircle,
   FaArrowRight,
   FaFacebook,
   FaInstagram,
@@ -29,7 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useQuery } from "react-query";
 import LoadingSpinner from "../components/shared/LodingSpinner";
-
 
 const socialLinks = [
   {
@@ -53,8 +34,8 @@ const TrainerDetails = () => {
   console.log(trainerId);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-  const { data: trainer = [], isLoading } = useQuery({
-    queryKey: ["trainers"],
+  const { data: trainer = {}, isLoading } = useQuery({
+    queryKey: ["trainer",trainerId],
     queryFn: async () => {
       const response = await axiosPublic(`/trainers/${trainerId}`);
       return response.data;
@@ -72,25 +53,28 @@ const TrainerDetails = () => {
   return (
     <section className="min-h-screen">
       {/* Hero Section */}
-      <motion.div
-        className=" py-12 max-w-screen-xl mx-auto"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Profile Image Section */}
-            <motion.div className="w-full lg:w-2/3 " {...fadeIn}>
-              <Card className="p-3 bg-transparent ring ring-gray-800">
-                <img
-                  src={trainer.profileImage}
-                  alt={trainer.fullName}
-                  className="w-full h-96 object-cover object-top rounded-lg "
-                />
-               <div className="flex gap-3 text-xl mt-4 items-center">
-                    <span className="text-orange-500 font-semibold">Social Links:</span>
-                    {socialLinks.map(({ icon, url }, idx) => (
+      {trainer && (
+        <motion.div
+          className=" py-12 max-w-screen-xl mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="">
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Profile Image Section */}
+              <motion.div className="w-full lg:w-2/3 " {...fadeIn}>
+                <Card className="p-3 bg-transparent ring ring-gray-800">
+                  <img
+                    src={trainer?.profileImage}
+                    alt={trainer?.fullName}
+                    className="w-full h-96 object-cover object-top rounded-lg "
+                  />
+                  <div className="flex gap-3 text-xl mt-4 items-center">
+                    <span className="text-orange-500 font-semibold">
+                      Social Links:
+                    </span>
+                    {socialLinks?.map(({ icon, url }, idx) => (
                       <a
                         href={url}
                         target="_blank"
@@ -101,170 +85,100 @@ const TrainerDetails = () => {
                       </a>
                     ))}
                   </div>
-              </Card>
-            </motion.div>
+                </Card>
+              </motion.div>
 
-            {/* Trainer Info Section */}
-            <motion.div className="w-full " {...fadeIn}>
-              <div className="flex flex-col gap-6">
-                <div>
-                  <Typography
-                    variant="h2"
-                    color="deep-orange"
-                    className="font-bold"
-                  >
-                    {trainer.fullName}
-                  </Typography>
-                  <Typography className="text text-gray-400">
-                    {trainer.experience} Years Of Experience
-                  </Typography>
-                </div>
+              {/* Trainer Info Section */}
+              <motion.div className="w-full " {...fadeIn}>
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <Typography
+                      variant="h2"
+                      color="deep-orange"
+                      className="font-bold"
+                    >
+                      {trainer?.fullName}
+                    </Typography>
+                    <Typography className="text text-gray-400">
+                      {trainer?.experience} Years Of Experience
+                    </Typography>
+                  </div>
 
-                <div className="">
-                  <Typography variant="h5" color="white">
-                    Bio:
-                  </Typography>
-                <Typography className="text-gray-400">
-                  {trainer.biography}
-                </Typography>
-                </div>
-                <div className="">
-                  <Typography variant="h5" color="white">
-                   Experties:
-                  </Typography>
-                
-                  <div className="flex flex-col gap-3 mt-2">
-                    {trainer?.selectedSkills?.map((day, index) => (
-                      <p key={index} className=" px-4 py-2 bg-gray-700 text-white uppercase text-xs font-semibold w-fit rounded-full">
-                        {day}
-                      </p>
-                    ))}
+                  <div className="">
+                    <Typography variant="h5" color="white">
+                      Bio:
+                    </Typography>
+                    <Typography className="text-gray-400">
+                      {trainer?.biography}
+                    </Typography>
+                  </div>
+                  <div className="">
+                    <Typography variant="h5" color="white">
+                      Experties:
+                    </Typography>
+
+                    <div className="flex flex-col gap-3 mt-2">
+                      {trainer?.selectedSkills?.map((day, index) => (
+                        <p
+                          key={index}
+                          className=" px-4 py-2 bg-gray-700 text-white uppercase text-xs font-semibold w-fit rounded-full"
+                        >
+                          {day}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="">
+                    <Typography variant="h5" color="white">
+                      Available Days:
+                    </Typography>
+                    <div className="flex flex-col gap-3 mt-2">
+                      { trainer && trainer?.availableDays?.map((day, index) => (
+                        <p
+                          key={index}
+                          className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm w-fit"
+                        >
+                          {day}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="">
-                  <Typography variant="h5" color="white">
-                    Available Days:
-                  </Typography>
-                  <div className="flex flex-col gap-3 mt-2">
-                    {trainer.availableDays.map((day, index) => (
-                      <p key={index} className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm w-fit">
-                        {day}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </motion.div>
-
+        </motion.div>
+      )}
       {/* Tabs Section */}
-      <motion.div className="container mx-auto px-4 py-12" {...fadeIn}>
-        <Tabs value="expertise" className="w-full">
-          <TabsHeader>
-            <Tab value="expertise">Expertise</Tab>
-            <Tab value="schedule">Schedule</Tab>
-            <Tab value="achievements">Achievements</Tab>
-          </TabsHeader>
-
-          <TabsBody>
-            <TabPanel value="expertise">
-              <Card className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Expertise Section */}
-                  {/* <div>
-                    <Typography variant="h5" color="blue-gray" className="mb-4">
-                      Areas of Expertise
-                    </Typography>
-                    <div className="space-y-4">
-                      {trainer.expertise.map((skill, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          {skill === "Strength Training" && (
-                            <FaDumbbell className="text-orange-600 text-xl" />
-                          )}
-                          {skill === "Cardio Workouts" && (
-                            <FaRunning className="text-orange-600 text-xl" />
-                          )}
-                          {skill === "Weight Management" && (
-                            <FaHeart className="text-orange-600 text-xl" />
-                          )}
-                          <Typography>{skill}</Typography>
-                        </div>
-                      ))}
-                    </div>
-                  </div> */}
-
-                  {/* Certifications Section */}
-                  {/* <div>
-                    <Typography variant="h5" color="blue-gray" className="mb-4">
-                      Certifications
-                    </Typography>
-                    <div className="space-y-4">
-                      {trainer.certifications.map((cert, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          <FaMedal className="text-orange-600 text-xl" />
-                          <Typography>{cert}</Typography>
-                        </div>
-                      ))}
-                    </div>
-                  </div> */}
+      <motion.div className="py-12" {...fadeIn}>
+        <Card className="p-6 bg-gray-800 text-white">
+          <Typography variant="h5" className="mb-4">
+            Available Time Slots
+          </Typography>
+          <div className="space-y-4">
+            {trainer && trainer?.availableTime?.map((slot, index) => (
+              <motion.div
+                key={index}
+                className="flex items-center justify-between p-3 bg-orange-50 rounded-lg text-gray-800"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="flex items-center gap-3">
+                  <FaClock className="text-orange-600 text-xl" />
+                  <Typography className="capitalize">{slot}</Typography>
                 </div>
-              </Card>
-            </TabPanel>
-
-            <TabPanel value="schedule">
-              <Card className="p-6">
-                <Typography variant="h5" color="blue-gray" className="mb-4">
-                  Available Time Slots
-                </Typography>
-                <div className="space-y-4">
-                  {/* {trainer.availableSlots.map((slot, index) => (
-                    <motion.div
-                      key={index}
-                      className="flex items-center justify-between p-3 bg-orange-50 rounded-lg"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="flex items-center gap-3">
-                        <FaClock className="text-orange-600 text-xl" />
-                        <Typography>{slot}</Typography>
-                      </div>
-                      <Button
-                        variant="outlined"
-                        color="orange"
-                        size="sm"
-                        onClick={() =>
-                          navigate(`/bookTrainer/${slot.split(" ")[0]}`)
-                        }
-                      >
-                        Book
-                      </Button>
-                    </motion.div>
-                  ))} */}
-                </div>
-              </Card>
-            </TabPanel>
-
-            <TabPanel value="achievements">
-              <Card className="p-6">
-                <div className="space-y-6">
-                  {/* {trainer.achievements.map((achievement, index) => (
-                    <motion.div
-                      key={index}
-                      className="flex items-start gap-4"
-                      whileHover={{ x: 10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <FaCheckCircle className="text-orange-600 text-xl mt-1" />
-                      <Typography>{achievement}</Typography>
-                    </motion.div>
-                  ))} */}
-                </div>
-              </Card>
-            </TabPanel>
-          </TabsBody>
-        </Tabs>
+                <Button
+                  variant="outlined"
+                  color="orange"
+                  size="sm"
+                  onClick={() => navigate(`/bookTrainer/${slot.split(" ")[0]}`)}
+                >
+                  Book
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </Card>
       </motion.div>
 
       {/* CTA Section */}

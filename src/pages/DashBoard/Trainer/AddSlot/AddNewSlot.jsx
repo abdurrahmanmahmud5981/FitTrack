@@ -8,51 +8,75 @@ import {
 } from "@material-tailwind/react";
 import Select from "react-select";
 import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
+// Times of the day for React Select
+const timesOptions = [
+  { value: "morning", label: "Morning" },
+  { value: "afternoon", label: "Afternoon" },
+  { value: "evening", label: "Evening" },
+];
+
+const availableClasses = [
+  { value: "yoga", label: "Yoga" },
+  { value: "zumba", label: "Zumba" },
+  { value: "pilates", label: "Pilates" },
+  { value: "strength-training", label: "Strength Training" },
+];
+
+const daysOptions = [
+  { value: "monday", label: "Monday" },
+  { value: "tuesday", label: "Tuesday" },
+  { value: "wednesday", label: "Wednesday" },
+  { value: "thursday", label: "Thursday" },
+  { value: "friday", label: "Friday" },
+  { value: "saturday", label: "Saturday" },
+  { value: "sunday", label: "Sunday" },
+];
 const AddNewSlot = () => {
   const { user } = useAuth();
-  const trainerData = {
-    id: "123",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-  };
-
-  const availableClasses = [
-    { value: "yoga", label: "Yoga" },
-    { value: "zumba", label: "Zumba" },
-    { value: "pilates", label: "Pilates" },
-    { value: "strength-training", label: "Strength Training" },
-  ];
-
-  const daysOptions = [
-    { value: "monday", label: "Monday" },
-    { value: "tuesday", label: "Tuesday" },
-    { value: "wednesday", label: "Wednesday" },
-    { value: "thursday", label: "Thursday" },
-    { value: "friday", label: "Friday" },
-    { value: "saturday", label: "Saturday" },
-    { value: "sunday", label: "Sunday" },
-  ];
+  const axiosSecure = useAxiosSecure();
 
   const [selectedDays, setSelectedDays] = useState([]);
   const [slotName, setSlotName] = useState("");
-  const [slotTime, setSlotTime] = useState("");
-  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [slotTime, setSlotTime] = useState(0);
+  const [selectedClasses, setSelectedClasses] = useState("");
 
   // Handle Form Submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const slotData = {
-      trainerId: trainerData.id,
-      slotName,
-      slotTime,
-      days: selectedDays.map((day) => day.value),
-      classes: selectedClasses.map((cls) => cls.value),
-    };
 
-    console.log("Slot Data:", slotData);
-    alert("Slot added successfully!");
+    try {
+      const slotData = {
+        trainerName: user?.displayName,
+        trainerEmail: user?.email,
+        slotName: slotName?.label,
+        slotTime,
+        days: selectedDays.map((day) => day.value),
+        classe: selectedClasses.label,
+      };
+      const res = await axiosSecure.post("/slots", slotData);
+      console.log(res.data);
+      if (res.data?.insertedId) {
+        Swal.fire({
+          title: "Slot Added Successfully!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        setSlotName("");
+        setSelectedDays([]);
+        setSelectedClasses("");
+        setSlotTime(0);
+      }
+    } catch (error) {
+      Swal.fire({
+        title: `Failed to Add Slot! ${error.message}`,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
+
   };
 
   return (
@@ -98,28 +122,30 @@ const AddNewSlot = () => {
                   className="react-select-container"
                 />
               </div>
-
               {/* Slot Name */}
               <div>
-                <Input
-                  type="text"
+                <label className="block mb-2 font-medium text-gray-700">
+                  Select Slot
+                </label>
+                <Select
                   required
-                  label="Slot Name"
+                  options={timesOptions}
                   value={slotName}
-                  onChange={(e) => setSlotName(e.target.value)}
-                  placeholder="Enter slot name (e.g., Morning Slot)"
-                  className="input-field"
+                  onChange={setSlotName}
+                  placeholder="Select slot name (e.g., Morning Slot)."
+                  className="react-select-container"
                 />
               </div>
-
               {/* Slot Time */}
               <div>
                 <Input
-                  type="time"
+                  type="number"
+                  min={1}
+                  max={4}
                   label="Slot Time"
                   required
-                  value={slotTime}
-                  onChange={(e) => setSlotTime(e.target.value)}
+                  defaultValue={slotTime || 0}
+                  onChange={(e) => setSlotTime(parseInt(e.target.value))}
                   placeholder="Enter slot time (e.g., 1 hour)"
                   className="input-field"
                 />
@@ -128,11 +154,10 @@ const AddNewSlot = () => {
               {/* Select Classes */}
               <div>
                 <label className="block mb-2 font-medium text-gray-700">
-                  Select Classes
+                  Select Classe
                 </label>
                 <Select
                   required
-                  isMulti
                   options={availableClasses}
                   value={selectedClasses}
                   onChange={setSelectedClasses}

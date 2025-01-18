@@ -1,70 +1,146 @@
 [
-    {
-      "name": "Yoga for Beginners",
-      "description": "Learn the basics of yoga to improve flexibility, mental health, and overall physical balance. Perfect for those starting their yoga journey.",
-      "image": "https://img.freepik.com/free-photo/full-shot-man-doing-yoga-mat_23-2150170735.jpg",
-      "totalBookings": 45
-    },
-    {
-      "name": "Advanced Pilates",
-      "description": "Challenge your core strength, enhance posture, and build endurance with advanced pilates techniques designed for experienced participants.",
-      "image": "https://img.freepik.com/free-photo/fitness-man_23-2148137735.jpg",
-      "totalBookings": 30
-    },
-    {
-      "name": "HIIT Cardio",
-      "description": "Burn calories, increase stamina, and improve heart health with high-intensity interval training workouts that push your limits.",
-      "image": "https://img.freepik.com/free-photo/man-exercising-gym-low-angle_23-2149517248.jpg",
-      "totalBookings": 60
-    },
-   
-    {
-      "name": "Strength Training Basics",
-      "description": "Master fundamental strength exercises to build muscle, enhance endurance, and achieve your fitness goals effectively.",
-      "image": "https://img.freepik.com/free-photo/medium-shot-friends-training-together-with-dumbbells_23-2149391997.jpg",
-      "totalBookings": 40
-    },
-    {
-      "name": "Spin Class",
-      "description": "Join this energizing indoor cycling session, ideal for improving cardio, toning muscles, and boosting your endurance levels.",
-      "image": "https://img.freepik.com/free-photo/people-doing-indoor-cycling_23-2149270211.jpg",
-      "totalBookings": 25
-    },
-    {
-      "name": "Boxing Basics",
-      "description": "Learn fundamental boxing techniques to improve agility, build strength, and increase confidence in a fun and challenging way.",
-      "image": "https://img.freepik.com/free-photo/two-professional-boxer-boxing-black_155003-14255.jpg",
-      "totalBookings": 35
-    },
-    {
-      "name": "CrossFit Challenge",
-      "description": "Engage in high-intensity workouts combining cardio, strength, and functional movements to push your fitness to the next level.",
-      "image": "https://example.com/images/crossfit.jpg",
-      "totalBookings": 55
-    },
-    {
-      "name": "Aerobics",
-      "description": "Boost your cardiovascular health, improve stamina, and have fun with this high-energy aerobic session suitable for all fitness levels.",
-      "image": "https://example.com/images/aerobics.jpg",
-      "totalBookings": 20
-    },
-    {
-      "name": "Meditation and Relaxation",
-      "description": "Reduce stress, calm your mind, and achieve inner peace with guided meditation and relaxation techniques tailored for everyone.",
-      "image": "https://example.com/images/meditation.jpg",
-      "totalBookings": 18
-    },
-    {
-      "name": "Bootcamp",
-      "description": "Test your limits and build full-body strength with a mix of cardio, resistance training, and bodyweight exercises in this intensive session.",
-      "image": "https://example.com/images/bootcamp.jpg",
-      "totalBookings": 40
-    },
-    {
-      "name": "Flexibility Training",
-      "description": "Improve your flexibility, reduce muscle tension, and prevent injuries with targeted exercises designed for all fitness levels.",
-      "image": "https://example.com/images/flexibility-training.jpg",
-      "totalBookings": 25
+  {
+    "title": "The Benefits of Morning Workouts",
+    "content": "Discover why starting your day with exercise can boost your mood and productivity.",
+    "author": "John Doe",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2025-01-17",
+    "votes": {
+      "upvotes": 15,
+      "downvotes": 2
     }
-  ]
-  
+  },
+  {
+    "title": "How to Stay Motivated on Your Fitness Journey",
+    "content": "Tips to keep pushing forward when progress seems slow.",
+    "author": "Jane Smith",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "admin",
+    "date": "2025-01-15",
+    "votes": {
+      "upvotes": 23,
+      "downvotes": 1
+    }
+  },
+  {
+    "title": "Understanding Calorie Deficits",
+    "content": "A guide to effective weight loss through mindful eating.",
+    "author": "Dr. Emily White",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2025-01-12",
+    "votes": {
+      "upvotes": 18,
+      "downvotes": 3
+    }
+  },
+  {
+    "title": "Top 5 Yoga Poses for Flexibility",
+    "content": "Explore these poses to improve your flexibility and reduce stress.",
+    "author": "Michael Green",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2025-01-10",
+    "votes": {
+      "upvotes": 20,
+      "downvotes": 0
+    }
+  },
+  {
+    "title": "My First Marathon Experience",
+    "content": "Sharing my journey of training for and completing a marathon.",
+    "author": "Lisa Brown",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "admin",
+    "date": "2025-01-08",
+    "votes": {
+      "upvotes": 10,
+      "downvotes": 2
+    }
+  },
+  {
+    "title": "The Importance of Rest Days",
+    "content": "Why you need rest days in your workout routine and how to make the most of them.",
+    "author": "Trainer Mark",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2025-01-06",
+    "votes": {
+      "upvotes": 16,
+      "downvotes": 1
+    }
+  },
+  {
+    "title": "5 Healthy Snack Ideas for Gym-Goers",
+    "content": "Fuel your workouts with these nutritious snack ideas.",
+    "author": "Emma Jones",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2025-01-04",
+    "votes": {
+      "upvotes": 22,
+      "downvotes": 0
+    }
+  },
+  {
+    "title": "Finding the Right Gym for You",
+    "content": "What to consider when choosing a gym that fits your goals.",
+    "author": "Noah Adams",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "admin",
+    "date": "2025-01-02",
+    "votes": {
+      "upvotes": 9,
+      "downvotes": 1
+    }
+  },
+  {
+    "title": "Best Supplements for Muscle Growth",
+    "content": "A trainer’s guide to safe and effective muscle-building supplements.",
+    "author": "Sophia Taylor",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2025-01-01",
+    "votes": {
+      "upvotes": 19,
+      "downvotes": 4
+    }
+  },
+  {
+    "title": "How to Create a Sustainable Meal Plan",
+    "content": "Practical steps to designing a meal plan that aligns with your fitness goals.",
+    "author": "Oliver Johnson",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "admin",
+    "date": "2024-12-30",
+    "votes": {
+      "upvotes": 17,
+      "downvotes": 2
+    }
+  },
+  {
+    "title": "Stretching Routines for Office Workers",
+    "content": "Simple stretches to combat stiffness and improve posture during work hours.",
+    "author": "Trainer Ethan",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "Trainer",
+    "date": "2024-12-28",
+    "votes": {
+      "upvotes": 14,
+      "downvotes": 0
+    }
+  },
+  {
+    "title": "How I Lost 20 Pounds in 3 Months",
+    "content": "Sharing my weight loss journey and what worked for me.",
+    "author": "Olivia Williams",
+    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "role": "admin",
+    "date": "2024-12-25",
+    "votes": {
+      "upvotes": 24,
+      "downvotes": 5
+    }
+  }
+]

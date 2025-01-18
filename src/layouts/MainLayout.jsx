@@ -4,7 +4,7 @@ import Footer from "../components/shared/Footer";
 
 const MainLayout = () => {
   return (
-    <div className="bg-[#01010f]">
+    <div className="bg-gray-900">
       <header className="sticky top-3 backdrop-blur-3xl  backdrop-filter z-[2900]  px-4 py-2  lg:py-4  text-white max-w-[1580px] mx-auto bg-orange-50/10">
         <nav className=" w-11/12 mx-auto">
           <StickyNavbar />

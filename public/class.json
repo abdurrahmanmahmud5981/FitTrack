@@ -1,158 +1,181 @@
 [
   {
-    "title": "The Benefits of Morning Workouts",
-    "content": "Discover why starting your day with exercise can boost your mood and productivity.",
-    "author": "John Doe",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2025-01-17",
-    "votes": {
-      "upvotes": 15,
-      "downvotes": 2
-    },
-    "link": "https://example.com/posts/the-benefits-of-morning-workouts"
+    "fullName": "Abdur Rahman",
+    "email": "ar7543078@gmail.com",
+    "age": "20",
+    "experience": "3",
+    "biography": "Credibly monetize vertical best practices whereas cross-unit systems. Compellingly conceptualize propen core.",
+    "selectedSkills": [
+      "Yoga",
+      "Pilates"
+    ],
+    "availableDays": [
+      "tuesday"
+    ],
+    "availableTime": "morning",
+    "profileImage": "https://lh3.googleusercontent.com/a/ACg8ocIX2X0JBVLtFtrRr9UDHZjEXOYvWYppCNgQi8Bwb5wkptEWxSd3=s96-c",
+    "status": "Pending"
   },
   {
-    "title": "How to Stay Motivated on Your Fitness Journey",
-    "content": "Tips to keep pushing forward when progress seems slow.",
-    "author": "Jane Smith",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "admin",
-    "date": "2025-01-15",
-    "votes": {
-      "upvotes": 23,
-      "downvotes": 1
-    },
-    "link": "https://example.com/posts/how-to-stay-motivated-on-your-fitness-journey"
+    "fullName": "Sarah Johnson",
+    "email": "sjohnson@gmail.com",
+    "age": "25",
+    "experience": "5",
+    "biography": "Strategically evolve resource-leveling channels with next-generation schemas.",
+    "selectedSkills": [
+      "Zumba",
+      "Strength Training"
+    ],
+    "availableDays": [
+      "monday",
+      "wednesday"
+    ],
+    "availableTime": "afternoon",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "Understanding Calorie Deficits",
-    "content": "A guide to effective weight loss through mindful eating.",
-    "author": "Dr. Emily White",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2025-01-12",
-    "votes": {
-      "upvotes": 18,
-      "downvotes": 3
-    },
-    "link": "https://example.com/posts/understanding-calorie-deficits"
+    "fullName": "Michael Brown",
+    "email": "mbrown@gmail.com",
+    "age": "30",
+    "experience": "8",
+    "biography": "Collaboratively create efficient initiatives through focused paradigms.",
+    "selectedSkills": [
+      "CrossFit",
+      "HIIT"
+    ],
+    "availableDays": [
+      "friday",
+      "saturday"
+    ],
+    "availableTime": "evening",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "Top 5 Yoga Poses for Flexibility",
-    "content": "Explore these poses to improve your flexibility and reduce stress.",
-    "author": "Michael Green",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2025-01-10",
-    "votes": {
-      "upvotes": 20,
-      "downvotes": 0
-    },
-    "link": "https://example.com/posts/top-5-yoga-poses-for-flexibility"
+    "fullName": "Emma Wilson",
+    "email": "ewilson@gmail.com",
+    "age": "28",
+    "experience": "6",
+    "biography": "Enthusiastically optimize flexible interfaces while improving performance.",
+    "selectedSkills": [
+      "Cardio",
+      "Weight Loss"
+    ],
+    "availableDays": [
+      "monday",
+      "thursday"
+    ],
+    "availableTime": "morning",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "My First Marathon Experience",
-    "content": "Sharing my journey of training for and completing a marathon.",
-    "author": "Lisa Brown",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "admin",
-    "date": "2025-01-08",
-    "votes": {
-      "upvotes": 10,
-      "downvotes": 2
-    },
-    "link": "https://example.com/posts/my-first-marathon-experience"
+    "fullName": "Liam Martinez",
+    "email": "lmartinez@gmail.com",
+    "age": "35",
+    "experience": "10",
+    "biography": "Holistically cultivate functional synergy with innovative solutions.",
+    "selectedSkills": [
+      "Martial Arts",
+      "Self-Defense"
+    ],
+    "availableDays": [
+      "monday",
+      "friday"
+    ],
+    "availableTime": "afternoon",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "The Importance of Rest Days",
-    "content": "Why you need rest days in your workout routine and how to make the most of them.",
-    "author": "Trainer Mark",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2025-01-06",
-    "votes": {
-      "upvotes": 16,
-      "downvotes": 1
-    },
-    "link": "https://example.com/posts/the-importance-of-rest-days"
+    "fullName": "Sophia Taylor",
+    "email": "staylor@gmail.com",
+    "age": "26",
+    "experience": "7",
+    "biography": "Distinctively engineer sustainable opportunities while improving flexibility.",
+    "selectedSkills": [
+      "Aerobics",
+      "Flexibility Training"
+    ],
+    "availableDays": [
+      "tuesday",
+      "saturday"
+    ],
+    "availableTime": "evening",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "5 Healthy Snack Ideas for Gym-Goers",
-    "content": "Fuel your workouts with these nutritious snack ideas.",
-    "author": "Emma Jones",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2025-01-04",
-    "votes": {
-      "upvotes": 22,
-      "downvotes": 0
-    },
-    "link": "https://example.com/posts/5-healthy-snack-ideas-for-gym-goers"
+    "fullName": "Ethan Garcia",
+    "email": "egarcia@gmail.com",
+    "age": "27",
+    "experience": "5",
+    "biography": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "selectedSkills": [
+      "Running",
+      "Endurance Training"
+    ],
+    "availableDays": [
+      "monday",
+      "wednesday"
+    ],
+    "availableTime": "morning",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "Finding the Right Gym for You",
-    "content": "What to consider when choosing a gym that fits your goals.",
-    "author": "Noah Adams",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "admin",
-    "date": "2025-01-02",
-    "votes": {
-      "upvotes": 9,
-      "downvotes": 1
-    },
-    "link": "https://example.com/posts/finding-the-right-gym-for-you"
+    "fullName": "Olivia Davis",
+    "email": "odavis@gmail.com",
+    "age": "29",
+    "experience": "8",
+    "biography": "Propen synthesize business processes and cutting-edge applications.",
+    "selectedSkills": [
+      "Personal Training",
+      "Diet Coaching"
+    ],
+    "availableDays": [
+      "thursday",
+      "saturday"
+    ],
+    "availableTime": "afternoon",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "Best Supplements for Muscle Growth",
-    "content": "A trainer’s guide to safe and effective muscle-building supplements.",
-    "author": "Sophia Taylor",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2025-01-01",
-    "votes": {
-      "upvotes": 19,
-      "downvotes": 4
-    },
-    "link": "https://example.com/posts/best-supplements-for-muscle-growth"
+    "fullName": "Isabella Lopez",
+    "email": "ilopez@gmail.com",
+    "age": "24",
+    "experience": "6",
+    "biography": "Conveniently maintain bleeding-edge bandwidth for vertical solutions.",
+    "selectedSkills": [
+      "Dance Fitness",
+      "Zumba"
+    ],
+    "availableDays": [
+      "tuesday",
+      "friday"
+    ],
+    "availableTime": "evening",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   },
   {
-    "title": "How to Create a Sustainable Meal Plan",
-    "content": "Practical steps to designing a meal plan that aligns with your fitness goals.",
-    "author": "Oliver Johnson",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "admin",
-    "date": "2024-12-30",
-    "votes": {
-      "upvotes": 17,
-      "downvotes": 2
-    },
-    "link": "https://example.com/posts/how-to-create-a-sustainable-meal-plan"
-  },
-  {
-    "title": "Stretching Routines for Office Workers",
-    "content": "Simple stretches to combat stiffness and improve posture during work hours.",
-    "author": "Trainer Ethan",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "Trainer",
-    "date": "2024-12-28",
-    "votes": {
-      "upvotes": 14,
-      "downvotes": 0
-    },
-    "link": "https://example.com/posts/stretching-routines-for-office-workers"
-  },
-  {
-    "title": "How I Lost 20 Pounds in 3 Months",
-    "content": "Sharing my weight loss journey and what worked for me.",
-    "author": "Olivia Williams",
-    "authorImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
-    "role": "admin",
-    "date": "2024-12-25",
-    "votes": {
-      "upvotes": 24,
-      "downvotes": 5
-    },
-    "link": "https://example.com/posts/how-i-lost-20-pounds-in-3-months"
+    "fullName": "Chris Wilson",
+    "email": "cwilson@gmail.com",
+    "age": "32",
+    "experience": "9",
+    "biography": "Energistically network front-end vortals while leveraging growth strategies.",
+    "selectedSkills": [
+      "Strength Training",
+      "Bodybuilding"
+    ],
+    "availableDays": [
+      "wednesday",
+      "friday"
+    ],
+    "availableTime": "morning",
+    "profileImage": "https://img.freepik.com/free-vector/young-man-with-glasses-avatar_1308-173760.jpg",
+    "status": "Pending"
   }
 ]

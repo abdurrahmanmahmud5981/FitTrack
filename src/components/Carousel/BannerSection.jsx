@@ -50,7 +50,7 @@ const BannerSection = () => {
                   color="deep-orange"
                   size="lg"
                   ripple= {true}
-                  onClick={() => navigate("/classes")}
+                  onClick={() => navigate("/allClasses")}
                   className="px-6 py-3"
                 >
                   {slide.buttonLabel}

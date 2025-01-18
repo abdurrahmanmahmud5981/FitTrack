@@ -1,9 +1,10 @@
 
-import { useQuery } from "@tanstack/react-query";
+
 import useAxiosSecure from "./useAxiosSecure";
 import useAuth from "./useAuth";
+import { useQuery } from "react-query";
 
-const useRole = () => {
+const useGetRole = () => {
   const axiosSecure = useAxiosSecure();
   const { user, loading } = useAuth();
   const { data: role = "member", isLoading } = useQuery({
@@ -19,4 +20,4 @@ const useRole = () => {
   return [role, isLoading];
 };
 
-export default useRole;
+export default useGetRole;

@@ -20,6 +20,7 @@ import Balance from '../pages/DashBoard/Admin/Balance/Balance';
 import ManageSlot from '../pages/DashBoard/Trainer/ManageSlot/ManageSlot';
 import ActivityLog from '../pages/DashBoard/Member/ActivityLog/ActivityLog';
 import BookedTrainer from '../pages/DashBoard/Member/BookedTrainer/BookedTrainer';
+import AdminRoute from './AdminRoutes';
 
 const router = createBrowserRouter([
     {
@@ -68,7 +69,9 @@ const router = createBrowserRouter([
             // admin routes
             {
                 path: '/dashboard/newsletter-subscribers',
-                element: <NewsletterSubscribers/>
+                element: <AdminRoute>
+                    <NewsletterSubscribers/>
+                </AdminRoute>
             },
             {
                 path: '/dashboard/all-trainer',

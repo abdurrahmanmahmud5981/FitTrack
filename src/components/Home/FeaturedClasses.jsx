@@ -83,7 +83,7 @@ const FeaturedClasses = () => {
                       value={`${totalBookings.toLocaleString()} bookings`}
                       color="deep-orange"
                       className="!text-[10px] rounded-full"
-                      size="small"
+                      size="sm"
                     />
                   </div>
                 </CardHeader>

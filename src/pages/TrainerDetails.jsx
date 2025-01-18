@@ -1,126 +1,158 @@
-import { Card, Button, Typography, Avatar, Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
-import { 
-  FaDumbbell, 
-  FaHeart, 
-  FaRunning, 
-  FaClock, 
-  FaMedal, 
+import {
+  Card,
+  Button,
+  Typography,
+  Avatar,
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+import {
+  FaDumbbell,
+  FaHeart,
+  FaRunning,
+  FaClock,
+  FaMedal,
   FaCalendarAlt,
   FaEnvelope,
   FaStar,
   FaCheckCircle,
-  FaArrowRight
+  FaArrowRight,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { useQuery } from "react-query";
+import LoadingSpinner from "../components/shared/LodingSpinner";
 
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    icon: <FaFacebook className="text-orange-500" />,
+    url: "https://www.facebook.com",
+  },
+  {
+    name: "Instagram",
+    icon: <FaInstagram className="text-orange-500" />,
+    url: "https://www.instagram.com",
+  },
+  {
+    name: "LinkedIn",
+    icon: <FaLinkedin className="text-orange-500" />,
+    url: "https://www.linkedin.com",
+  },
+];
 const TrainerDetails = () => {
+  const { trainerId } = useParams();
+  console.log(trainerId);
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-
-  const trainer = {
-    name: "John Doe",
-    photo: "https://via.placeholder.com/400",
-    title: "Senior Fitness Specialist",
-    rating: 4.9,
-    reviewCount: 128,
-    details: "John is a certified fitness trainer with over 10 years of experience in personal training, group classes, and specialized fitness programs. He has helped countless individuals achieve their fitness goals through tailored workout plans and nutritional guidance.",
-    certifications: ["NASM Certified", "ACE Personal Trainer", "Nutrition Specialist"],
-    expertise: ["Strength Training", "Cardio Workouts", "Weight Management"],
-    availableSlots: [
-      "Monday 9:00 AM - 10:00 AM",
-      "Wednesday 3:00 PM - 4:00 PM",
-      "Friday 6:00 PM - 7:00 PM",
-    ],
-    achievements: [
-      "Helped 500+ clients achieve their fitness goals",
-      "Featured in Fitness Magazine",
-      "Award-winning transformation specialist"
-    ]
-  };
+  const { data: trainer = [], isLoading } = useQuery({
+    queryKey: ["trainers"],
+    queryFn: async () => {
+      const response = await axiosPublic(`/trainers/${trainerId}`);
+      return response.data;
+    },
+  });
+  console.log(trainer);
+  if (isLoading) return <LoadingSpinner />;
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 }
+    transition: { duration: 0.5 },
   };
 
   return (
-    <section className="min-h-screen bg-gray-50">
+    <section className="min-h-screen">
       {/* Hero Section */}
-      <motion.div 
-        className="bg-gradient-to-r from-orange-50 to-orange-100 py-12"
+      <motion.div
+        className=" py-12 max-w-screen-xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="container mx-auto px-4">
+        <div className="">
           <div className="flex flex-col md:flex-row gap-8">
             {/* Profile Image Section */}
-            <motion.div 
-              className="w-full md:w-1/3"
-              {...fadeIn}
-            >
-              <Card className="p-4">
+            <motion.div className="w-full lg:w-2/3 " {...fadeIn}>
+              <Card className="p-3 bg-transparent ring ring-gray-800">
                 <img
-                  src={trainer.photo}
-                  alt={trainer.name}
-                  className="w-full h-96 object-cover rounded-lg"
+                  src={trainer.profileImage}
+                  alt={trainer.fullName}
+                  className="w-full h-96 object-cover object-top rounded-lg "
                 />
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    <FaStar className="text-yellow-600 text-lg" />
-                    <Typography color="blue-gray" className="font-semibold">
-                      {trainer.rating}
-                    </Typography>
-                    <Typography color="gray" className="text-sm">
-                      ({trainer.reviewCount} reviews)
-                    </Typography>
+               <div className="flex gap-3 text-xl mt-4 items-center">
+                    <span className="text-orange-500 font-semibold">Social Links:</span>
+                    {socialLinks.map(({ icon, url }, idx) => (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        key={idx}
+                      >
+                        {icon}
+                      </a>
+                    ))}
                   </div>
-                  <div className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm">
-                    Top Rated
-                  </div>
-                </div>
               </Card>
             </motion.div>
 
             {/* Trainer Info Section */}
-            <motion.div 
-              className="w-full md:w-2/3"
-              {...fadeIn}
-            >
+            <motion.div className="w-full " {...fadeIn}>
               <div className="flex flex-col gap-6">
                 <div>
-                  <Typography variant="h2" color="blue-gray" className="font-bold">
-                    {trainer.name}
+                  <Typography
+                    variant="h2"
+                    color="deep-orange"
+                    className="font-bold"
+                  >
+                    {trainer.fullName}
                   </Typography>
-                  <Typography color="gray" className="text-lg">
-                    {trainer.title}
+                  <Typography className="text text-gray-400">
+                    {trainer.experience} Years Of Experience
                   </Typography>
                 </div>
 
-                <div className="flex gap-4">
-                  <Button 
-                    variant="outlined" 
-                    color="orange" 
-                    className="flex items-center gap-2"
-                  >
-                    <FaEnvelope className="text-lg" />
-                    Message
-                  </Button>
-                  <Button 
-                    color="orange" 
-                    className="flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="text-lg" />
-                    Book Session
-                  </Button>
-                </div>
-
-                <Card className="p-6">
-                  <Typography className="text-gray-700">
-                    {trainer.details}
+                <div className="">
+                  <Typography variant="h5" color="white">
+                    Bio:
                   </Typography>
-                </Card>
+                <Typography className="text-gray-400">
+                  {trainer.biography}
+                </Typography>
+                </div>
+                <div className="">
+                  <Typography variant="h5" color="white">
+                   Experties:
+                  </Typography>
+                
+                  <div className="flex flex-col gap-3 mt-2">
+                    {trainer?.selectedSkills?.map((day, index) => (
+                      <p key={index} className=" px-4 py-2 bg-gray-700 text-white uppercase text-xs font-semibold w-fit rounded-full">
+                        {day}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                <div className="">
+                  <Typography variant="h5" color="white">
+                    Available Days:
+                  </Typography>
+                  <div className="flex flex-col gap-3 mt-2">
+                    {trainer.availableDays.map((day, index) => (
+                      <p key={index} className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm w-fit">
+                        {day}
+                      </p>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -128,10 +160,7 @@ const TrainerDetails = () => {
       </motion.div>
 
       {/* Tabs Section */}
-      <motion.div 
-        className="container mx-auto px-4 py-12"
-        {...fadeIn}
-      >
+      <motion.div className="container mx-auto px-4 py-12" {...fadeIn}>
         <Tabs value="expertise" className="w-full">
           <TabsHeader>
             <Tab value="expertise">Expertise</Tab>
@@ -144,24 +173,30 @@ const TrainerDetails = () => {
               <Card className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Expertise Section */}
-                  <div>
+                  {/* <div>
                     <Typography variant="h5" color="blue-gray" className="mb-4">
                       Areas of Expertise
                     </Typography>
                     <div className="space-y-4">
                       {trainer.expertise.map((skill, index) => (
                         <div key={index} className="flex items-center gap-3">
-                          {skill === "Strength Training" && <FaDumbbell className="text-orange-600 text-xl" />}
-                          {skill === "Cardio Workouts" && <FaRunning className="text-orange-600 text-xl" />}
-                          {skill === "Weight Management" && <FaHeart className="text-orange-600 text-xl" />}
+                          {skill === "Strength Training" && (
+                            <FaDumbbell className="text-orange-600 text-xl" />
+                          )}
+                          {skill === "Cardio Workouts" && (
+                            <FaRunning className="text-orange-600 text-xl" />
+                          )}
+                          {skill === "Weight Management" && (
+                            <FaHeart className="text-orange-600 text-xl" />
+                          )}
                           <Typography>{skill}</Typography>
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Certifications Section */}
-                  <div>
+                  {/* <div>
                     <Typography variant="h5" color="blue-gray" className="mb-4">
                       Certifications
                     </Typography>
@@ -173,7 +208,7 @@ const TrainerDetails = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Card>
             </TabPanel>
@@ -184,7 +219,7 @@ const TrainerDetails = () => {
                   Available Time Slots
                 </Typography>
                 <div className="space-y-4">
-                  {trainer.availableSlots.map((slot, index) => (
+                  {/* {trainer.availableSlots.map((slot, index) => (
                     <motion.div
                       key={index}
                       className="flex items-center justify-between p-3 bg-orange-50 rounded-lg"
@@ -195,16 +230,18 @@ const TrainerDetails = () => {
                         <FaClock className="text-orange-600 text-xl" />
                         <Typography>{slot}</Typography>
                       </div>
-                      <Button 
-                        variant="outlined" 
-                        color="orange" 
+                      <Button
+                        variant="outlined"
+                        color="orange"
                         size="sm"
-                        onClick={()=>navigate(`/bookTrainer/${slot.split(' ')[0]}`)}
+                        onClick={() =>
+                          navigate(`/bookTrainer/${slot.split(" ")[0]}`)
+                        }
                       >
                         Book
                       </Button>
                     </motion.div>
-                  ))}
+                  ))} */}
                 </div>
               </Card>
             </TabPanel>
@@ -212,9 +249,9 @@ const TrainerDetails = () => {
             <TabPanel value="achievements">
               <Card className="p-6">
                 <div className="space-y-6">
-                  {trainer.achievements.map((achievement, index) => (
-                    <motion.div 
-                      key={index} 
+                  {/* {trainer.achievements.map((achievement, index) => (
+                    <motion.div
+                      key={index}
                       className="flex items-start gap-4"
                       whileHover={{ x: 10 }}
                       transition={{ duration: 0.2 }}
@@ -222,7 +259,7 @@ const TrainerDetails = () => {
                       <FaCheckCircle className="text-orange-600 text-xl mt-1" />
                       <Typography>{achievement}</Typography>
                     </motion.div>
-                  ))}
+                  ))} */}
                 </div>
               </Card>
             </TabPanel>
@@ -231,10 +268,7 @@ const TrainerDetails = () => {
       </motion.div>
 
       {/* CTA Section */}
-      <motion.div 
-        className="container mx-auto px-4 py-12"
-        {...fadeIn}
-      >
+      <motion.div className="container mx-auto px-4 py-12" {...fadeIn}>
         <Card className="bg-gradient-to-r from-orange-500 to-orange-600 p-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
@@ -242,7 +276,8 @@ const TrainerDetails = () => {
                 Join Our Team of Expert Trainers
               </Typography>
               <Typography color="white" opacity={0.8}>
-                Share your passion for fitness and help others achieve their goals
+                Share your passion for fitness and help others achieve their
+                goals
               </Typography>
             </div>
             <Button

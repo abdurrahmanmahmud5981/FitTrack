@@ -79,9 +79,9 @@ const DashboardLayout = () => {
               <SidebarItem
                 icon={<FaComments />}
                 label="Add New Post"
-                to="community"
-                isActive={activeSection === "community"}
-                onClick={() => setActiveSection("community")}
+                to="dashboard/admin/add-new-forum-post"
+                isActive={activeSection === "admin/add-new-forum-post"}
+                onClick={() => setActiveSection("admin/add-new-forum-post")}
               />
             </>
           )}
@@ -121,13 +121,12 @@ const DashboardLayout = () => {
                 isActive={activeSection === "manage-slot"}
                 onClick={() => setActiveSection("manage-slot")}
               />
-
               <SidebarItem
                 icon={<FaComments />}
                 label="Add New Post"
-                to="community"
-                isActive={activeSection === "community"}
-                onClick={() => setActiveSection("community")}
+                to="dashboard/trainer/add-new-forum-post"
+                isActive={activeSection === "trainer/add-new-forum-post"}
+                onClick={() => setActiveSection("trainer/add-new-forum-post")}
               />
             </>
           )}

@@ -25,6 +25,7 @@ import PrivatRoute from "./PrivatRoute";
 import TrainerRoute from "./TrainerRoute";
 import MemberRoute from "./MemberRoute";
 import PaymentPage from "../pages/Payment";
+import AddNewForum from "../pages/DashBoard/AddForum/AddNewForum";
 
 const router = createBrowserRouter([
   {
@@ -117,6 +118,16 @@ const router = createBrowserRouter([
           </PrivatRoute>
         ),
       },
+      {
+        path: "/dashboard/trainer/add-new-forum-post",
+        element: (
+          <PrivatRoute>
+            <TrainerRoute>
+              <AddNewForum />
+            </TrainerRoute>
+          </PrivatRoute>
+        ),
+      },
       // admin routes
       {
         path: "/dashboard/newsletter-subscribers",
@@ -164,6 +175,16 @@ const router = createBrowserRouter([
           <PrivatRoute>
             <AdminRoute>
               <AddNewClass />
+            </AdminRoute>
+          </PrivatRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/add-new-forum-post",
+        element: (
+          <PrivatRoute>
+            <AdminRoute>
+              <AddNewForum />
             </AdminRoute>
           </PrivatRoute>
         ),

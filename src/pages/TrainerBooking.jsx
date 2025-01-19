@@ -22,10 +22,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import LoadingSpinner from "../components/shared/LodingSpinner";
-import useAuth from "../hooks/useAuth";
 
 const TrainerBooking = () => {
-  const {user} = useAuth()
+  
   const { slotId } = useParams();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -96,15 +95,15 @@ const TrainerBooking = () => {
         trainerEmail: slot?.trainerEmail,
         className: slot?.classe,
         days: slot?.days,
+        slotName: slot?.slotName,
         packageName: selectedPackage,
         price: packages.find((pkg) => pkg.id === selectedPackage).price,
-        member: user?.displayName,
-        memberEmail: user?.email,
+       
     };
     console.log(state);
-    // navigate(`/payment`, {
-    //   state:''
-    // });
+    navigate(`/slot-payment`, {
+      state:state
+    });
   };
 
   return (

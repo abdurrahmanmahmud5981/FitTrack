@@ -24,6 +24,7 @@ import AdminRoute from "./AdminRoutes";
 import PrivatRoute from "./PrivatRoute";
 import TrainerRoute from "./TrainerRoute";
 import MemberRoute from "./MemberRoute";
+import PaymentPage from "../pages/Payment";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,14 @@ const router = createBrowserRouter([
         element: (
           <PrivatRoute>
             <TrainerBooking />
+          </PrivatRoute>
+        ),
+      },
+      {
+        path: "/slot-payment",
+        element: (
+          <PrivatRoute>
+            <PaymentPage/>
           </PrivatRoute>
         ),
       },

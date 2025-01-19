@@ -1,11 +1,13 @@
 import { Card, Typography, IconButton } from "@material-tailwind/react";
-import { useQuery} from "react-query";
+import { useQuery } from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdRemoveRedEye } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = ["#", "Name", "Email", "Actions"];
+const TABLE_HEAD = ["#", "Name", "Email", "Details"];
 
 const AppliedTrainer = () => {
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
   // Fetch trainers data using React Query
@@ -17,13 +19,13 @@ const AppliedTrainer = () => {
   } = useQuery({
     queryKey: ["trainers"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/trainers");
+      const response = await axiosSecure.get("/trainers?status=Pending");
       return response.data;
     },
   });
 
   console.log(trainers);
- 
+
   // Handle loading state
   if (isLoading) {
     return (
@@ -50,7 +52,6 @@ const AppliedTrainer = () => {
     );
   }
 
-  
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
       <Card className="shadow-lg">
@@ -76,9 +77,9 @@ const AppliedTrainer = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {trainers.map(({ _id, fullName, email }, index) => (
+                  {trainers.map((trainer, index) => (
                     <tr
-                      key={_id}
+                      key={trainer?._id}
                       className={`${
                         index % 2 === 0 ? "bg-gray-50" : "bg-white"
                       } hover:bg-gray-100 transition`}
@@ -87,20 +88,24 @@ const AppliedTrainer = () => {
                         {index + 1}
                       </td>
                       <td className="p-4 border-b text-sm font-medium text-gray-800">
-                        {fullName || "Unknown"}
+                        {trainer?.fullName || "Unknown"}
                       </td>
                       <td className="p-4 border-b text-sm text-gray-600">
-                        {email}
+                        {trainer?.email}
                       </td>
                       <td className="p-4 border-b text-sm text-gray-600">
                         <IconButton
                           variant="text"
                           color="red"
                           size="sm"
-                          // onClick={() => handleDeleteTrainer(_id)}
+                          onClick={() =>
+                            navigate(
+                              `/dashboard/applied-trainers/details/${trainer?._id}`
+                            , {state: trainer})
+                          }
                           // disabled={deleteTrainerMutation.isLoading}
                         >
-                          <MdDelete size={20} />
+                          <MdRemoveRedEye size={20} />
                         </IconButton>
                       </td>
                     </tr>

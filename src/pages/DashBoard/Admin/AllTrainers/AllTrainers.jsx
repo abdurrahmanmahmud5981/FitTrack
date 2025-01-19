@@ -1,5 +1,5 @@
 import { Card, Typography, IconButton } from "@material-tailwind/react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
 
@@ -7,7 +7,7 @@ const TABLE_HEAD = ["#", "Name", "Email", "Actions"];
 
 const AllTrainers = () => {
   const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
+
 
   // Fetch trainers data using React Query
   const {
@@ -16,27 +16,15 @@ const AllTrainers = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["trainers"],
+    queryKey: ["trainers","Verified"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/trainers");
+      const response = await axiosSecure.get("/trainers?status=Verified");
       return response.data;
     },
   });
 
   console.log(trainers);
-  // Mutation to delete a trainer
-  const deleteTrainerMutation = useMutation(
-    async (trainerId) => {
-      await axiosSecure.patch(`/trainers/${trainerId}/remove-role`, {
-        role: "Member",
-      });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("trainers"); // Refresh trainers list
-      },
-    }
-  );
+
 
   // Handle loading state
   if (isLoading) {
@@ -66,7 +54,6 @@ const AllTrainers = () => {
 
   // Handle delete trainer
   const handleDeleteTrainer = (trainerId) => {
-    deleteTrainerMutation.mutate(trainerId);
   };
 
   return (
@@ -116,7 +103,6 @@ const AllTrainers = () => {
                           color="red"
                           size="sm"
                           onClick={() => handleDeleteTrainer(_id)}
-                          disabled={deleteTrainerMutation.isLoading}
                         >
                           <MdDelete size={20} />
                         </IconButton>

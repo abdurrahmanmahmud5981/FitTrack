@@ -26,6 +26,7 @@ import TrainerRoute from "./TrainerRoute";
 import MemberRoute from "./MemberRoute";
 import PaymentPage from "../pages/Payment";
 import AddNewForum from "../pages/DashBoard/AddForum/AddNewForum";
+import Details from "../pages/DashBoard/Admin/AppliedTrainer/Details";
 
 const router = createBrowserRouter([
   {
@@ -155,6 +156,16 @@ const router = createBrowserRouter([
           <PrivatRoute>
             <AdminRoute>
               <AppliedTrainer />
+            </AdminRoute>
+          </PrivatRoute>
+        ),
+      },
+      {
+        path: "/dashboard/applied-trainers/details/:id",
+        element: (
+          <PrivatRoute>
+            <AdminRoute>
+              <Details />
             </AdminRoute>
           </PrivatRoute>
         ),

@@ -30,7 +30,7 @@ const AllTrainer = () => {
   const { data: trainers = [], isLoading } = useQuery({
     queryKey: ["trainers"],
     queryFn: async () => {
-      const response = await axiosPublic("/trainers");
+      const response = await axiosPublic("/trainers?status=Verified");
       return response.data;
     },
   });

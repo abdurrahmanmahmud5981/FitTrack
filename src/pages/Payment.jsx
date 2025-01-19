@@ -1,5 +1,5 @@
 // Import necessary libraries and dependencies
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -7,38 +7,46 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import axios from "axios";
 import { useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY); // Replace with your Stripe public key
-import { Card } from '@material-tailwind/react';
+import { Button, Card, Typography } from "@material-tailwind/react";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const PaymentDetails = () => {
   const stripe = useStripe();
   const elements = useElements();
-
+  const axiosSecure = useAxiosSecure();
   const { state } = useLocation();
   const { user } = useAuth();
   console.log(state);
   const [paymentSuccess, setPaymentSuccess] = useState(null);
+  const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getSecret();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const getSecret = async () => {
+    const { data: clientSecret } = await axiosSecure.post(
+      "/create-payment-intent",
+      {
+        amount: state?.price * 100,
+      }
+    );
+    setClientSecret(clientSecret?.clientSecret);
+  };
+  console.log(clientSecret);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
 
     try {
       // Create PaymentIntent on the server
-      const { data: clientSecret } = await axios.post(
-        "/create-payment-intent",
-        {
-          amount: state?.price * 100, // Convert price to cents for Stripe
-          currency: "usd",
-        }
-      );
-
       if (!stripe || !elements) return;
 
       const cardElement = elements.getElement(CardElement);
@@ -57,10 +65,20 @@ const PaymentDetails = () => {
 
       if (error) {
         console.error("Payment error:", error);
+        Swal.fire({
+          title: "Payment Failed",
+          text: `Sorry, ${error.message}`,
+          icon: "error",
+        });
         setPaymentSuccess(false);
       } else if (paymentIntent.status === "succeeded") {
+        Swal.fire({
+          title: "Payment Successful",
+          text: "Thank you for booking with us!",
+          icon: "success",
+        });
         setPaymentSuccess(true);
-
+        console.log(paymentIntent);
         // Save payment info to the database
         // await axios.post("/save-payment-info", {
         //   trainerName,
@@ -73,13 +91,18 @@ const PaymentDetails = () => {
         // });
 
         // Increase booking count
-        // await axios.post("/increase-booking-count", {
-        //   trainerName,
-        //   slotName,
-        // });
+        await axiosSecure.patch("/", {
+          trainerName,
+          slotName,
+        });
       }
     } catch (err) {
       console.error("Error processing payment:", err);
+      Swal.fire({
+        title: "Payment Failed",
+        text: `Sorry, an error occurred while processing your payment`,
+        icon: "error",
+      });
       setPaymentSuccess(false);
     } finally {
       setLoading(false);
@@ -88,34 +111,54 @@ const PaymentDetails = () => {
 
   return (
     <>
-      <Card className="payment-page ">
-        <h1>Payment Page 💸</h1>
-        <div className="payment-details">
+      <Card className="payment-page bg-transparent text-gray-400 ring ring-gray-800 p-6 space-y-6">
+        <Typography variant="h3" color="deep-orange">
+          Payment Page 💸
+        </Typography>
+        <div className="payment-details space-y-2">
           <p>
-            <strong>Trainer Name:</strong> {state?.trainer}
+            <strong>Trainer Name: </strong> {state?.trainer}
           </p>
           <p>
-            <strong>Slot Name:</strong> {state?.slotName}
+            <strong>Slot Name: </strong> {state?.slotName}
           </p>
           <p>
-            <strong>Package Name:</strong> {state?.packageName}
+            <strong>Package Name: </strong> {state?.packageName}
           </p>
           <p>
-            <strong>Price:</strong> ${state?.price}
+            <strong>Price: </strong> $ {state?.price}
           </p>
           <p>
-            <strong>Your Name:</strong> {user?.displayName}
+            <strong>Your Name: </strong> {user?.displayName}
           </p>
           <p>
-            <strong>Your Email:</strong> {user?.email}
+            <strong>Your Email: </strong> {user?.email}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="payment-form">
-          <CardElement options={{ hidePostalCode: true }} />
-          <button type="submit" disabled={!stripePromise || loading}>
+        <form onSubmit={handleSubmit} className="payment-form space-y-4">
+          <CardElement
+            className=" ring bg-black text-white ring-orange-900 px-3 py-6 rounded-lg "
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#fff",
+                  "::placeholder": {
+                    color: "#fff",
+                  },
+                },
+              },
+            }}
+          />
+          <Button
+            variant="gradient"
+            color="deep-orange"
+            type="submit"
+            disabled={!stripePromise || loading}
+          >
             {loading ? "Processing..." : "Pay Now"}
-          </button>
+          </Button>
         </form>
 
         {paymentSuccess === true && (

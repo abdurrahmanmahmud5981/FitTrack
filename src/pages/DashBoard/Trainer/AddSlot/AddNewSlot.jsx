@@ -35,6 +35,7 @@ const AddNewSlot = () => {
         class: selectedClasses.label,
       };
       const res = await axiosSecure.post("/slots", slotData);
+       
       console.log(res.data);
       if (res.data?.insertedId) {
         Swal.fire({

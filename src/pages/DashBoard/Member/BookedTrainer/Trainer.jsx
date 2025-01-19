@@ -1,5 +1,9 @@
-import { Button, Card, Typography } from "@material-tailwind/react";
+/* eslint-disable react/prop-types */
+import { Button, Card, Rating } from "@material-tailwind/react";
 import { useState } from "react";
+import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Trainer = ({
   modalOpen,
@@ -7,6 +11,18 @@ const Trainer = ({
   handleModalOpen,
   handleModalClose,
 }) => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const {
+    trainer: trainerName,
+    trainerEmail,
+    className,
+    days,
+    slotName,
+    price,
+    packageName,
+  } = trainer || {};
+
   const [review, setReview] = useState({
     feedback: "",
     rating: 0,
@@ -18,22 +34,33 @@ const Trainer = ({
       //     ...review,
       //     trainerId: trainer?.id,
       //   });
-      handleModalClose();
-      //   alert("Review submitted successfully!");
+      const feedback = {
+        ...review,
+        packageName,
+        className,
+        userName: user?.displayName,
+        userImage: user?.photoURL,
+        date: new Date().toLocaleDateString(),
+      };
+      const res = await axiosSecure.post("/reviews", feedback);
+     
+      if (res.data?.insertedId) {
+        Swal.fire({
+          title: "Review submitted successfully!",
+          icon: "success",
+        });
+        handleModalClose();
+        setReview({ feedback: "", rating: 0 });
+      }
     } catch (error) {
-      console.error("Error submitting review:", error);
+      Swal.fire({
+        title: "Error submitting review",
+        icon: "error",
+        text: error.message,
+      });
     }
   };
   console.log(trainer);
-  const {
-    trainer: trainerName,
-    trainerEmail,
-    className,
-    days,
-    slotName,
-    price,
-    packageName,
-  } = trainer || {};
 
   return (
     <div>
@@ -72,7 +99,11 @@ const Trainer = ({
             </p>
           </div>
 
-          <Button className="w-fit" color="deep-orange" onClick={handleModalOpen}>
+          <Button
+            className="w-fit"
+            color="deep-orange"
+            onClick={handleModalOpen}
+          >
             Leave a Review
           </Button>
         </Card>
@@ -91,7 +122,7 @@ const Trainer = ({
                 </label>
                 <textarea
                   id="feedback"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded resize-none"
                   rows="4"
                   value={review.feedback}
                   onChange={(e) =>
@@ -105,35 +136,25 @@ const Trainer = ({
                 <label htmlFor="rating" className="block mb-2 font-medium">
                   Rating (1-5)
                 </label>
-                <input
-                  id="rating"
-                  type="number"
-                  min="1"
-                  max="5"
-                  className="w-full p-2 border rounded"
+                <Rating
+                  size="lg"
+                  style={{ maxWidth: 250 }}
                   value={review.rating}
-                  onChange={(e) =>
-                    setReview({ ...review, rating: Number(e.target.value) })
-                  }
-                  required
+                  onChange={(e) => setReview({ ...review, rating: Number(e) })}
+                  isRequired
                 />
               </div>
 
               <div className="flex justify-end space-x-4">
                 <button
-                  //   type="button"
                   className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                   onClick={handleModalClose}
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  //   onClick={handleModalClose}
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
+                <Button type="submit" color="orange">
                   Submit
-                </button>
+                </Button>
               </div>
             </form>
           </div>

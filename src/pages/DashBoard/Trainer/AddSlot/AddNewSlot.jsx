@@ -10,30 +10,8 @@ import Select from "react-select";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { availableClasses, daysOptions, timesOptions } from "../../../../api";
 
-// Times of the day for React Select
-const timesOptions = [
-  { value: "morning", label: "Morning" },
-  { value: "afternoon", label: "Afternoon" },
-  { value: "evening", label: "Evening" },
-];
-
-const availableClasses = [
-  { value: "yoga", label: "Yoga" },
-  { value: "zumba", label: "Zumba" },
-  { value: "pilates", label: "Pilates" },
-  { value: "strength-training", label: "Strength Training" },
-];
-
-const daysOptions = [
-  { value: "monday", label: "Monday" },
-  { value: "tuesday", label: "Tuesday" },
-  { value: "wednesday", label: "Wednesday" },
-  { value: "thursday", label: "Thursday" },
-  { value: "friday", label: "Friday" },
-  { value: "saturday", label: "Saturday" },
-  { value: "sunday", label: "Sunday" },
-];
 const AddNewSlot = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -54,7 +32,7 @@ const AddNewSlot = () => {
         slotName: slotName?.label,
         slotTime,
         days: selectedDays.map((day) => day.value),
-        classe: selectedClasses.label,
+        class: selectedClasses.label,
       };
       const res = await axiosSecure.post("/slots", slotData);
       console.log(res.data);
@@ -76,7 +54,6 @@ const AddNewSlot = () => {
         confirmButtonText: "Try Again",
       });
     }
-
   };
 
   return (

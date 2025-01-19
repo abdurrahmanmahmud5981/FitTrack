@@ -39,16 +39,7 @@ const TrainerBooking = () => {
   console.log(slot);
 
   if (isLoading) return <LoadingSpinner/>
-  const bookingDetails = {
-    trainer: {
-      name: "John Doe",
-      expertise: "Strength Training",
-      image: "https://via.placeholder.com/150",
-    },
-    selectedSlot: "Monday 9:00 AM - 10:00 AM",
-    classes: ["Yoga", "CrossFit", "Cardio"],
-  };
-
+  
   const packages = [
     {
       id: "basic",
@@ -93,7 +84,7 @@ const TrainerBooking = () => {
     const state = {
         trainer:slot?.trainerName,
         trainerEmail: slot?.trainerEmail,
-        className: slot?.classe,
+        className: slot?.class,
         days: slot?.days,
         slotName: slot?.slotName,
         packageName: selectedPackage,
@@ -123,7 +114,7 @@ const TrainerBooking = () => {
                   <span className="text-orange-500"> {slot?.trainerName}</span>
                 </Typography>
                 <Typography className="mb-4 px-4 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">
-                  Class Name: {slot?.classe}
+                  Class Name: {slot?.class}
                 </Typography>
                 <Typography className="mb-4 text-gray-400">
                   Slot Name: {slot?.slotName}

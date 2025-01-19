@@ -78,7 +78,7 @@ const PaymentDetails = () => {
           icon: "success",
         });
         setPaymentSuccess(true);
-        console.log(paymentIntent);
+        // console.log(paymentIntent);
         // Save payment info to the database
         // await axios.post("/save-payment-info", {
         //   trainerName,
@@ -91,10 +91,9 @@ const PaymentDetails = () => {
         // });
 
         // Increase booking count
-        await axiosSecure.patch("/", {
-          trainerName,
-          slotName,
-        });
+         await axiosSecure.patch(
+          `/classes/increment-bookings/${state?.className}`
+        );
       }
     } catch (err) {
       console.error("Error processing payment:", err);

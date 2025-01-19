@@ -68,36 +68,39 @@ export function StickyNavbar() {
             {user?.email ? (
               <div className="hidden lg:block">
                 <Menu
-                animate={{
-                  mount: { y: 15 },
-                  unmount: { y: 45 },
-                }}
-              >
-                <MenuHandler>
-                  <Avatar
-                   withBorder={true}
-                    onClick={() => setOpenNav(false)}
-                    className="cursor-pointer border-orange-900"
-                    src={user ? user?.photoURL : ""}
-                    alt={user ? user?.name : 'userImage'}
-                  />
-                </MenuHandler>
-                <MenuList>
-                  <Link to={"/dashboard"} className="p-3 hover:bg-gray-100 transition duration-200">
-                    <>Dashboard</>
-                  </Link>
-                  <MenuItem>
-                    <Button
-                      onClick={logOut}
-                      variant="gradient"
-                      size="sm"
-                      className=""
+                  animate={{
+                    mount: { y: 15 },
+                    unmount: { y: 45 },
+                  }}
+                >
+                  <MenuHandler>
+                    <Avatar
+                      withBorder={true}
+                      onClick={() => setOpenNav(false)}
+                      className="cursor-pointer border-orange-900"
+                      src={user ? user?.photoURL : ""}
+                      alt={user ? user?.name : "userImage"}
+                    />
+                  </MenuHandler>
+                  <MenuList>
+                    <Link
+                      to={"/dashboard"}
+                      className="p-3 w-full block hover:bg-gray-100 transition duration-200"
                     >
-                      <span>Log Out</span>
-                    </Button>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+                      <>Dashboard</>
+                    </Link>
+                    <MenuItem>
+                      <Button
+                        onClick={logOut}
+                        variant="gradient"
+                        size="sm"
+                        className=""
+                      >
+                        <span>Log Out</span>
+                      </Button>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               </div>
             ) : (
               <>
@@ -184,37 +187,42 @@ export function StickyNavbar() {
               </Button>
             </NavLink>
           </div>
-        ) :   <Menu
-        animate={{
-          mount: { y: 15 },
-          unmount: { y: 45 },
-        }}
-      >
-        <MenuHandler>
-          <Avatar
-           withBorder={true}
-            onClick={() => setOpenNav(false)}
-            className="cursor-pointer p-0.5 border-orange-900"
-            src={user ? user?.photoURL : ""}
-            alt={user ? user?.name : 'userImage'}
-          />
-        </MenuHandler>
-        <MenuList>
-          <Link to={"/dashboard"}>
-            <MenuItem>Dashboard</MenuItem>
-          </Link>
-          <MenuItem>
-            <Button
-              onClick={logOut}
-              variant="gradient"
-              size="sm"
-              className=""
-            >
-              <span>Log Out</span>
-            </Button>
-          </MenuItem>
-        </MenuList>
-      </Menu>}
+        ) : (
+          <Menu
+            animate={{
+              mount: { y: 15 },
+              unmount: { y: 45 },
+            }}
+          >
+            <MenuHandler>
+              <Avatar
+                withBorder={true}
+                onClick={() => setOpenNav(false)}
+                className="cursor-pointer p-0.5 border-orange-900"
+                src={user ? user?.photoURL : ""}
+                alt={user ? user?.name : "userImage"}
+              />
+            </MenuHandler>
+            <MenuList>
+              <Link
+                to={"/dashboard"}
+                className="p-3 w-full block hover:bg-gray-100 transition duration-200"
+              >
+                <>Dashboard</>
+              </Link>
+              <MenuItem>
+                <Button
+                  onClick={logOut}
+                  variant="gradient"
+                  size="sm"
+                  className=""
+                >
+                  <span>Log Out</span>
+                </Button>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        )}
       </Collapse>
     </>
   );

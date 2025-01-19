@@ -125,12 +125,12 @@ const TrainerDetails = () => {
                     </Typography>
 
                     <div className="flex flex-col gap-3 mt-2">
-                      {trainer?.selectedSkills?.map((day, index) => (
+                      {trainer?.selectedSkills?.map((skill, index) => (
                         <p
                           key={index}
                           className=" px-4 py-2 bg-gray-700 text-white uppercase text-xs font-semibold w-fit rounded-full"
                         >
-                          {day}
+                          {skill}
                         </p>
                       ))}
                     </div>
@@ -144,7 +144,7 @@ const TrainerDetails = () => {
                         trainer?.availableDays?.map((day, index) => (
                           <p
                             key={index}
-                            className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm w-fit"
+                            className="bg-orange-100 px-3 py-1 rounded-full text-sm w-fit"
                           >
                             {day}
                           </p>

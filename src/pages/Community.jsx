@@ -5,13 +5,13 @@ import {
   Typography,
   Card,
   CardBody,
-
   Avatar,
   CardFooter,
 } from "@material-tailwind/react";
 
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
+import LoadingSpinner from "../components/shared/LodingSpinner";
 const Community = () => {
   const axiosPublic = useAxiosPublic();
 
@@ -27,16 +27,13 @@ const Community = () => {
     },
     { keepPreviousData: true }
   );
-
-  const handleVote = async (id, type) => {
-  
-    }
-  
-
-  if (isLoading) return <Typography>Loading...</Typography>;
-  if (isError) return <Typography>Error loading posts</Typography>;
-
   const { posts = [], totalPages } = data || {};
+
+  const handleVote = async (id, type) => {};
+
+  console.log(posts);
+  if (isLoading) return <LoadingSpinner/>;
+  if (isError) return <Typography>Error loading posts</Typography>;
 
   return (
     <section className="py-12 bg-gray-900 text-white">
@@ -98,15 +95,17 @@ const Community = () => {
                 <CardFooter className="pt-0">
                   <div className="flex flex-col gap-5">
                     <div className="flex items-center gap-3">
-                      <Typography  className="flex items-center gap-2 bg-orange-500 font-bold text-white px-4 rounded-full"><FaRegArrowAltCircleUp/>: {votes?.upvotes}</Typography>
-                      <span className="flex items-center gap-2 bg-red-800 font-bold text-white px-4 rounded-full"><FaRegArrowAltCircleDown/>: {votes?.downvotes}</span>
-                    
-                      
+                      <Typography className="flex items-center gap-2 bg-orange-500 font-bold text-white px-4 rounded-full">
+                        <FaRegArrowAltCircleUp />: {votes?.upvotes}
+                      </Typography>
+                      <span className="flex items-center gap-2 bg-red-800 font-bold text-white px-4 rounded-full">
+                        <FaRegArrowAltCircleDown />: {votes?.downvotes}
+                      </span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
                         onClick={() => handleVote(_id, "up")}
-                        size="small"
+                        size="sm"
                         variant="gradient"
                         color="deep-orange"
                       >
@@ -114,7 +113,7 @@ const Community = () => {
                       </Button>
                       <Button
                         onClick={() => handleVote(_id, "down")}
-                        size="small"
+                        size="sm"
                         variant="outlined"
                         color="red"
                         className="hover:bg-red-500 transition-colors duration-200 hover:text-white"

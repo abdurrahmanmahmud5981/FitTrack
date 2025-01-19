@@ -17,7 +17,7 @@ const Community = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, isError } = useQuery(
+  const { data, isLoading, isError,refetch } = useQuery(
     ["forumPosts", currentPage],
     async () => {
       const response = await axiosPublic(
@@ -29,7 +29,18 @@ const Community = () => {
   );
   const { posts = [], totalPages } = data || {};
 
-  const handleVote = async (id, type) => {};
+  const handleVote = async (id, type) => {
+    console.log(id);
+    console.log(type);
+    const response = await axiosPublic.patch(`/forum-posts/${id}`, {
+     type
+    });
+    console.log(response.data);
+    if (response.status === 200) {
+      refetch();
+      setCurrentPage(currentPage);
+    }
+  };
 
   console.log(posts);
   if (isLoading) return <LoadingSpinner/>;

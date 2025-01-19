@@ -26,6 +26,7 @@ import { useQuery } from "react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
 import uploadImage from "../api/uploadImage";
+import LoadingSpinner from "../components/shared/LodingSpinner";
 
 const UserProfile = () => {
   const axiosSecure = useAxiosSecure();
@@ -88,7 +89,7 @@ const UserProfile = () => {
       refetch();
     }
   };
-  if (isLoading) return "Loading....";
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <motion.div
@@ -122,15 +123,11 @@ const UserProfile = () => {
 
                 {/* User Information */}
                 <div className="text-center space-y-2">
-                  <Typography variant="h4" >
-                    {name || "User Name"}
-                  </Typography>
+                  <Typography variant="h4">{name || "User Name"}</Typography>
 
                   <div className="flex items-center justify-center gap-2">
                     <FaEnvelope className="text-blue-gray-400" />
-                    <Typography>
-                      {email || "email@example.com"}
-                    </Typography>
+                    <Typography>{email || "email@example.com"}</Typography>
                   </div>
 
                   <div className="flex items-center justify-center gap-2">
@@ -170,11 +167,7 @@ const UserProfile = () => {
             <DialogBody divider className="space-y-4">
               {/* Name Update */}
               <div className="space-y-2">
-                <Typography
-                  variant="small"
-                 
-                  className="font-medium"
-                >
+                <Typography variant="small" className="font-medium">
                   Display Name
                 </Typography>
                 <Input
@@ -193,11 +186,7 @@ const UserProfile = () => {
               {/* Profile Picture Update */}
               <div className="space-y-2">
                 <div className="flex flex-col items-center">
-                  <Typography
-                    variant="h5"
-                  
-                    className="font-medium"
-                  >
+                  <Typography variant="h5" className="font-medium">
                     Profile Picture
                   </Typography>
                   <input

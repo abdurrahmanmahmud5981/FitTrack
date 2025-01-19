@@ -72,9 +72,6 @@ const AllTrainer = () => {
                   <Typography className="text-gray-400 text-sm text-center mb-4">
                     {trainer.experience} Years Of Experience
                   </Typography>
-                  <Typography className="text-orange-600 text-sm mb-4">
-                    {trainer?.availableTime?.length} Availble Slot
-                  </Typography>
                   <div className="flex gap-3 text-xl">
                     {socialLinks.map(({ icon, url }, idx) => (
                       <a

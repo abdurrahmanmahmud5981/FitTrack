@@ -80,18 +80,15 @@ const PaymentDetails = () => {
         setPaymentSuccess(true);
         // console.log(paymentIntent);
         // Save payment info to the database
-        // await axios.post("/save-payment-info", {
-        //   trainerName,
-        //   slotName,
-        //   packageName,
-        //   price,
-        //   userName,
-        //   userEmail,
-        //   paymentId: paymentIntent.id,
-        // });
+        await axiosSecure.post(`/bookings`, {
+          ...state,
+          userName: user?.displayName,
+          userEmail: user?.email,
+          paymentId: paymentIntent.id,
+        });
 
         // Increase booking count
-         await axiosSecure.patch(
+        await axiosSecure.patch(
           `/classes/increment-bookings/${state?.className}`
         );
       }

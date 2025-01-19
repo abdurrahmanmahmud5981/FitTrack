@@ -83,8 +83,8 @@ export function StickyNavbar() {
                   />
                 </MenuHandler>
                 <MenuList>
-                  <Link to={"/dashboard"}>
-                    <MenuItem>Dashboard</MenuItem>
+                  <Link to={"/dashboard"} className="p-3 hover:bg-gray-100 transition duration-200">
+                    <>Dashboard</>
                   </Link>
                   <MenuItem>
                     <Button

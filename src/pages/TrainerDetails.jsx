@@ -39,6 +39,7 @@ const TrainerDetails = () => {
       return response.data;
     },
   });
+  console.log(trainer);
   const { data:slots=[] } = useQuery({
     queryKey: ["slots", trainer?.email],
     enabled: !isLoading && !!trainer?.email,
@@ -48,8 +49,6 @@ const TrainerDetails = () => {
       return response.data;
     },
   });
-  console.log(!isLoading && !!trainer?.email);
-  console.log('kkkkkkkks',slots);
   if (isLoading) return <LoadingSpinner />;
 
   const fadeIn = {
@@ -165,7 +164,7 @@ const TrainerDetails = () => {
             Available Time Slots
           </Typography>
           <div className="space-y-4">
-            {trainer &&
+            {trainer && slots?.length > 0 ?
               slots?.map((slot) => (
                 <motion.div
                   key={slot?._id}
@@ -188,7 +187,9 @@ const TrainerDetails = () => {
                   </Button>
                   </Link>
                 </motion.div>
-              ))}
+              )):<>
+              <p className=" p-4 text-lg font-semibold text-orange-800">No Slot Found!</p>
+              </>}
           </div>
         </Card>
       </motion.div>

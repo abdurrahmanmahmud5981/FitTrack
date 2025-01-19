@@ -1,21 +1,34 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Card, Button, Typography, Radio } from "@material-tailwind/react";
-import { 
-  FaClock, 
-  FaDumbbell, 
-  FaCheck, 
-  FaArrowRight, 
+import {
+  FaClock,
+  FaDumbbell,
+  FaCheck,
+  FaArrowRight,
   FaCrown,
   FaRegStar,
-  FaStar 
+  FaStar,
+  FaCalendarCheck,
+  FaClipboardCheck,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const TrainerBooking = () => {
+  const { slotId } = useParams();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [selectedPackage, setSelectedPackage] = useState(null);
-
+  const { data: slot = {}, isLoading } = useQuery({
+    queryKey: ["slot", slotId],
+    queryFn: async () => {
+      const response = await axiosSecure(`/single-slot/${slotId}`);
+      return response.data;
+    },
+  });
+  console.log(slot);
   // Mock data - replace with actual data from your backend
   const bookingDetails = {
     trainer: {
@@ -68,17 +81,17 @@ const TrainerBooking = () => {
       alert("Please select a package to continue");
       return;
     }
-    navigate(`/payment`, { 
-      state: { 
+    navigate(`/payment`, {
+      state: {
         trainer: bookingDetails.trainer,
         slot: bookingDetails.selectedSlot,
-        package: packages.find(pkg => pkg.id === selectedPackage)
-      } 
+        package: packages.find((pkg) => pkg.id === selectedPackage),
+      },
     });
   };
 
   return (
-    <section className="min-h-screen bg-gray-50 py-12">
+    <section className="min-h-screen  py-12">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -86,43 +99,40 @@ const TrainerBooking = () => {
           transition={{ duration: 0.5 }}
         >
           {/* Trainer Info & Selected Slot */}
-          <Card className="mb-8 p-6">
-            <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-              <img 
-                src={bookingDetails.trainer.image} 
-                alt={bookingDetails.trainer.name}
-                className="w-32 h-32 rounded-full object-cover"
-              />
-              <div>
-                <Typography variant="h3" color="blue-gray" className="mb-2">
-                  {bookingDetails.trainer.name}
+          <Card className="mb-8 p-6 max-w-screen-md mx-auto bg-transparent ring ring-gray-600 text-white bg-black">
+            <div className="">
+              <div className="flex flex-col justify-center text-center  items-center">
+                <Typography variant="h3" className="mb-2">
+                  Trainer:{" "}
+                  <span className="text-orange-500"> {slot?.trainerName}</span>
                 </Typography>
-                <Typography color="gray" className="mb-4">
-                  {bookingDetails.trainer.expertise}
+                <Typography className="mb-4 px-4 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">
+                  Class Name: {slot?.classe}
                 </Typography>
-                <div className="flex items-center gap-2 mb-4">
-                  <FaClock className="text-orange-500" />
-                  <Typography>{bookingDetails.selectedSlot}</Typography>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {bookingDetails.classes.map((className, index) => (
-                    <span 
-                      key={index}
-                      className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm"
-                    >
-                      {className}
-                    </span>
-                  ))}
+                <Typography className="mb-4 text-gray-400">
+                  Slot Name: {slot?.slotName}
+                </Typography>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1 mb-4">
+                    <FaClipboardCheck className="text-orange-500" />
+                    <Typography className="capitalize">
+                      {slot?.days} ,
+                    </Typography>
+                  </div>
+                  <div className="flex items-center gap-1 mb-4">
+                    <FaClock className="text-orange-500" />
+                    <Typography>{slot?.slotName}</Typography>
+                  </div>
                 </div>
               </div>
             </div>
           </Card>
 
           {/* Membership Packages */}
-          <Typography variant="h4" color="blue-gray" className="mb-6">
+          <Typography variant="h3" color="orange" className="my-6 text-center">
             Select Your Membership Package
           </Typography>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {packages.map((pkg) => (
               <motion.div
@@ -130,26 +140,34 @@ const TrainerBooking = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
-                <Card 
+                <Card
                   className={`p-6 cursor-pointer ${
-                    selectedPackage === pkg.id 
-                      ? 'ring-2 ring-orange-500' 
-                      : 'hover:shadow-lg'
+                    selectedPackage === pkg.id
+                      ? "ring-2 ring-orange-500"
+                      : "hover:shadow-lg"
                   }`}
                   onClick={() => setSelectedPackage(pkg.id)}
                 >
                   <div className="flex justify-between items-center mb-4">
                     <div>
-                      <Typography variant="h5" color="blue-gray" className="mb-1">
+                      <Typography
+                        variant="h5"
+                        color="blue-gray"
+                        className="mb-1"
+                      >
                         {pkg.name}
                       </Typography>
-                      <Typography variant="h4" color="orange" className="font-bold">
+                      <Typography
+                        variant="h4"
+                        color="orange"
+                        className="font-bold"
+                      >
                         ${pkg.price}
                       </Typography>
                     </div>
                     {pkg.icon}
                   </div>
-                  
+
                   <Radio
                     name="package"
                     color="orange"
@@ -157,7 +175,7 @@ const TrainerBooking = () => {
                     onChange={() => setSelectedPackage(pkg.id)}
                     className=""
                   />
-                  
+
                   <ul className="space-y-3">
                     {pkg.benefits.map((benefit, index) => (
                       <li key={index} className="flex items-start gap-2">

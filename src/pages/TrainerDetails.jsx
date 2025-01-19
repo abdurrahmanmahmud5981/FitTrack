@@ -177,14 +177,12 @@ const TrainerDetails = () => {
                     <FaClock className="text-orange-600 text-xl" />
                     <Typography className="capitalize">{slot?.slotName}</Typography>
                   </div>
-                  <Link>
+                  <Link to={`/bookTrainer/${slot?._id}`}>
                   <Button
                     variant="outlined"
                     color="orange"
                     size="sm"
-                    onClick={() =>
-                      navigate(`/bookTrainer/${slot?._id}`)
-                    }
+                    
                   >
                     Book
                   </Button>

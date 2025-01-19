@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import {
@@ -16,10 +16,11 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Details = () => {
   const { state } = useLocation(); // State passed via navigation
-  const { id:applicantId } = useParams(); // Get applicant ID from URL
+  const { id: applicantId } = useParams(); // Get applicant ID from URL
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure(); // Use secure axios for authenticated requests
 
@@ -34,20 +35,36 @@ const Details = () => {
   // Confirm button handler
   const handleConfirm = async () => {
     try {
-        const res =await axiosSecure.patch(`/trainers/applicants/confirm/${applicantId}`,{email:state?.email});
-        console.log('Confirm',res.data);
-    //   navigate("/applied-trainers");
+      const res = await axiosSecure.patch(
+        `/trainers/applicants/confirm/${applicantId}`,
+        { email: state?.email }
+      );
+      console.log("Confirm", res.data);
+      //   navigate("/applied-trainers");
+      Swal.fire({
+        title: "Applicant confirmed!",
+        text: "The trainer has been notified about your confirmation.",
+        icon: "success",
+        confirmButtonText: "Close",
+      });
     } catch (error) {
       console.error("Error confirming the applicant:", error);
+       Swal.fire({
+        title: "Error confirming the applicant!",
+        text: `${error?.message}`,
+        icon: "error",
+        confirmButtonText: "Close",
+       })
     }
   };
 
   // Reject button handler with feedback
   const handleReject = async () => {
     try {
-      await axios.post(`/api/applicants/reject/${applicantId}`, { feedback });
-      setIsModalOpen(false); // Close modal
-      navigate("/applied-trainers");
+       const res = await axiosSecure.patch(`/trainers/applicants/reject/${applicantId}`, { feedback });
+       console.log(res.data);
+    //   setIsModalOpen(false); // Close modal
+    //   navigate("/applied-trainers");
     } catch (error) {
       console.error("Error rejecting the applicant:", error);
     }
@@ -127,20 +144,10 @@ const Details = () => {
 
         {/* Footer Section */}
         <CardFooter className="flex justify-between items-center py-4">
-          <Button
-            color="green"
-            onClick={handleConfirm}
-            className="px-6"
-            ripple
-          >
+          <Button color="green" onClick={handleConfirm} className="px-6" ripple>
             Confirm
           </Button>
-          <Button
-            color="red"
-            onClick={toggleModal}
-            className="px-6"
-            ripple
-          >
+          <Button color="red" onClick={toggleModal} className="px-6" ripple>
             Reject
           </Button>
         </CardFooter>

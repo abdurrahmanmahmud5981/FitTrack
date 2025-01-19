@@ -1,22 +1,31 @@
 import { useState } from "react";
-import { Card, Button, Typography, Radio } from "@material-tailwind/react";
+import {
+  Card,
+  Button,
+  Typography,
+  Radio,
+  CardHeader,
+  CardBody,
+  CardFooter,
+} from "@material-tailwind/react";
 import {
   FaClock,
-  FaDumbbell,
   FaCheck,
   FaArrowRight,
   FaCrown,
   FaRegStar,
   FaStar,
-  FaCalendarCheck,
   FaClipboardCheck,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import LoadingSpinner from "../components/shared/LodingSpinner";
+import useAuth from "../hooks/useAuth";
 
 const TrainerBooking = () => {
+  const {user} = useAuth()
   const { slotId } = useParams();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -29,7 +38,8 @@ const TrainerBooking = () => {
     },
   });
   console.log(slot);
-  // Mock data - replace with actual data from your backend
+
+  if (isLoading) return <LoadingSpinner/>
   const bookingDetails = {
     trainer: {
       name: "John Doe",
@@ -81,13 +91,20 @@ const TrainerBooking = () => {
       alert("Please select a package to continue");
       return;
     }
-    navigate(`/payment`, {
-      state: {
-        trainer: bookingDetails.trainer,
-        slot: bookingDetails.selectedSlot,
-        package: packages.find((pkg) => pkg.id === selectedPackage),
-      },
-    });
+    const state = {
+        trainer:slot?.trainerName,
+        trainerEmail: slot?.trainerEmail,
+        className: slot?.classe,
+        days: slot?.days,
+        packageName: selectedPackage,
+        price: packages.find((pkg) => pkg.id === selectedPackage).price,
+        member: user?.displayName,
+        memberEmail: user?.email,
+    };
+    console.log(state);
+    // navigate(`/payment`, {
+    //   state:''
+    // });
   };
 
   return (
@@ -129,65 +146,62 @@ const TrainerBooking = () => {
           </Card>
 
           {/* Membership Packages */}
-          <Typography variant="h3" color="orange" className="my-6 text-center">
+          <Typography variant="h3" color="orange" className="mt-20 mb-12 text-center">
             Select Your Membership Package
           </Typography>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
             {packages.map((pkg) => (
-              <motion.div
-                key={pkg.id}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
+             
                 <Card
-                  className={`p-6 cursor-pointer ${
+                key={pkg?.id}
+                  className={`p-6  bg-transparent border border-gray-800 cursor-pointer ${
                     selectedPackage === pkg.id
                       ? "ring-2 ring-orange-500"
                       : "hover:shadow-lg"
                   }`}
                   onClick={() => setSelectedPackage(pkg.id)}
                 >
-                  <div className="flex justify-between items-center mb-4">
-                    <div>
-                      <Typography
-                        variant="h5"
-                        color="blue-gray"
-                        className="mb-1"
-                      >
-                        {pkg.name}
-                      </Typography>
-                      <Typography
-                        variant="h4"
-                        color="orange"
-                        className="font-bold"
-                      >
-                        ${pkg.price}
-                      </Typography>
-                    </div>
-                    {pkg.icon}
-                  </div>
-
-                  <Radio
-                    name="package"
-                    color="orange"
-                    checked={selectedPackage === pkg.id}
-                    onChange={() => setSelectedPackage(pkg.id)}
-                    className=""
-                  />
-
-                  <ul className="space-y-3">
-                    {pkg.benefits.map((benefit, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <FaCheck className="text-orange-500 mt-1" />
-                        <Typography className="text-gray-700">
-                          {benefit}
+                  <CardHeader className="bg-transparent shadow-none mt-3">
+                    <div className="flex justify-between items-center mb-4">
+                      <div>
+                        <Typography variant="h5" className="mb-1 text-gray-100">
+                          {pkg.name}
                         </Typography>
-                      </li>
-                    ))}
-                  </ul>
+                        <Typography
+                          variant="h4"
+                          color="orange"
+                          className="font-bold"
+                        >
+                          ${pkg.price}
+                        </Typography>
+                      </div>
+                      {pkg.icon}
+                    </div>
+                  </CardHeader>
+                  <CardBody className="py-0 ">
+                    <Radio
+                      name="package"
+                      color="orange"
+                      checked={selectedPackage === pkg.id}
+                      onChange={() => setSelectedPackage(pkg.id)}
+                      className=""
+                    />
+                  </CardBody>
+                  <CardFooter className="">
+                    <ul className="space-y-3">
+                      {pkg.benefits.map((benefit, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <FaCheck className="text-orange-500 mt-1" />
+                          <Typography className="text-gray-400">
+                            {benefit}
+                          </Typography>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardFooter>
                 </Card>
-              </motion.div>
+            
             ))}
           </div>
 

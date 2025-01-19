@@ -23,7 +23,7 @@ const AddNewSlot = () => {
   const [selectedClasses, setSelectedClasses] = useState("");
 
   const { data: trainerId = "" } = useQuery({
-    queryKey: ["trainerId"],
+    queryKey: ["trainerId",user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/trainer-id/${user?.email}`);
       return res.data?.trainerId;

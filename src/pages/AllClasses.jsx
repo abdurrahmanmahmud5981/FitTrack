@@ -52,6 +52,7 @@ const AllClasses = () => {
 
   const { classes = [], totalPages } = data || {};
 
+  console.log(classes);
   return (
     <section className="py-10 text-white">
       <div className="">
@@ -104,14 +105,14 @@ const AllClasses = () => {
                     Trainers:
                   </Typography> */}
                   <div className="flex gap-3 flex-wrap">
-                    {[...Array(8)].slice(0, 5).map((trainer, idx) => (
+                    {trainers?.slice(0, 5)?.map((trainer, idx) => (
                       <Link
-                        to={`/trainer/${idx}`}
+                        to={`/trainer/${trainer?.trainerId}`}
                         key={idx}
                         // className="rounded-full overflow-hidden w-12 h-12 border hover:ring-2 hover:ring-orange-700 transition"
                       >
                         <Tooltip
-                          content="Material Tailwind"
+                          content={trainer?.trainerName}
                           animate={{
                             mount: { scale: 1, y: 0 },
                             unmount: { scale: 0, y: 25 },
@@ -120,7 +121,7 @@ const AllClasses = () => {
                           <Avatar
                             size="lg"
                             alt="avatar"
-                            src="https://docs.material-tailwind.com/img/face-2.jpg"
+                            src={trainer?.trainerImage}
                             className="shadow-xl shadow-orange-900/20 ring-4 ring-orange-900/90"
                           />
                         </Tooltip>

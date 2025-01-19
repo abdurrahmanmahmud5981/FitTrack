@@ -172,7 +172,9 @@ const TrainerDetails = () => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div className="flex items-center gap-3"></div>
+                  <div className="flex items-center gap-3">
+                    <FaClock></FaClock> <span>{slot?.slotName}</span>
+                  </div>
                   <Link to={`/bookTrainer/${slot?._id}`}>
                     <Button variant="outlined" color="orange" size="sm">
                       Book

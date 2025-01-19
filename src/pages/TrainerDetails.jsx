@@ -40,7 +40,7 @@ const TrainerDetails = () => {
     },
   });
   console.log(trainer);
-  const { data:slots=[] } = useQuery({
+  const { data: slots = [] } = useQuery({
     queryKey: ["slots", trainer?.email],
     enabled: !isLoading && !!trainer?.email,
     queryFn: async () => {
@@ -164,7 +164,7 @@ const TrainerDetails = () => {
             Available Time Slots
           </Typography>
           <div className="space-y-4">
-            {trainer && slots?.length > 0 ?
+            {trainer && slots?.length > 0 ? (
               slots?.map((slot) => (
                 <motion.div
                   key={slot?._id}
@@ -172,30 +172,27 @@ const TrainerDetails = () => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div className="flex items-center gap-3">
-                    <FaClock className="text-orange-600 text-xl" />
-                    <Typography className="capitalize">{slot?.slotName}</Typography>
-                  </div>
+                  <div className="flex items-center gap-3"></div>
                   <Link to={`/bookTrainer/${slot?._id}`}>
-                  <Button
-                    variant="outlined"
-                    color="orange"
-                    size="sm"
-                    
-                  >
-                    Book
-                  </Button>
+                    <Button variant="outlined" color="orange" size="sm">
+                      Book
+                    </Button>
                   </Link>
                 </motion.div>
-              )):<>
-              <p className=" p-4 text-lg font-semibold text-orange-800">No Slot Found!</p>
-              </>}
+              ))
+            ) : (
+              <>
+                <p className=" p-4 text-lg font-semibold text-orange-800">
+                  No Slot Found!
+                </p>
+              </>
+            )}
           </div>
         </Card>
       </motion.div>
 
       {/* CTA Section */}
-      <motion.div className="container mx-auto px-4 py-12" {...fadeIn}>
+      <motion.div className=" py-12" {...fadeIn}>
         <Card className="bg-gradient-to-r from-orange-500 to-orange-600 p-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>

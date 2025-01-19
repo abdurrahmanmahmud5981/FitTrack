@@ -151,7 +151,7 @@ const PaymentDetails = () => {
             variant="gradient"
             color="deep-orange"
             type="submit"
-            disabled={!stripePromise || loading}
+            disabled={!stripePromise || loading || !stripe}
           >
             {loading ? "Processing..." : "Pay Now"}
           </Button>

@@ -68,7 +68,7 @@ const BalanceOverview = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-8 space-y-8">
+    <div className="max-w-4xl mx-auto  space-y-8">
       {/* Overview Section */}
       <div className="text-center">
         <Typography variant="h4" color="blue-gray" className="font-bold">
@@ -79,6 +79,19 @@ const BalanceOverview = () => {
           subscribers vs paid members.
         </Typography>
       </div>
+      {/* Total Balance Section */}
+      <Card className="shadow-lg">
+        <CardBody>
+          <div className="flex justify-between items-center">
+            <Typography variant="h6" color="blue-gray" className="font-bold">
+              Total Balance
+            </Typography>
+            <Typography variant="h5" className="text-gray-700 font-bold">
+              ${totalBalance || 0}
+            </Typography>
+          </div>
+        </CardBody>
+      </Card>
       {/* Pie Chart Section */}
       <Card className="shadow-lg">
         <CardBody>
@@ -102,19 +115,6 @@ const BalanceOverview = () => {
           </PieChart>
         </CardBody>
       </Card>
-      {/* Total Balance Section */}
-      <Card className="shadow-lg">
-        <CardBody>
-          <div className="flex justify-between items-center">
-            <Typography variant="h6" color="blue-gray" className="font-bold">
-              Total Balance
-            </Typography>
-            <Typography variant="h5" className="text-gray-700 font-bold">
-              ${totalBalance || 0}
-            </Typography>
-          </div>
-        </CardBody>
-      </Card>
 
       {/* Last Six Transactions Table */}
       <Card className="shadow-lg">
@@ -122,39 +122,46 @@ const BalanceOverview = () => {
           <Typography variant="h6" color="blue-gray" className="font-bold mb-4">
             Last 6 Transactions
           </Typography>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>user Name</th>
-                {/* <th>Transaction ID</th> */}
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings
-                ?.slice(0, 6)
-                .map(
-                  ({
-                    _id: date,
-                    paymentId,
-                    packageName,
-                    userName,
-                    userEmail,
-                    price,
-                  }) => (
-                    <tr key={paymentId}>
-                      <td>{date}</td>
-                      <td>{userName}</td>
-                      {/* <td>{userEmail}</td> */}
-                      <td>${price}</td>
-                      <td>{packageName}</td>
-                    </tr>
-                  )
-                )}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+              <thead className="text-left bg-blue-100 text-sm font-medium text-gray-700">
+                <tr>
+                  <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3">User Name</th>
+                  <th className="px-4 py-3">Amount</th>
+                  <th className="px-4 py-3">Package</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm text-gray-600">
+                {bookings
+                  ?.slice(0, 6)
+                  .map(
+                    ({
+                      _id: date,
+                      paymentId,
+                      packageName,
+                      userName,
+                      userEmail,
+                      price,
+                    }) => (
+                      <tr
+                        key={paymentId}
+                        className="hover:bg-gray-50 transition-colors duration-200"
+                      >
+                        <td className="px-4 py-3">
+                         {date}
+                        </td>
+                        <td className="px-4 py-3">{userName}</td>
+                        <td className="px-4 py-3 text-orange-800">${price}</td>
+                        <td className="px-4 py-3 text-blue-600 capitalize">
+                          {packageName}
+                        </td>
+                      </tr>
+                    )
+                  )}
+              </tbody>
+            </table>
+          </div>
         </CardBody>
       </Card>
     </div>

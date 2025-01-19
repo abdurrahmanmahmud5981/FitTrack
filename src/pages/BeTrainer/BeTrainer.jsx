@@ -18,6 +18,8 @@ import useAuth from "../../hooks/useAuth";
 import uploadImage from "../../api/uploadImage";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { daysOptions, timesOptions } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 // Skills data
 const skillsOptions = [
@@ -29,25 +31,8 @@ const skillsOptions = [
   "Body Combat",
 ];
 
-// Days of the week for React Select
-const daysOptions = [
-  { value: "sunday", label: "Sunday" },
-  { value: "monday", label: "Monday" },
-  { value: "tuesday", label: "Tuesday" },
-  { value: "wednesday", label: "Wednesday" },
-  { value: "thursday", label: "Thursday" },
-  { value: "friday", label: "Friday" },
-  { value: "saturday", label: "Saturday" },
-];
-
-// Times of the day for React Select
-const timesOptions = [
-  { value: "morning", label: "Morning" },
-  { value: "afternoon", label: "Afternoon" },
-  { value: "evening", label: "Evening" },
-];
-
 const BeTrainer = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [profileImage, setProfileImage] = useState(user?.photoURL);
   const axiosSecure = useAxiosSecure();
@@ -100,7 +85,7 @@ const BeTrainer = () => {
     try {
       const trainerData = {
         ...data,
-        fullName:user?.displayName,
+        fullName: user?.displayName,
         profileImage,
         availableDays: data.availableDays.map((day) => day.value),
         availableTime: data.availableTime.value,
@@ -115,6 +100,7 @@ const BeTrainer = () => {
           text: "Application submitted successfully!",
           icon: "success",
         });
+        navigate("/dashboard/activity-log");
       } else {
         Swal.fire({
           title: "Error",
@@ -132,8 +118,8 @@ const BeTrainer = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto ">
-      <Card className="shadow-lg">
+    <div className="max-w-3xl mx-auto my-16">
+      <Card className="shadow-lg bg-transparent text-white ring ring-gray-800">
         <CardBody>
           <h2 className="text-2xl font-semibold mb-6">Be a Trainer</h2>
 
@@ -146,7 +132,7 @@ const BeTrainer = () => {
                   type="text"
                   defaultValue={user?.displayName}
                   readOnly
-                  className="cursor-not-allowed"
+                  className="cursor-not-allowed text-gray-300"
                 />
               </div>
 
@@ -157,7 +143,7 @@ const BeTrainer = () => {
                   type="email"
                   defaultValue={user?.email}
                   readOnly
-                  className="cursor-not-allowed"
+                  className="cursor-not-allowed text-gray-300"
                 />
               </div>
             </div>
@@ -205,12 +191,15 @@ const BeTrainer = () => {
               <div className="">
                 <List className="grid sm:grid-cols-2 gap-4">
                   {skillsOptions.map((skill) => (
-                    <ListItem key={skill} className="p-0">
+                    <ListItem
+                      key={skill}
+                      className="p-0 hover:bg-transparent active:bg-transparent "
+                    >
                       <label
                         htmlFor={skill}
                         className="flex w-full cursor-pointer items-center px-3 py-2"
                       >
-                        <ListItemPrefix className="mr-3">
+                        <ListItemPrefix className="mr-3 ">
                           <Checkbox
                             id={skill}
                             value={skill}
@@ -236,13 +225,13 @@ const BeTrainer = () => {
                               });
                             }}
                             ripple={false}
-                            className="hover:before:opacity-0"
+                            className=" hover:before:opacity-0 "
                             containerProps={{
                               className: "p-0",
                             }}
                           />
                         </ListItemPrefix>
-                        <Typography color="blue-gray" className="font-medium">
+                        <Typography className="font-medium text-gray-300 hover:bg-transparent">
                           {skill}
                         </Typography>
                       </label>
@@ -273,7 +262,7 @@ const BeTrainer = () => {
                       isMulti
                       options={daysOptions}
                       placeholder="Select available days..."
-                      className="basic-multi-select"
+                      className="basic-multi-select text-gray-900 "
                     />
                   )}
                 />
@@ -296,6 +285,7 @@ const BeTrainer = () => {
                   render={({ field }) => (
                     <Select
                       {...field}
+                      className=" text-gray-900 bg-transparent"
                       options={timesOptions}
                       placeholder="Select available time..."
                     />
@@ -323,6 +313,7 @@ const BeTrainer = () => {
                     },
                   })}
                   placeholder="Enter your age"
+                  className="focus-visible:ring focus-visible:ring-gray-700 text-gray-300"
                 />
                 {errors.age && (
                   <p className="text-red-500 text-sm mt-1">
@@ -343,6 +334,7 @@ const BeTrainer = () => {
                     min: { value: 0, message: "Must be a positive number" },
                   })}
                   placeholder="Enter years of experience"
+                  className="focus-visible:ring focus-visible:ring-gray-700 text-gray-300"
                 />
                 {errors.experience && (
                   <p className="text-red-500 text-sm mt-1">
@@ -362,6 +354,7 @@ const BeTrainer = () => {
                 })}
                 placeholder="Write a short biography"
                 rows={5}
+                className="focus-visible:ring focus-visible:ring-gray-700 text-gray-300"
               />
               {errors.biography && (
                 <p className="text-red-500 text-sm mt-1">

@@ -11,6 +11,7 @@ import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { availableClasses, daysOptions, timesOptions } from "../../../../api";
+import { useQuery } from "react-query";
 
 const AddNewSlot = () => {
   const { user } = useAuth();
@@ -21,6 +22,14 @@ const AddNewSlot = () => {
   const [slotTime, setSlotTime] = useState(0);
   const [selectedClasses, setSelectedClasses] = useState("");
 
+  const { data: trainerId = "" } = useQuery({
+    queryKey: ["trainerId"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/trainer-id/${user?.email}`);
+      return res.data?.trainerId;
+    },
+  });
+  console.log(trainerId);
   // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,8 +44,15 @@ const AddNewSlot = () => {
         class: selectedClasses.label,
       };
       const res = await axiosSecure.post("/slots", slotData);
-       
-      console.log(res.data);
+      const addto = await axiosSecure.patch(
+        `/classes/${selectedClasses.label}`,
+        {
+          trainerId: trainerId,
+          trainerName: user?.displayName,
+          trainerImage: user?.photoURL,
+        }
+      );
+      console.log(addto.data);
       if (res.data?.insertedId) {
         Swal.fire({
           title: "Slot Added Successfully!",

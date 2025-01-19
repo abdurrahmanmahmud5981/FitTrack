@@ -194,7 +194,7 @@ const TrainerDetails = () => {
       {/* CTA Section */}
       <motion.div className=" py-12" {...fadeIn}>
         <Card className="bg-gradient-to-r from-orange-500 to-orange-600 p-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
               <Typography variant="h4" color="white" className="mb-2">
                 Join Our Team of Expert Trainers
@@ -207,7 +207,7 @@ const TrainerDetails = () => {
             <Button
               variant="filled"
               color="white"
-              className="flex items-center gap-2"
+              className="flex items-center px-3 gap-2 w-fit"
               onClick={() => navigate("/become-a-trainer")}
             >
               Become a Trainer

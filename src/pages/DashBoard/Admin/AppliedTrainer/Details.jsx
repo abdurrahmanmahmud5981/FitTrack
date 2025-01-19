@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+
 import {
   Card,
   CardHeader,
@@ -15,11 +15,13 @@ import {
   DialogFooter,
   Textarea,
 } from "@material-tailwind/react";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const Details = () => {
   const { state } = useLocation(); // State passed via navigation
-  const { applicantId } = useParams(); // Get applicant ID from URL
+  const { id:applicantId } = useParams(); // Get applicant ID from URL
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure(); // Use secure axios for authenticated requests
 
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
   const [feedback, setFeedback] = useState(""); // Rejection feedback
@@ -32,8 +34,9 @@ const Details = () => {
   // Confirm button handler
   const handleConfirm = async () => {
     try {
-      await axios.patch(`/api/applicants/confirm/${applicantId}`);
-      navigate("/applied-trainers");
+        const res =await axiosSecure.patch(`/trainers/applicants/confirm/${applicantId}`,{email:state?.email});
+        console.log('Confirm',res.data);
+    //   navigate("/applied-trainers");
     } catch (error) {
       console.error("Error confirming the applicant:", error);
     }
@@ -56,7 +59,7 @@ const Details = () => {
         {/* Header Section */}
         <CardHeader
           floated={false}
-          className="bg-blue-600 text-center text-white py-6"
+          className="bg-orange-600 text-center text-white py-6"
         >
           <Typography variant="h4" className="font-bold">
             Applicant Details

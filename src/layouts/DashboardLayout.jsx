@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FaUser,
   FaChalkboardTeacher,
@@ -12,10 +12,10 @@ import {
 import { Typography, Avatar, Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import SidebarItem from "../pages/DashBoard/SideberItem/SideberItem";
-import UserProfile from "../pages/UserProfile";
 import { Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useGetRole from "../hooks/useGetRole";
+import { Helmet } from "react-helmet-async";
 
 const DashboardLayout = () => {
   const [role] = useGetRole();
@@ -29,6 +29,19 @@ const DashboardLayout = () => {
   console.log("DashboardLayout", role);
   return (
     <div className="flex min-h-screen bg-gray-100 bg-fixed">
+      <Helmet>
+        <title>FitTrack - Dashboard</title>
+        <meta
+          name="description"
+          content="Welcome to FitTrack's admin dashboard. Here you can manage your subscribers, trainers, classes, and more."
+        />{" "}
+        {/* SEO Meta Tags */}
+        <meta property="og:title" content="FitTrack - Dashboard" />
+        <meta
+          property="og:description"
+          content="Welcome to FitTrack's admin dashboard. Here you can manage your subscribers, trainers, classes, and more."
+        />
+      </Helmet>
       {/* Sidebar */}
       <aside className="w-64 bg-gradient-to-r from-black/90 to-orange-900 text-white flex flex-col fixed h-screen">
         <div className="py-6 px-4 flex items-center justify-center">
@@ -181,7 +194,7 @@ const DashboardLayout = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* {sections[activeSection]} */}
+        
           <Outlet />
         </motion.div>
       </main>
@@ -189,69 +202,6 @@ const DashboardLayout = () => {
   );
 };
 
-// Sidebar Item Component
-// const SidebarItem = ({ icon, label, isActive, onClick }) => (
-//   <div
-//     className={`flex items-center gap-4 px-4 py-3 rounded cursor-pointer ${
-//       isActive ? "bg-white text-orange-600" : "hover:bg-orange-700"
-//     }`}
-//     onClick={onClick}
-//   >
-//     <div className="text-xl">{icon}</div>
-//     <Typography className="font-medium">{label}</Typography>
-//   </div>
-// );
 
-// Dashboard Overview
-const DashboardOverview = () => (
-  <div className="p-4 bg-white rounded shadow">
-    <Typography variant="h5" className="mb-4">
-      Dashboard Overview
-    </Typography>
-    <Typography>
-      Welcome to your dashboard. Select a section from the sidebar to begin.
-    </Typography>
-  </div>
-);
-
-// Profile Section
-// const UserProfile = () => (
-//   <div className="p-4 bg-white rounded shadow">
-//     <Typography variant="h5" className="mb-4">
-//       User Profile
-//     </Typography>
-//     <Typography>Update your personal information here.</Typography>
-//   </div>
-// );
-
-// Manage Classes
-const ManageClasses = () => (
-  <div className="p-4 bg-white rounded shadow">
-    <Typography variant="h5" className="mb-4">
-      Manage Classes
-    </Typography>
-    <Typography>View and manage all classes you have access to.</Typography>
-  </div>
-);
-
-// Manage Trainers
-const ManageTrainers = () => (
-  <div className="p-4 bg-white rounded shadow">
-    <Typography variant="h5" className="mb-4">
-      Manage Trainers
-    </Typography>
-    <Typography>View and manage trainers here.</Typography>
-  </div>
-);
-
-// Community Posts
-const CommunityPosts = () => (
-  <div className="p-4 bg-white rounded shadow">
-    <Typography variant="h5" className="mb-4">
-      Community Posts
-    </Typography>
-    <Typography>Engage with the community by exploring forum posts.</Typography>
-  </div>
-);
 
 export default DashboardLayout;

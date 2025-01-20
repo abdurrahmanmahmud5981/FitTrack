@@ -10,6 +10,7 @@ import {
   import useGetRole from "../../../hooks/useGetRole";
   import useAxiosSecure from "../../../hooks/useAxiosSecure";
   import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
   
   const AddNewForum = () => {
     const { user } = useAuth();
@@ -56,6 +57,10 @@ import {
   
     return (
       <div className="max-w-4xl mx-auto p-8 space-y-8">
+        <Helmet>
+          <title>FitTrack - Add New Forum Post</title>
+          <meta name="description" content="Add a new forum post to FitTrack." />
+        </Helmet>
         {/* Header Section */}
         <div className="text-center">
           <Typography variant="h4" color="blue-gray" className="font-bold">

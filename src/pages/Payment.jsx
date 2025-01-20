@@ -14,6 +14,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY); // Replace wi
 import { Button, Card, Typography } from "@material-tailwind/react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const PaymentDetails = () => {
   const stripe = useStripe();
@@ -107,7 +108,11 @@ const PaymentDetails = () => {
 
   return (
     <>
-      <Card className="payment-page bg-transparent text-gray-400 ring ring-gray-800 p-6 space-y-6">
+    <Helmet>
+      <title>FitTrack - Payment Details </title>
+      <meta name="description" content="Payment details for your fitness booking" />
+    </Helmet>
+      <Card className=" max-w-screen-md mx-auto my-14 payment-page bg-transparent text-gray-400 ring ring-gray-800 p-6 space-y-6">
         <Typography variant="h3" color="deep-orange">
           Payment Page 💸
         </Typography>

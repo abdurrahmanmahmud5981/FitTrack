@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import { ScaleLoader } from 'react-spinners'
 import { motion } from 'framer-motion';
 import logo from '../../assets/logo.svg'
 const LoadingSpinner = ({ smallHeight=0 }) => 

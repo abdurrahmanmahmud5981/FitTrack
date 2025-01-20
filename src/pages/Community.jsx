@@ -70,7 +70,18 @@ const Community = () => {
     },
   };
 
-  
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
   const SkeletonPost = () => (
     <div className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-6 animate-pulse">
       <div className="flex items-center mb-5">
@@ -116,7 +127,7 @@ const Community = () => {
         />
       </Helmet>
       <section className="py-12  text-white min-h-screen">
-        <div className="">
+        <div>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,7 +145,7 @@ const Community = () => {
             </Typography>
           </motion.div>
 
-          <AnimatePresence mode="wait">
+          <>
             {isLoading && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -172,9 +183,10 @@ const Community = () => {
                     role,
                     authorImage,
                   }) => (
-                    <div
+                    <motion.div
                       key={_id}
-                     
+                      variants={itemVariants}
+                      layout
                       className="h-full"
                     >
                       <Card className="h-full bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
@@ -241,7 +253,7 @@ const Community = () => {
                               >
                                 <Button
                                   onClick={() => handleVote(_id, "up")}
-                                  variant="outline"
+                                  variant="outlined"
                                   className="bg-gradient-to-r from-orange-500 to-orange-600 text-white border-none hover:opacity-90"
                                 >
                                   Upvote
@@ -253,7 +265,7 @@ const Community = () => {
                               >
                                 <Button
                                   onClick={() => handleVote(_id, "down")}
-                                  variant="outline"
+                                  variant="outlined"
                                   className="border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition-all duration-300"
                                 >
                                   Downvote
@@ -263,7 +275,7 @@ const Community = () => {
                           </div>
                         </CardFooter>
                       </Card>
-                    </div>
+                    </motion.div>
                   )
                 )
               ) : (
@@ -283,7 +295,7 @@ const Community = () => {
                 </>
               )}
             </motion.div>
-          </AnimatePresence>
+          </>
 
           {totalPages > 1 && (
             <motion.div

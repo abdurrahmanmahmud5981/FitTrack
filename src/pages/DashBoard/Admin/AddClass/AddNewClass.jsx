@@ -13,6 +13,7 @@ import { FiImage, FiTrash2, FiUpload } from "react-icons/fi";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const AddNewClass = () => {
   const [image, setImage] = useState(null);
@@ -71,6 +72,10 @@ const AddNewClass = () => {
 
   return (
     <div className="space-y-6">
+      <Helmet>
+        <title>FitTrack - Add New Class</title>
+        <meta name="description" content="Add a new class to FitTrack" />
+      </Helmet>
       <Card className="shadow-lg max-w-screen-md mx-auto">
         <CardHeader className="shadow-none mt-10 border-b rounded-none pb-5">
           <div className="text-center">

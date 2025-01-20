@@ -12,6 +12,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { availableClasses, daysOptions, timesOptions } from "../../../../api";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet-async";
 
 const AddNewSlot = () => {
   const { user } = useAuth();
@@ -75,6 +76,9 @@ const AddNewSlot = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-8 space-y-8  ">
+      <Helmet>
+        <title> FitTrack Trainer - Add New Slot </title>
+      </Helmet>
       {/* Header Section */}
       <div className="text-center">
         <Typography variant="h4" color="blue-gray" className="font-bold">

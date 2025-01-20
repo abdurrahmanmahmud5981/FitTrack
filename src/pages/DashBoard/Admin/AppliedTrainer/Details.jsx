@@ -47,6 +47,7 @@ const Details = () => {
         icon: "success",
         confirmButtonText: "Close",
       });
+      navigate("/dashboard/all-trainer");
     } catch (error) {
       console.error("Error confirming the applicant:", error);
        Swal.fire({
@@ -63,8 +64,14 @@ const Details = () => {
     try {
        const res = await axiosSecure.patch(`/trainers/applicants/reject/${applicantId}`, { feedback });
        console.log(res.data);
-    //   setIsModalOpen(false); // Close modal
-    //   navigate("/applied-trainers");
+      setIsModalOpen(false);
+       Swal.fire({
+        title: "Applicant rejected!",
+        text: "The Applicant has been notified about your rejection.",
+        icon: "success",
+        confirmButtonText: "Close",
+       })
+      navigate("/dashboard/applied-trainers");
     } catch (error) {
       console.error("Error rejecting the applicant:", error);
     }

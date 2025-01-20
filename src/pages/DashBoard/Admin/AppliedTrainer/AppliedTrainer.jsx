@@ -103,7 +103,6 @@ const AppliedTrainer = () => {
                               `/dashboard/applied-trainers/details/${trainer?._id}`
                             , {state: trainer})
                           }
-                          // disabled={deleteTrainerMutation.isLoading}
                         >
                           <MdRemoveRedEye size={20} />
                         </IconButton>

@@ -2,12 +2,12 @@ import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const TABLE_HEAD = ["#", "Name", "Email", "Actions"];
 
 const AllTrainers = () => {
   const axiosSecure = useAxiosSecure();
-
 
   // Fetch trainers data using React Query
   const {
@@ -15,8 +15,9 @@ const AllTrainers = () => {
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery({
-    queryKey: ["trainers","Verified"],
+    queryKey: ["trainers", "Verified"],
     queryFn: async () => {
       const response = await axiosSecure.get("/trainers?status=Verified");
       return response.data;
@@ -25,13 +26,35 @@ const AllTrainers = () => {
 
   console.log(trainers);
 
-
   // Handle delete trainer
-  const handleDeleteTrainer = async(trainerId,trainerEmail) => {
-    console.log(trainerId,trainerEmail);
-    const res = await axiosSecure.delete(`/trainers/${trainerId}`,{email:trainerEmail})
-  };
+  const handleDeleteTrainer = async (trainerId, trainerEmail) => {
+    // Show confirmation dialog before deleting
+    const res = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
 
+    if (res.isConfirmed) {
+      try {
+        await axiosSecure.delete(
+          `/trainers/${trainerId}?email=${trainerEmail}`
+        );
+        Swal.fire("Deleted!", "Trainer has been deleted.", "success");
+        refetch();
+      } catch (error) {
+        Swal.fire({
+          title: "Error",
+          text: `${error.message}`,
+          icon: "error",
+        });
+      }
+    }
+  };
 
   // Handle loading state
   if (isLoading) {
@@ -105,7 +128,7 @@ const AllTrainers = () => {
                           variant="text"
                           color="red"
                           size="sm"
-                          onClick={() => handleDeleteTrainer(_id,email)}
+                          onClick={() => handleDeleteTrainer(_id, email)}
                         >
                           <MdDelete size={20} />
                         </IconButton>

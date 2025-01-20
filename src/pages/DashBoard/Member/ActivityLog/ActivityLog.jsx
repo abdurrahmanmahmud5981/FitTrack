@@ -41,7 +41,7 @@ const ActivityLog = () => {
             </Typography>
           </div>
           <div className="p-6">
-            {log ? (
+            {log != {} ? (
               <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse text-left">
                   <thead>
@@ -70,7 +70,7 @@ const ActivityLog = () => {
                       </td>
                       <td className="p-4 border-b text-sm text-gray-800 ">
                         {log?.status === "Pending" ? (
-                          "Pending"
+                          <span className="bg-orange-100 p-3 rounded-full">{log?.status}</span>
                         ) : (
                           <span className="bg-orange-100 p-3 rounded-full">
                             {log?.status || "unavailable"}

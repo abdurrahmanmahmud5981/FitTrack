@@ -16,7 +16,7 @@ const AllClasses = () => {
   // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSearchDebounced(searchQuery);
+      setSearchDebounced(searchQuery.trim());
     }, 500);
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -31,15 +31,6 @@ const AllClasses = () => {
     }
   );
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -151,10 +142,8 @@ const AllClasses = () => {
             ))}
           </div>
         ) : classes?.length > 0 ? (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+          <div
+           
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
           >
             {classes.map(({ _id, name, description, image, trainers }) => (
@@ -204,7 +193,7 @@ const AllClasses = () => {
                 </Card>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}

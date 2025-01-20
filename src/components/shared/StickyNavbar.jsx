@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-
+import logo from "../../assets/logo.svg";
 export function StickyNavbar() {
   const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
@@ -26,23 +26,27 @@ export function StickyNavbar() {
   console.log(user?.photoURL);
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
-      <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/" className="flex items-center">
+      <Typography as="li" variant="small" className="p-1 font-semibold">
+        <NavLink style={({ isActive }) => ({ color: isActive ? "orange" : "" })} to="/" className="flex items-center">
           Home
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/allTrainer" className="flex items-center">
+      <Typography as="li" variant="small" className="p-1 font-semibold">
+        <NavLink style={({ isActive }) => ({ color: isActive ? "orange" : "" })} to="/allTrainer" className="flex items-center">
           All Trainer
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/allClasses" className="flex items-center">
+      <Typography as="li" variant="small" className="p-1 font-semibold">
+        <NavLink  style={({ isActive }) => ({ color: isActive ? "orange" : "" })} to="/allClasses" className="flex items-center">
           All Classes
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" className="p-1 font-normal">
-        <NavLink to="/community" className="flex items-center">
+      <Typography as="li" variant="small" className="p-1 font-semibold">
+        <NavLink
+          style={({ isActive }) => ({ color: isActive ? "orange" : "" })}
+          to="/community"
+          className="flex items-center"
+        >
           Community
         </NavLink>
       </Typography>
@@ -55,9 +59,10 @@ export function StickyNavbar() {
         <Typography
           as="a"
           href="#"
-          className="mr-4 cursor-pointer py-1.5 font-medium"
+          className="mr-4 cursor-pointer py-1.5 font-bold text-xl flex  text-orange-400 items-center gap-3"
         >
-          FitTrack
+          <img src={logo} alt="fit track logo" className="w-10" />
+          <span className="">FitTrack</span>
         </Typography>
         <div className="flex items-center gap-4">
           <div className="mr-4 hidden lg:block ">{navList}</div>
@@ -90,12 +95,7 @@ export function StickyNavbar() {
                       <>Dashboard</>
                     </Link>
                     <MenuItem>
-                      <Button
-                        onClick={logOut}
-                        variant="gradient"
-                        size="sm"
-                        className=""
-                      >
+                      <Button onClick={logOut} variant="gradient" size="sm">
                         <span>Log Out</span>
                       </Button>
                     </MenuItem>

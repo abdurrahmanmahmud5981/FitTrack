@@ -26,6 +26,13 @@ const AllTrainers = () => {
   console.log(trainers);
 
 
+  // Handle delete trainer
+  const handleDeleteTrainer = async(trainerId,trainerEmail) => {
+    console.log(trainerId,trainerEmail);
+    const res = await axiosSecure.delete(`/trainers/${trainerId}`,{email:trainerEmail})
+  };
+
+
   // Handle loading state
   if (isLoading) {
     return (
@@ -51,10 +58,6 @@ const AllTrainers = () => {
       </div>
     );
   }
-
-  // Handle delete trainer
-  const handleDeleteTrainer = (trainerId) => {
-  };
 
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
@@ -102,7 +105,7 @@ const AllTrainers = () => {
                           variant="text"
                           color="red"
                           size="sm"
-                          onClick={() => handleDeleteTrainer(_id)}
+                          onClick={() => handleDeleteTrainer(_id,email)}
                         >
                           <MdDelete size={20} />
                         </IconButton>

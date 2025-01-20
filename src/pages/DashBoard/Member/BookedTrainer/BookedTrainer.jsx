@@ -3,26 +3,8 @@ import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../../components/shared/LodingSpinner";
 
-// const BookedTrainer = () => {
-//   const { user } = useAuth();
-//   const axiosSecure = useAxiosSecure();
-//   const { data, isLoading } = useQuery({
-//     queryKey: ["booked-trainer", user?.email],
-//     queryFn: async () => {
-//       const response = await axiosSecure(`/bookings/${user?.email}`);
-//       return response.data;
-//     }
-//   });
+import { useState } from "react";
 
-//   if (isLoading) return <LoadingSpinner />;
-//   console.log(data);
-//   return <div>BookedTrainer</div>;
-// };
-
-// export default BookedTrainer;
-
-import { useState, useEffect } from "react";
-import axios from "axios";
 import Trainer from "./Trainer";
 
 const BookedTrainer = () => {
@@ -43,10 +25,6 @@ const BookedTrainer = () => {
   };
   const handleModalClose = () => {
     setModalOpen(false);
-  };
-
-  const handleReviewChange = (e) => {
-    setReview({ ...review, [e.target.name]: e.target.value });
   };
 
   if (isLoading) return <LoadingSpinner />;

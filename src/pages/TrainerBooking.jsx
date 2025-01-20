@@ -22,6 +22,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import LoadingSpinner from "../components/shared/LodingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const TrainerBooking = () => {
   
@@ -99,6 +100,10 @@ const TrainerBooking = () => {
 
   return (
     <section className="min-h-screen  py-12">
+      <Helmet>
+        <title>Book a Slot - {slot?.trainerName}</title>
+        <meta name="description" content="Book a slot with your favorite fitness trainer" />
+      </Helmet>
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

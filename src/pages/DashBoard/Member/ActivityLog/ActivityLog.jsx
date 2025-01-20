@@ -2,13 +2,21 @@ import { useQuery } from "react-query";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../../components/shared/LodingSpinner";
-import { Card, Typography } from "@material-tailwind/react";
+import { Button, Card, Dialog, IconButton,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Typography, } from "@material-tailwind/react";
+import { MdRemoveRedEye } from "react-icons/md";
+import { useState } from "react";
 
 const TABLE_HEAD = ["Name", "Email", "Status"];
 
 const ActivityLog = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [open, setOpen] = useState(false);
+
   const { data: log = {}, isLoading } = useQuery({
     queryKey: ["activityLog", user?.email],
     queryFn: async () => {
@@ -17,10 +25,12 @@ const ActivityLog = () => {
     },
   });
   console.log(log);
+  const handleOpen = () => setOpen(!open);
+
   if (isLoading) return <LoadingSpinner />;
   return (
     <>
-      <div className="p-6 max-w-screen-lg mx-auto">
+      <div className=" max-w-screen-lg mx-auto">
         <Card className="shadow-lg">
           <div className="bg-orange-500 text-white p-6 rounded-t-lg">
             <Typography
@@ -59,9 +69,21 @@ const ActivityLog = () => {
                         {log?.email}
                       </td>
                       <td className="p-4 border-b text-sm text-gray-800 ">
-                        <span className="bg-orange-100 p-3 rounded-full">
-                          {log?.status || "unavailable"}
-                        </span>
+                        {log?.status === "Pending" ? (
+                          "Pending"
+                        ) : (
+                          <span className="bg-orange-100 p-3 rounded-full">
+                            {log?.status || "unavailable"}
+                            <IconButton
+                              variant="text"
+                              color="red"
+                              size="sm"
+                              onClick={handleOpen}
+                            >
+                              <MdRemoveRedEye size={20} />
+                            </IconButton>
+                          </span>
+                        )}
                       </td>
                     </tr>
                   </tbody>
@@ -79,6 +101,27 @@ const ActivityLog = () => {
           </div>
         </Card>
       </div>
+      <Dialog open={open} handler={handleOpen}>
+        <DialogHeader>
+          <Typography variant="h5" color="blue-gray">
+            Feedback For You
+          </Typography>
+        </DialogHeader>
+        <DialogBody divider className="grid place-items-center gap-4">
+         
+          <Typography className="text-center font-normal">
+            {log?.feedback}
+          </Typography>
+        </DialogBody>
+        <DialogFooter className="space-x-2">
+          <Button variant="text" color="blue-gray" onClick={handleOpen}>
+            close
+          </Button>
+          <Button variant="gradient" onClick={handleOpen}>
+            Ok, Got it
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 };

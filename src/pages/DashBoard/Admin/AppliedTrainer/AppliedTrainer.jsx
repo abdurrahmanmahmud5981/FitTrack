@@ -2,6 +2,7 @@ import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
+import { MdRemoveRedEye } from 'react-icons/md';
 
 const TABLE_HEAD = ["#", "Name", "Email", "Details"];
 

@@ -11,6 +11,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useQuery } from "react-query";
 import LoadingSpinner from "../components/shared/LodingSpinner";
+import { Helmet } from "react-helmet-async";
 const socialLinks = [
   {
     name: "Facebook",
@@ -59,6 +60,19 @@ const TrainerDetails = () => {
 
   return (
     <section className="min-h-screen">
+      <Helmet>
+        <title> FitTrack - {trainer?.fullName} </title>
+        <meta
+          name="description"
+          content={`Discover ${trainer?.fullName}, a highly skilled and certified fitness trainer at FitTrack. Book a personalized workout and get ahead of the competition.`}
+        />{" "}
+        {/* SEO Meta Tags */}
+        <meta property="og:title" content={`${trainer?.fullName} - FitTrack`} />
+        <meta
+          property="og:description"
+          content={`Discover ${trainer?.fullName}, a highly skilled and certified fitness trainer at FitTrack. Book a personalized workout and get ahead of the competition.`}
+        />
+      </Helmet>
       {/* Hero Section */}
       {trainer && (
         <motion.div

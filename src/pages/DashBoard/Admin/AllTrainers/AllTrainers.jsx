@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const TABLE_HEAD = ["#", "Name", "Email", "Actions"];
 
@@ -84,8 +85,11 @@ const AllTrainers = () => {
 
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
+      <Helmet>
+        <title> FitTrack Admin - All Trainers </title>
+      </Helmet>
       <Card className="shadow-lg">
-        <div className="bg-blue-500 text-white p-6 rounded-t-lg">
+        <div className="bg-orange-500 text-white p-6 rounded-t-lg">
           <Typography variant="h4" className="font-bold text-center uppercase">
             All Trainers
           </Typography>

@@ -81,7 +81,7 @@ const Details = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Helmet>
-        <title>FitTrack - Applied Trainer Details</title>
+        <title>FitTrack Admin - Applied Trainer Details</title>
       </Helmet>
       <Card className="w-full max-w-3xl shadow-lg">
         {/* Header Section */}

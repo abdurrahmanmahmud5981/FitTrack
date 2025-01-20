@@ -56,7 +56,7 @@ const AppliedTrainer = () => {
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
       <Helmet>
-        <title>FitTrack - Applied Trainers </title>
+        <title>FitTrack Admin - Applied Trainers </title>
       </Helmet>
       <Card className="shadow-lg">
         <div className="bg-orange-500 text-white p-6 rounded-t-lg">

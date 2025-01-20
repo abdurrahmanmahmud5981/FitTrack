@@ -39,7 +39,7 @@ const BalanceOverview = () => {
   return (
     <div className="max-w-4xl mx-auto  space-y-8">
       <Helmet>
-        <title>FitTrack - Balance Overview</title>
+        <title>FitTrack Admin - Balance Overview</title>
       </Helmet>
       {/* Overview Section */}
       <div className="text-center">

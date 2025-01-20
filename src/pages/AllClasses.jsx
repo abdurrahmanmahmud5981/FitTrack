@@ -86,7 +86,7 @@ const AllClasses = () => {
   return (
     <section className="py-10 text-white min-h-screen">
       <Helmet>
-        <title>All Classes - Discover Your Next Class</title>
+        <title>FitTrack - All Classes </title>
         <meta
           name="description"
           content="Browse our wide range of classes and find the perfect one to start your journey. Search, filter, and explore classes with expert trainers."

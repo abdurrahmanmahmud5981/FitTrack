@@ -17,14 +17,15 @@ import {
 } from "@material-tailwind/react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const Details = () => {
-  const { state } = useLocation(); // State passed via navigation
-  const { id: applicantId } = useParams(); // Get applicant ID from URL
+  const { state } = useLocation();
+  const { id: applicantId } = useParams(); 
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure(); // Use secure axios for authenticated requests
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const [feedback, setFeedback] = useState(""); // Rejection feedback
 
   // Toggle Modal Visibility
@@ -79,6 +80,9 @@ const Details = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Helmet>
+        <title>FitTrack - Applied Trainer Details</title>
+      </Helmet>
       <Card className="w-full max-w-3xl shadow-lg">
         {/* Header Section */}
         <CardHeader

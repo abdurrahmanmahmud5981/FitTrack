@@ -27,11 +27,12 @@ import MemberRoute from "./MemberRoute";
 import PaymentPage from "../pages/Payment";
 import AddNewForum from "../pages/DashBoard/AddForum/AddNewForum";
 import Details from "../pages/DashBoard/Admin/AppliedTrainer/Details";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: "error",
+    errorElement: <NotFound/>,
     element: <MainLayout />,
     children: [
       { path: "", element: <Home /> },

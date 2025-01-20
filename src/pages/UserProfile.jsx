@@ -27,6 +27,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
 import uploadImage from "../api/uploadImage";
 import LoadingSpinner from "../components/shared/LodingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const UserProfile = () => {
   const axiosSecure = useAxiosSecure();
@@ -98,6 +99,9 @@ const UserProfile = () => {
       transition={{ duration: 0.5 }}
       className="max-w-3xl mx-auto p-4"
     >
+      <Helmet>
+        <title>FitTrack Dashboard - User Profile</title>
+      </Helmet>
       {user && (
         <>
           <Card className="shadow-lg">

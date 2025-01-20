@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { daysOptions, timesOptions } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 // Skills data
 const skillsOptions = [
@@ -119,6 +120,19 @@ const BeTrainer = () => {
 
   return (
     <div className="max-w-3xl mx-auto my-16">
+      <Helmet>
+        <title>FitTrack - Be a Trainer</title>
+        <meta
+          name="description"
+          content="Become a fitness trainer at FitTrack. Complete your profile, select available days and time, and apply for a position."
+        />{" "}
+        {/* SEO Meta Tags */}
+        <meta property="og:title" content="FitTrack - Be a Trainer" />
+        <meta
+          property="og:description"
+          content="Become a fitness trainer at FitTrack. Complete your profile, select available days and time, and apply for a position."
+        />
+      </Helmet>
       <Card className="shadow-lg bg-transparent text-white ring ring-gray-800">
         <CardBody>
           <h2 className="text-2xl font-semibold mb-6">Be a Trainer</h2>

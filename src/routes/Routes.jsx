@@ -32,13 +32,20 @@ import NotFound from "../pages/NotFound";
 const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: <NotFound/>,
+    errorElement: <NotFound />,
     element: <MainLayout />,
     children: [
       { path: "", element: <Home /> },
       { path: "/allTrainer", element: <AllTrainer /> },
       { path: "/trainer/:trainerId", element: <TrainerDetails /> },
-      { path: "/become-a-trainer", element: <BeTrainer /> },
+      {
+        path: "/become-a-trainer",
+        element: (
+          <PrivatRoute>
+            <BeTrainer />
+          </PrivatRoute>
+        ),
+      },
       {
         path: "/bookTrainer/:slotId",
         element: (
@@ -51,7 +58,7 @@ const router = createBrowserRouter([
         path: "/slot-payment",
         element: (
           <PrivatRoute>
-            <PaymentPage/>
+            <PaymentPage />
           </PrivatRoute>
         ),
       },

@@ -10,7 +10,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-import axios from "axios";
 import auth from "../firebase/firebase.config";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 
@@ -59,17 +58,7 @@ const AuthProvider = ({ children }) => {
         setUser(currentUser);
         setLoading(false);
 
-        // // save user information in database
-        if (currentUser?.displayName && currentUser?.photoURL) {
-          // await axios.post(
-          //   `${import.meta.env.VITE_API_URL}/users/${currentUser.email}`,
-          //   {
-          //     name: currentUser?.displayName,
-          //     image: currentUser?.photoURL,
-          //     email: currentUser?.email,
-          //   }
-          // );
-        }
+    
         // Get JWT token
         const result = await axiosPublic.post(
           `/jwt`,{

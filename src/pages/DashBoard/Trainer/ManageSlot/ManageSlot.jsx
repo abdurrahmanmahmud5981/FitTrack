@@ -1,10 +1,11 @@
-import { Card, Typography, Button, IconButton } from "@material-tailwind/react";
+import { Card, Typography,  IconButton } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../../components/shared/LodingSpinner";
 import Swal from "sweetalert2";
 import { FaTrash } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 const TABLE_HEAD = ["#", "Slot Name", "Class Name", "Action"];
 
 const ManageSlot = () => {
@@ -38,6 +39,7 @@ const ManageSlot = () => {
         await axiosSecure.delete(`/slots/${id}`);
         Swal.fire("Deleted!", "The slot has been removed.", "success");
         refetch();
+      // eslint-disable-next-line no-unused-vars
       } catch (error) {
         Swal.fire("Error!", "An error occurred while deleting the slot.", "error");
       }
@@ -49,6 +51,9 @@ const ManageSlot = () => {
 
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
+      <Helmet>
+        <title>FitTrack Trainer - Manage Slots</title>
+      </Helmet>
       <Card className="shadow-lg">
         <div className="bg-orange-500 text-white p-6 rounded-t-lg">
           <Typography variant="h4" className="font-bold text-center uppercase">

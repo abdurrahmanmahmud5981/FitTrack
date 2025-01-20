@@ -1,7 +1,6 @@
 import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { MdDelete, MdRemoveRedEye } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = ["#", "Name", "Email", "Details"];

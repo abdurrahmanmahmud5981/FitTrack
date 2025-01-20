@@ -69,10 +69,10 @@ const Login = () => {
       setIsLoading(true);
 
       const user = await signInWithGoogle();
-      console.log(user.user);
+   
       // save user information in the database if he is new
       await saveUser(user?.user);
-      navigate("/");
+      navigate(from || "/");
 
       Swal.fire({
         title: "Login Successful!",

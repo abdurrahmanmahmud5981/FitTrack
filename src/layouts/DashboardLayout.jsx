@@ -22,10 +22,8 @@ const DashboardLayout = () => {
   const { user, logOut } = useAuth();
 
   const handleLogout = () => {
-    alert("You have been logged out!");
-    // Add logout functionality
+    logOut()
   };
-  console.log("DashboardLayout", role);
   return (
     <div className="flex min-h-screen bg-gray-100 bg-fixed">
       <Helmet>

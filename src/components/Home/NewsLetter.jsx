@@ -34,7 +34,6 @@ const Newsletter = () => {
       })
       reset()
     }
-    console.log(result.data);
    } catch (error) {
     console.error("Error subscribing user:", error);
     

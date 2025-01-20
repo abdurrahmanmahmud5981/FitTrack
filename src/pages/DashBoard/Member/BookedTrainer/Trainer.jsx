@@ -30,10 +30,6 @@ const Trainer = ({
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
-      //   await axios.post("/api/reviews", {
-      //     ...review,
-      //     trainerId: trainer?.id,
-      //   });
       const feedback = {
         ...review,
         packageName,
@@ -60,7 +56,6 @@ const Trainer = ({
       });
     }
   };
-  console.log(trainer);
 
   return (
     <div>

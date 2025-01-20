@@ -48,7 +48,6 @@ const UserProfile = () => {
   });
 
   const { name, image, email, role, _id } = userInfo;
-  console.log(userInfo);
   const [imagePreview, setImagePreview] = useState(image);
   const [userName, setUserName] = useState(name || user?.displayName);
 
@@ -82,7 +81,6 @@ const UserProfile = () => {
         imagePreview ? imagePreview : image
       );
       const res = await axiosSecure.patch(`/users/${_id}`, profileInfo);
-      console.log(res.data);
     } catch (error) {
       console.error("Failed to update profile:", error.message);
     } finally {

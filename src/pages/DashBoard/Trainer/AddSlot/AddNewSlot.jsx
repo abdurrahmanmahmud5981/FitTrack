@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { availableClasses, daysOptions, timesOptions } from "../../../../api";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../../components/shared/LodingSpinner";
 
 const AddNewSlot = () => {
   const { user } = useAuth();
@@ -23,14 +24,13 @@ const AddNewSlot = () => {
   const [slotTime, setSlotTime] = useState(0);
   const [selectedClasses, setSelectedClasses] = useState("");
 
-  const { data: trainerId = "" } = useQuery({
-    queryKey: ["trainerId",user?.email],
+  const { data: trainerId = "" , isLoading} = useQuery({
+    queryKey: ["trainerId", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/trainer-id/${user?.email}`);
       return res.data?.trainerId;
     },
   });
-  console.log(trainerId);
   // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,15 +45,11 @@ const AddNewSlot = () => {
         class: selectedClasses.label,
       };
       const res = await axiosSecure.post("/slots", slotData);
-      const addto = await axiosSecure.patch(
-        `/classes/${selectedClasses.label}`,
-        {
-          trainerId: trainerId,
-          trainerName: user?.displayName,
-          trainerImage: user?.photoURL,
-        }
-      );
-      console.log(addto.data);
+      await axiosSecure.patch(`/classes/${selectedClasses.label}`, {
+        trainerId: trainerId,
+        trainerName: user?.displayName,
+        trainerImage: user?.photoURL,
+      });
       if (res.data?.insertedId) {
         Swal.fire({
           title: "Slot Added Successfully!",
@@ -74,6 +70,7 @@ const AddNewSlot = () => {
     }
   };
 
+  if(isLoading) return <LoadingSpinner/>
   return (
     <div className="max-w-4xl mx-auto p-8 space-y-8  ">
       <Helmet>

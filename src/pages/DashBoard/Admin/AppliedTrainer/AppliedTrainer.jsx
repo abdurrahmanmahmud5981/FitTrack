@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
 import { MdRemoveRedEye } from 'react-icons/md';
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../../components/shared/LodingSpinner";
 
 const TABLE_HEAD = ["#", "Name", "Email", "Details"];
 
@@ -25,18 +26,10 @@ const AppliedTrainer = () => {
     },
   });
 
-  console.log(trainers);
+
 
   // Handle loading state
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Typography variant="h5" color="blue-gray" className="font-medium">
-          Loading trainers...
-        </Typography>
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingSpinner/>
 
   // Handle error state
   if (isError) {

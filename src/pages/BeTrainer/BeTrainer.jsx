@@ -63,7 +63,6 @@ const BeTrainer = () => {
     const photoURL = await uploadImage(file);
     if (photoURL) {
       setProfileImage(photoURL);
-      console.log("Image uploaded successfully:", photoURL);
     }
   };
 
@@ -92,9 +91,7 @@ const BeTrainer = () => {
         availableTime: data.availableTime.value,
         status: "Pending",
       };
-      console.log(trainerData);
       const result = await axiosSecure.post("/trainers", trainerData);
-      console.log("Trainer Data:", result.data);
       if (result.data?.insertedId) {
         Swal.fire({
           title: "Success",

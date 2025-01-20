@@ -6,7 +6,6 @@ import useGetRole from "../hooks/useGetRole";
 const MemberRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const [role, isLoading] = useGetRole();
-  console.log("member route", role);
   if (loading || isLoading) return <h4>Loding...</h4>;
   if (user?.email && role === "member") return children;
   return <Navigate to="/dashboard/profile" replace="true" />;

@@ -40,13 +40,11 @@ const TrainerDetails = () => {
       return response.data;
     },
   });
-  console.log(trainer);
   const { data: slots = [] } = useQuery({
     queryKey: ["slots", trainer?.email],
     enabled: !isLoading && !!trainer?.email,
     queryFn: async () => {
       const response = await axiosPublic(`/slots/${trainer?.email}`);
-      console.log(response);
       return response.data;
     },
   });

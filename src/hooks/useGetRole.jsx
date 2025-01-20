@@ -15,8 +15,6 @@ const useGetRole = () => {
       return data;
     },
   });
-  console.log( ' in hokkkk', role);
-
   return [role, isLoading];
 };
 

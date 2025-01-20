@@ -21,11 +21,11 @@ import { Helmet } from "react-helmet-async";
 
 const Details = () => {
   const { state } = useLocation();
-  const { id: applicantId } = useParams(); 
+  const { id: applicantId } = useParams();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure(); // Use secure axios for authenticated requests
 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [feedback, setFeedback] = useState(""); // Rejection feedback
 
   // Toggle Modal Visibility
@@ -36,12 +36,9 @@ const Details = () => {
   // Confirm button handler
   const handleConfirm = async () => {
     try {
-      const res = await axiosSecure.patch(
-        `/trainers/applicants/confirm/${applicantId}`,
-        { email: state?.email }
-      );
-      console.log("Confirm", res.data);
-      //   navigate("/applied-trainers");
+      await axiosSecure.patch(`/trainers/applicants/confirm/${applicantId}`, {
+        email: state?.email,
+      });
       Swal.fire({
         title: "Applicant confirmed!",
         text: "The trainer has been notified about your confirmation.",
@@ -51,27 +48,28 @@ const Details = () => {
       navigate("/dashboard/all-trainer");
     } catch (error) {
       console.error("Error confirming the applicant:", error);
-       Swal.fire({
+      Swal.fire({
         title: "Error confirming the applicant!",
         text: `${error?.message}`,
         icon: "error",
         confirmButtonText: "Close",
-       })
+      });
     }
   };
 
   // Reject button handler with feedback
   const handleReject = async () => {
     try {
-       const res = await axiosSecure.patch(`/trainers/applicants/reject/${applicantId}`, { feedback });
-       console.log(res.data);
+      await axiosSecure.patch(`/trainers/applicants/reject/${applicantId}`, {
+        feedback,
+      });
       setIsModalOpen(false);
-       Swal.fire({
+      Swal.fire({
         title: "Applicant rejected!",
         text: "The Applicant has been notified about your rejection.",
         icon: "success",
         confirmButtonText: "Close",
-       })
+      });
       navigate("/dashboard/applied-trainers");
     } catch (error) {
       console.error("Error rejecting the applicant:", error);

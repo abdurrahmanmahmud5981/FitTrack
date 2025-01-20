@@ -3,18 +3,19 @@ import { Avatar, Button, Card, CardBody, CardFooter, Typography } from "@materia
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../shared/LodingSpinner";
 
 const CommunityPosts = () => {
   const axiosPublic = useAxiosPublic();
-  const { data:posts=[], isLoading, isError } = useQuery({
+  const { data:posts=[], isLoading } = useQuery({
     queryKey: ["featured-posts"],
     queryFn: async () => {
       const response = await axiosPublic("/featured-posts");
       return response.data;
     }
   });
-  console.log(posts);
- 
+
+  if (isLoading) return <LoadingSpinner/>;
 
   return (
     <section className="py-10">

@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../../components/shared/LodingSpinner";
 
 const TABLE_HEAD = ["#", "Name", "Email", "Actions"];
 
@@ -24,8 +25,6 @@ const AllTrainers = () => {
       return response.data;
     },
   });
-
-  console.log(trainers);
 
   // Handle delete trainer
   const handleDeleteTrainer = async (trainerId, trainerEmail) => {
@@ -58,15 +57,7 @@ const AllTrainers = () => {
   };
 
   // Handle loading state
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Typography variant="h5" color="blue-gray" className="font-medium">
-          Loading trainers...
-        </Typography>
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingSpinner/>
 
   // Handle error state
   if (isError) {

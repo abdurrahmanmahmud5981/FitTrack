@@ -22,7 +22,6 @@ const PaymentDetails = () => {
   const axiosSecure = useAxiosSecure();
   const { state } = useLocation();
   const { user } = useAuth();
-  console.log(state);
   const [paymentSuccess, setPaymentSuccess] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,7 +40,6 @@ const PaymentDetails = () => {
     );
     setClientSecret(clientSecret?.clientSecret);
   };
-  console.log(clientSecret);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -79,7 +77,6 @@ const PaymentDetails = () => {
           icon: "success",
         });
         setPaymentSuccess(true);
-        // console.log(paymentIntent);
         // Save payment info to the database
         await axiosSecure.post(`/bookings`, {
           ...state,

@@ -14,8 +14,6 @@ const useTrainerId = () => {
       return data;
     },
   });
-  console.log( ' in hokkkk', );
-
   return [trainerId, isLoading];
 };
 

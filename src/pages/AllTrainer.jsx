@@ -35,7 +35,6 @@ const AllTrainer = () => {
       return response.data;
     },
   });
-  console.log(trainers);
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -24,13 +24,11 @@ const Register = () => {
     reset,
     setValue,
   } = useForm();
-  console.log(imagePreview);
   // Image upload handlers
   const handleImageChange = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     const photoURL = await uploadImage(file);
-    console.log(photoURL);
     setImagePreview(photoURL);
     // setValue('photo', imagePreview);
   };
@@ -40,7 +38,6 @@ const Register = () => {
     setValue("photo", null);
   };
 
-  //  console.log(imagePreview);
   const showSuccessAlert = () => {
     Swal.fire({
       title: "Registration Successful!",
@@ -48,9 +45,7 @@ const Register = () => {
       icon: "success",
       confirmButtonText: "Continue",
       confirmButtonColor: "#2196f3",
-    }).then(() => {
-      // navigate("/dashboard"); // or wherever you want to redirect
-    });
+    })
   };
 
   const showErrorAlert = (error) => {
@@ -94,7 +89,6 @@ const Register = () => {
       setIsLoading(true);
 
       const user = await signInWithGoogle();
-      console.log(user.user);
       // save user information in the database if he is new
       await saveUser(user?.user);
       navigate("/");

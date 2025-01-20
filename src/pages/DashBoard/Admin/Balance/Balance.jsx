@@ -21,7 +21,6 @@ const BalanceOverview = () => {
   });
   if (isLoading) return <LoadingSpinner />;
   const { totalBalance = 0, totalSubscribers = 0, bookings = [] } = overview;
-  console.log(overview);
   // Pie chart data
   const chartData = [
     {

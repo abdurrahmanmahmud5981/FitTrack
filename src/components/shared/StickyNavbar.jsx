@@ -16,14 +16,12 @@ import logo from "../../assets/logo.svg";
 export function StickyNavbar() {
   const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
-  console.log(user, "StickyNavbar");
   useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
-  console.log(user?.photoURL);
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
       <Typography as="li" variant="small" className="p-1 font-semibold">

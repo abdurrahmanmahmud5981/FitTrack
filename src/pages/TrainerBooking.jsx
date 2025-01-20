@@ -37,7 +37,6 @@ const TrainerBooking = () => {
       return response.data;
     },
   });
-  console.log(slot);
 
   if (isLoading) return <LoadingSpinner/>
   
@@ -92,7 +91,6 @@ const TrainerBooking = () => {
         price: packages.find((pkg) => pkg.id === selectedPackage).price,
        
     };
-    console.log(state);
     navigate(`/slot-payment`, {
       state:state
     });

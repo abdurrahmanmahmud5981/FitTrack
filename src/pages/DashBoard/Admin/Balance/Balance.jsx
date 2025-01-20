@@ -1,25 +1,19 @@
-import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
-import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "react-query";
 import LoadingSpinner from "../../../../components/shared/LodingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const BalanceOverview = () => {
   const axiosSecure = useAxiosSecure();
-  const [transactions, setTransactions] = useState([]);
-  // const [totalBalance, setTotalBalance] = useState(0);
-  const [subscribersData, setSubscribersData] = useState({
-    totalSubscribers: 0,
-    totalPaidMembers: 0,
-  });
   const { data: overview = {}, isLoading } = useQuery({
     queryKey: ["balanceOverview"],
     queryFn: async () => {
       try {
         const res = await axiosSecure.get("/admin/overview");
         return res.data;
+      // eslint-disable-next-line no-unused-vars
       } catch (error) {
         throw new Error("Failed to fetch financial overview data");
       }
@@ -28,31 +22,6 @@ const BalanceOverview = () => {
   if (isLoading) return <LoadingSpinner />;
   const { totalBalance = 0, totalSubscribers = 0, bookings = [] } = overview;
   console.log(overview);
-  // Fetch data (Balance and Transactions)
-  // useEffect(() => {
-  //   const fetchBalanceData = async () => {
-  //     try {
-  //       const res = await axiosSecure.get("/financial-overview");
-  //       if (res.data) {
-  //         setTotalBalance(res.data.totalBalance);
-  //         setTransactions(res.data.transactions);
-  //         setSubscribersData({
-  //           totalSubscribers: res.data.totalSubscribers,
-  //           totalPaidMembers: res.data.totalPaidMembers,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       Swal.fire({
-  //         title: "Error fetching financial data",
-  //         icon: "error",
-  //         confirmButtonText: "Try Again",
-  //       });
-  //     }
-  //   };
-
-  //   fetchBalanceData();
-  // }, [axiosSecure]);
-
   // Pie chart data
   const chartData = [
     {
@@ -69,6 +38,9 @@ const BalanceOverview = () => {
 
   return (
     <div className="max-w-4xl mx-auto  space-y-8">
+      <Helmet>
+        <title>FitTrack - Balance Overview</title>
+      </Helmet>
       {/* Overview Section */}
       <div className="text-center">
         <Typography variant="h4" color="blue-gray" className="font-bold">
@@ -141,7 +113,6 @@ const BalanceOverview = () => {
                       paymentId,
                       packageName,
                       userName,
-                      userEmail,
                       price,
                     }) => (
                       <tr

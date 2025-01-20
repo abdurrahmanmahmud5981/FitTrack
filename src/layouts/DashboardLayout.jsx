@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import {
   FaUser,
   FaChalkboardTeacher,
@@ -19,7 +19,6 @@ import { Helmet } from "react-helmet-async";
 
 const DashboardLayout = () => {
   const [role] = useGetRole();
-  const [activeSection, setActiveSection] = useState("profile");
   const { user, logOut } = useAuth();
 
   const handleLogout = () => {
@@ -57,44 +56,32 @@ const DashboardLayout = () => {
                 icon={<FaChalkboardTeacher />}
                 label="All Subscribers"
                 to="dashboard/newsletter-subscribers"
-                isActive={activeSection === "newsletter-subscribers"}
-                onClick={() => setActiveSection("newsletter-subscribers")}
               />
               <SidebarItem
                 icon={<FaBook />}
                 label="Add New Class "
                 to="dashboard/add-new-class"
-                isActive={activeSection === "add-new-class"}
-                onClick={() => setActiveSection("add-new-class")}
               />
 
               <SidebarItem
                 icon={<FaChalkboardTeacher />}
                 label="All Trainers"
                 to="dashboard/all-trainer"
-                isActive={activeSection === "all-trainer"}
-                onClick={() => setActiveSection("all-trainer")}
               />
               <SidebarItem
                 icon={<FaChalkboardTeacher />}
                 label="Applied Trainers"
                 to="dashboard/applied-trainers"
-                isActive={activeSection === "applied-trainers"}
-                onClick={() => setActiveSection("applied-trainers")}
               />
               <SidebarItem
                 icon={<FaDollarSign />}
                 label="Balance"
                 to="dashboard/balance"
-                isActive={activeSection === "balance"}
-                onClick={() => setActiveSection("balance")}
               />
               <SidebarItem
                 icon={<FaComments />}
                 label="Add New Post"
                 to="dashboard/admin/add-new-forum-post"
-                isActive={activeSection === "admin/add-new-forum-post"}
-                onClick={() => setActiveSection("admin/add-new-forum-post")}
               />
             </>
           )}
@@ -105,15 +92,11 @@ const DashboardLayout = () => {
                 icon={<FaChalkboardTeacher />}
                 label="Activity Log"
                 to="dashboard/activity-log"
-                isActive={activeSection === "activity-log"}
-                onClick={() => setActiveSection("activity-log")}
               />
               <SidebarItem
                 icon={<FaBook />}
                 label="Booked Trainer"
                 to="dashboard/booked-trainer"
-                isActive={activeSection === "booked-trainer"}
-                onClick={() => setActiveSection("booked-trainer")}
               />
             </>
           )}
@@ -124,22 +107,16 @@ const DashboardLayout = () => {
                 icon={<FaPen />}
                 label="Add New Slot"
                 to="dashboard/add-new-slot"
-                isActive={activeSection === "add-new-slot"}
-                onClick={() => setActiveSection("add-new-slot")}
               />
               <SidebarItem
                 icon={<FaPen />}
                 label="Manage Slot"
                 to="dashboard/manage-slot"
-                isActive={activeSection === "manage-slot"}
-                onClick={() => setActiveSection("manage-slot")}
               />
               <SidebarItem
                 icon={<FaComments />}
                 label="Add New Post"
                 to="dashboard/trainer/add-new-forum-post"
-                isActive={activeSection === "trainer/add-new-forum-post"}
-                onClick={() => setActiveSection("trainer/add-new-forum-post")}
               />
             </>
           )}
@@ -148,16 +125,8 @@ const DashboardLayout = () => {
             icon={<FaUser />}
             label="Profile"
             to="dashboard/profile"
-            isActive={activeSection === "profile"}
-            onClick={() => setActiveSection("profile")}
           />
-          <SidebarItem
-            icon={<FaHome />}
-            label="Home"
-            to=""
-            isActive={activeSection === "home"}
-            onClick={() => setActiveSection("home")}
-          />
+          <SidebarItem icon={<FaHome />} label="Home" to="" />
           <SidebarItem
             icon={<FaSignOutAlt />}
             label="Logout"
@@ -194,14 +163,11 @@ const DashboardLayout = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-        
           <Outlet />
         </motion.div>
       </main>
     </div>
   );
 };
-
-
 
 export default DashboardLayout;

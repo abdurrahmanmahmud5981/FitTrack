@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { Typography } from '@material-tailwind/react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
-
+import logo from "../../assets/logo.svg"
 const navigationLinks = [
   { title: "Company", links: ["About Us", "Team", "Careers", "Contact"] },
   { title: "Products", links: ["Services", "Pricing", "Features", "Solutions"] },
@@ -25,7 +25,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h2 className="text-lg font-bold text-orange-500">FitTrack</h2>
+            <h2 className="flex items-center gap-3 text-xl font-bold text-orange-500"><img src={logo} alt="footer logo " className='w-8' /> FitTrack</h2>
             <p className="text-sm text-gray-400">
               Empowering your fitness journey with expert guidance and support.
             </p>
@@ -76,7 +76,7 @@ export function Footer() {
 
             {/* Legal Links */}
             <div className="flex space-x-6">
-              {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item, index) => (
+              {["Privacy Policy", "Terms of Service", "Cookie Policy"]?.map((item, index) => (
                 <a
                   key={index}
                   href="#"

@@ -95,23 +95,25 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
       <motion.div
         initial="hidden"
         animate="visible"
         variants={formVariants}
-        className="w-full max-w-md"
+        className="w-full max-w-lg min-h-screen mt-10"
       >
-        <Card className="p-8 shadow-xl bg-orange-50 backdrop-blur-3xl">
-          <Typography variant="h4" className="mb-4 text-center font-bold">
+        <Card className="p-8 bg-gray-900 border-gray-800 backdrop-blur-3xl py-16">
+          <Typography variant="h4" className=" font-bold text-orange-500 text-center mb-8">
             Welcome Back
           </Typography>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <motion.div variants={inputVariants}>
-              <Input
-                size="lg"
-                label="Email"
+              <input
+                 type="email"
+                 name="email"
+                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
+                 placeholder="Email"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -119,7 +121,7 @@ const Login = () => {
                     message: "Invalid email address",
                   },
                 })}
-                error={!!errors.email}
+              
               />
               {errors.email && (
                 <Typography color="red" className="mt-1 text-sm">
@@ -130,10 +132,11 @@ const Login = () => {
 
             <motion.div variants={inputVariants}>
               <div className="relative ">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  size="lg"
-                  label="Password"
+                <input
+                 type={showPassword ? "text" : "password"}
+                 name="password"
+                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
+                 placeholder="Password"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -147,13 +150,12 @@ const Login = () => {
                         "Password must contain at least one uppercase letter, one special character, and one number",
                     },
                   })}
-                  error={!!errors.password}
-                  className="pr-10 "
+                
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2  right-2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-500"
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
@@ -165,7 +167,7 @@ const Login = () => {
               )}
             </motion.div>
             <motion.div variants={inputVariants}>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-gray-900 font-semibold py-3 rounded-lg transition-colors" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
             </motion.div>
@@ -174,10 +176,10 @@ const Login = () => {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-gray-800"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-orange-50 text-gray-500">
+                <span className="px-2 bg-gray-900 text-gray-500">
                   Or continue with
                 </span>
               </div>
@@ -186,7 +188,8 @@ const Login = () => {
             <motion.div variants={inputVariants} className="mt-6">
               <Button
                 onClick={handleGoogleLogin}
-                className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+               aria-label="Sign in with Google"
+                className="mt-6 w-full bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 border border-gray-700"
                 disabled={isLoading}
               >
                 <FcGoogle />
@@ -195,11 +198,11 @@ const Login = () => {
             </motion.div>
           </div>
 
-          <Typography className="mt-4 text-center text-sm text-gray-600">
+          <Typography className="mt-4 text-center text-sm text-gray-500">
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
-              className="text-blue-500 hover:text-blue-700 transition-colors"
+              className="text-orange-500 hover:text-orange-400 transition-colors"
             >
               Register here
             </Link>
@@ -211,3 +214,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

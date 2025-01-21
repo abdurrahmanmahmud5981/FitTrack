@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { Input, Button, Card, Typography } from "@material-tailwind/react";
-import { FaCloudUploadAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Button, Card, Typography } from "@material-tailwind/react";
+import { FaEye, FaEyeSlash, FaCloudUploadAlt, FaSpinner } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import uploadImage, { saveUser } from "../../api/uploadImage";
 import useAuth from "../../hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const { signInWithGoogle, createUser, updateUserProfile } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
@@ -20,87 +22,167 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     setValue,
   } = useForm();
-  // Image upload handlers
-  const handleImageChange = async (e) => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    const photoURL = await uploadImage(file);
-    setImagePreview(photoURL);
-    // setValue('photo', imagePreview);
-  };
 
-  const removeImage = () => {
-    setImagePreview(null);
-    setValue("photo", null);
-  };
 
-  const showSuccessAlert = () => {
-    Swal.fire({
-      title: "Registration Successful!",
-      text: "Welcome to our fitness community!",
-      icon: "success",
-      confirmButtonText: "Continue",
-      confirmButtonColor: "#2196f3",
-    })
-  };
-
-  const showErrorAlert = (error) => {
-    Swal.fire({
-      title: "Registration Failed",
-      text: error || "Please try again later",
-      icon: "error",
-      confirmButtonText: "Ok",
-      confirmButtonColor: "#ef4444",
+  const showAlert = (title, text, icon, confirmButtonColor = "#ea580c") => {
+    return Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "OK",
+      confirmButtonColor,
+      background: "#1f2937",
+      color: "#f3f4f6",
+      toast: true,
+      position: "center",
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false
     });
   };
 
+  const handleImageChange = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validImageTypes.includes(file.type)) {
+      showAlert(
+        "Invalid File Type",
+        "Please upload a valid image file (JPEG, PNG, or GIF)",
+        "error"
+      );
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      showAlert(
+        "File Too Large",
+        "Please upload an image smaller than 5MB",
+        "error"
+      );
+      return;
+    }
+
+    setIsImageUploading(true);
+    try {
+      const photoURL = await uploadImage(file);
+      setImagePreview(photoURL);
+      showAlert(
+        "Success",
+        "Profile picture uploaded successfully",
+        "success"
+      );
+    } catch (error) {
+      showAlert(
+        "Upload Failed",
+        "Failed to upload image. Please try again.",
+        "error"
+      );
+    } finally {
+      setIsImageUploading(false);
+    }
+  };
+
   const onSubmit = async (data) => {
+    if (isLoading || isSubmitting) return;
+    
+    if (!imagePreview) {
+      showAlert(
+        "Profile Picture Required",
+        "Please upload a profile picture to continue",
+        "warning"
+      );
+      return;
+    }
+
     setIsLoading(true);
     try {
-      if (imagePreview === null) {
-        Swal.fire({
-          title: "Image Required",
-          text: "Please upload a profile picture",
-          icon: "error",
-          confirmButtonText: "Ok",
-          confirmButtonColor: "#ef4444",
-        });
-        return;
-      }
       const result = await createUser(data?.email, data?.password);
       await updateUserProfile(data?.name, imagePreview);
       await saveUser(result.user);
+      
+      showAlert(
+        "Registration Successful!",
+        "Welcome to our community!",
+        "success"
+      );
+      
       navigate("/");
       reset();
-      showSuccessAlert();
     } catch (error) {
-      showErrorAlert(error.message);
+      let errorMessage = "Registration failed. Please try again.";
+      
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "This email is already registered. Please try logging in.";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "Please enter a valid email address.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "Password is too weak. Please choose a stronger password.";
+      }
+      
+      showAlert(
+        "Registration Failed",
+        errorMessage,
+        "error"
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    if (isGoogleLoading) return;
+    
+    setIsGoogleLoading(true);
     try {
-      setIsLoading(true);
-
       const user = await signInWithGoogle();
-      // save user information in the database if he is new
       await saveUser(user?.user);
+      
+      showAlert(
+        "Google Sign-In Successful!",
+        "Welcome to our community!",
+        "success"
+      );
+      
       navigate("/");
-      showSuccessAlert();
     } catch (error) {
-      showErrorAlert(error.message);
+      let errorMessage = "Google sign-in failed. Please try again.";
+      
+      if (error.code === "auth/popup-closed-by-user") {
+        errorMessage = "Sign-in window was closed. Please try again.";
+      } else if (error.code === "auth/popup-blocked") {
+        errorMessage = "Pop-up was blocked. Please allow pop-ups and try again.";
+      }
+      
+      showAlert(
+        "Google Sign-In Failed",
+        errorMessage,
+        "error"
+      );
     } finally {
-      setIsLoading(false);
+      setIsGoogleLoading(false);
     }
   };
 
-  const formVariants = {
+  const removeImage = () => {
+    setImagePreview(null);
+    setValue("photo", null);
+    showAlert(
+      "Image Removed",
+      "Profile picture has been removed",
+      "info"
+    );
+  };
+
+
+
+const formVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
@@ -114,22 +196,22 @@ const Register = () => {
     visible: { x: 0, opacity: 1 },
   };
 
+  const LoadingSpinner = ({ size = 20 }) => (
+    <FaSpinner className="animate-spin" size={size} />
+  );
+
   return (
-    <div className="min-h-screen flex items-center justify-center  px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
       <motion.div
         initial="hidden"
         animate="visible"
         variants={formVariants}
         className="w-full max-w-md"
       >
-        <Card className="p-8 shadow-xl bg-orange-50  backdrop-blur-3xl filter backdrop-filter">
-          <Typography
-            variant="h4"
-            color="blue-gray"
-            className="mb-4 text-center"
-          >
+        <Card className="p-8 bg-gray-900 border-gray-800">
+          <h2 className="text-2xl font-bold text-orange-500 text-center mb-8">
             Create Account
-          </Typography>
+          </h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <motion.div variants={inputVariants} className="space-y-4">
@@ -140,6 +222,7 @@ const Register = () => {
                   accept="image/*"
                   className="hidden"
                   onChange={handleImageChange}
+                  disabled={isImageUploading}
                 />
 
                 {imagePreview ? (
@@ -147,12 +230,13 @@ const Register = () => {
                     <img
                       src={imagePreview}
                       alt="Preview"
-                      className="w-24 h-24  rounded-full object-cover border-4 border-orange-500"
+                      className="w-24 h-24 rounded-full object-cover border-4 border-orange-500"
                     />
                     <button
                       type="button"
                       onClick={removeImage}
-                      className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors"
+                      disabled={isLoading || isImageUploading}
+                      className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-gray-100 hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <MdDelete size={20} />
                     </button>
@@ -160,68 +244,83 @@ const Register = () => {
                 ) : (
                   <label
                     htmlFor="photo"
-                    className="w-24 h-24  border-4 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-colors"
+                    className={`w-24 h-24 rounded-full border-4 border-dashed border-gray-700 flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 transition-colors ${
+                      isImageUploading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                   >
-                    <FaCloudUploadAlt size={30} className="text-gray-400" />
-                    <span className="text-sm text-gray-400 mt-2">
-                      Upload Photo
-                    </span>
+                    {isImageUploading ? (
+                      <LoadingSpinner size={30} />
+                    ) : (
+                      <>
+                        <FaCloudUploadAlt size={30} className="text-gray-400" />
+                        <span className="text-sm text-gray-400 mt-2">
+                          Upload Photo
+                        </span>
+                      </>
+                    )}
                   </label>
                 )}
                 {errors.photo && (
-                  <Typography color="red" className="mt-1 text-sm">
+                  <p className="mt-1 text-sm text-red-500">
                     {errors.photo.message}
-                  </Typography>
+                  </p>
                 )}
               </div>
             </motion.div>
 
             <motion.div variants={inputVariants}>
-              <Input
-                size="lg"
-                label="Full Name"
-                {...register("name", {
-                  required: "Name is required",
-                  minLength: {
-                    value: 3,
-                    message: "Name must be at least 3 characters",
-                  },
-                })}
-                error={!!errors.name}
-              />
-              {errors.name && (
-                <Typography color="red" className="mt-1 text-sm">
-                  {errors.name.message}
-                </Typography>
-              )}
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Full Name"
+                  disabled={isLoading}
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Name must be at least 3 characters",
+                    },
+                  })}
+                />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
             </motion.div>
 
             <motion.div variants={inputVariants}>
-              <Input
-                size="lg"
-                label="Email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-                error={!!errors.email}
-              />
-              {errors.email && (
-                <Typography color="red" className="mt-1 text-sm">
-                  {errors.email.message}
-                </Typography>
-              )}
+              <div className="relative">
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Email"
+                  disabled={isLoading}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
             </motion.div>
 
-            <motion.div variants={inputVariants}>
+           <motion.div variants={inputVariants}>
               <div className="relative ">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  size="lg"
-                  label="Password"
+                <input
+                 type={showPassword ? "text" : "password"}
+                 name="password"
+                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
+                 placeholder="Password"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -235,13 +334,12 @@ const Register = () => {
                         "Password must contain at least one uppercase letter, one special character, and one number",
                     },
                   })}
-                  error={!!errors.password}
-                  className="pr-10 "
+                
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2  right-2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-orange-500"
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
@@ -252,14 +350,24 @@ const Register = () => {
                 </Typography>
               )}
             </motion.div>
-
             <motion.div
               variants={inputVariants}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: isLoading ? 1 : 1.02 }}
+              whileTap={{ scale: isLoading ? 1 : 0.98 }}
             >
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating Account..." : "Register"}
+              <Button 
+                type="submit" 
+                className="w-full bg-orange-500 hover:bg-orange-600 text-gray-900 font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                disabled={isLoading || isImageUploading}
+              >
+                {isLoading ? (
+                  <>
+                    <LoadingSpinner />
+                    <span>Creating Account...</span>
+                  </>
+                ) : (
+                  "Register"
+                )}
               </Button>
             </motion.div>
           </form>
@@ -267,10 +375,10 @@ const Register = () => {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-gray-800"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
+                <span className="px-2 bg-gray-900 text-gray-400">
                   Or continue with
                 </span>
               </div>
@@ -278,30 +386,39 @@ const Register = () => {
 
             <motion.div
               variants={inputVariants}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: isGoogleLoading ? 1 : 1.02 }}
+              whileTap={{ scale: isGoogleLoading ? 1 : 0.98 }}
               className="mt-6"
             >
               <Button
                 onClick={handleGoogleLogin}
-                className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                disabled={isLoading}
+                className="w-full flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isGoogleLoading || isLoading}
               >
-                <FcGoogle />
-                Continue with Google
+                {isGoogleLoading ? (
+                  <>
+                    <LoadingSpinner />
+                    <span>Connecting...</span>
+                  </>
+                ) : (
+                  <>
+                    <FcGoogle size={20} />
+                    <span>Continue with Google</span>
+                  </>
+                )}
               </Button>
             </motion.div>
           </div>
 
-          <Typography color="gray" className="mt-4 text-center text-sm">
+          <p className="mt-6 text-center text-sm text-gray-400">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-blue-500 hover:text-blue-700 transition-colors"
+              className="text-orange-500 hover:text-orange-400 transition-colors"
             >
               Login here
             </Link>
-          </Typography>
+          </p>
         </Card>
       </motion.div>
     </div>

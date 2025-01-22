@@ -201,7 +201,7 @@ const formVariants = {
   );
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
+    <div className=" py-14  min-h-screen flex items-center justify-center px-4 bg-gray-950">
       <motion.div
         initial="hidden"
         animate="visible"

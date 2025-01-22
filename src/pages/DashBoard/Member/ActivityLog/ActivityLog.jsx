@@ -14,7 +14,7 @@ const ActivityLog = () => {
   const axiosSecure = useAxiosSecure();
   const [open, setOpen] = useState(false);
 
-  const { data: log = null, isLoading } = useQuery({
+  const { data: log = {}, isLoading } = useQuery({
     queryKey: ["activityLog", user?.email],
     queryFn: async () => {
       const response = await axiosSecure.get(`/trainer-status/${user?.email}`);
@@ -22,7 +22,6 @@ const ActivityLog = () => {
     },
   });
   const handleOpen = () => setOpen(!open);
-
   if (isLoading) return <LoadingSpinner />;
 
   return (
@@ -40,7 +39,7 @@ const ActivityLog = () => {
             </Typography>
           </div>
           <div className="p-6">
-            {log && !log?.message === "Trainer not found" ? (
+            { log?.status ? (
               <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse text-left">
                   <thead>

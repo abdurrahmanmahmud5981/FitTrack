@@ -27,7 +27,7 @@ const AddNewClass = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    if (!data.className || !data.image || !data.details) {
+    if (!data.name || !data.image || !data.description) {
       Swal.fire({
         title: "Error",
         text: "Please fill out all required fields!",
@@ -36,14 +36,17 @@ const AddNewClass = () => {
       return;
     }
     try {
-      const response = await axiosSecure.post("/classes", data);
+      const response = await axiosSecure.post("/classes", {
+        ...data,
+        trainers: [],
+      });
       if (response.data.insertedId) {
         Swal.fire({
           title: "Success",
           text: "Class added successfully!",
           icon: "success",
         });
-        setImage(null)
+        setImage(null);
         reset();
       }
     } catch (error) {
@@ -91,23 +94,21 @@ const AddNewClass = () => {
             {/* Class Name */}
             <div>
               <label
-                htmlFor="className"
+                htmlFor="name"
                 className="block mb-2 font-medium text-gray-700"
               >
                 Class Name <span className="text-red-500">*</span>
               </label>
               <Input
-                id="className"
+                id="name"
                 type="text"
-                {...register("className", {
+                {...register("name", {
                   required: "Class Name is required",
                 })}
                 placeholder="Enter class name (e.g., Yoga)"
               />
-              {errors.className && (
-                <p className="text-red-500 text-sm">
-                  {errors.className.message}
-                </p>
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
               )}
             </div>
 
@@ -157,36 +158,22 @@ const AddNewClass = () => {
             {/* Class Details */}
             <div>
               <label
-                htmlFor="classDetails"
+                htmlFor="description"
                 className="block mb-2 font-medium text-gray-700"
               >
-                Class Details <span className="text-red-500">*</span>
+                Class Description <span className="text-red-500">*</span>
               </label>
               <Textarea
-                id="classDetails"
-                {...register("details", { required: "Details are required" })}
+                id="description"
+                {...register("description", {
+                  required: "Details are required",
+                })}
                 placeholder="Enter details about the class (e.g., duration, difficulty level)"
                 rows={5}
               />
-              {errors.details && (
+              {errors.description && (
                 <p className="text-red-500 text-sm">{errors.details.message}</p>
               )}
-            </div>
-
-            {/* Additional Info */}
-            <div>
-              <label
-                htmlFor="additionalInfo"
-                className="block mb-2 font-medium text-gray-700"
-              >
-                Additional Info (Optional)
-              </label>
-              <Input
-                id="additionalInfo"
-                type="text"
-                {...register("additionalInfo")}
-                placeholder="Enter any additional information (optional)"
-              />
             </div>
 
             {/* Submit Button */}

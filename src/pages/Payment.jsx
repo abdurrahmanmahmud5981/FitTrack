@@ -30,7 +30,6 @@ const PaymentDetails = () => {
     getSecret();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const getSecret = async () => {
     const { data: clientSecret } = await axiosSecure.post(
       "/create-payment-intent",
@@ -63,7 +62,6 @@ const PaymentDetails = () => {
       );
 
       if (error) {
-        console.error("Payment error:", error);
         Swal.fire({
           title: "Payment Failed",
           text: `Sorry, ${error.message}`,
@@ -89,13 +87,10 @@ const PaymentDetails = () => {
         await axiosSecure.patch(
           `/classes/increment-bookings/${state?.className}`
         );
-        // add the member id in slote so trainer can see info 
-        await axiosSecure.patch(
-          `/slots/add-member/${state?.slotId}`,
-          {
-            memberId: user?.email,
-          }
-        );
+        // add the member id in slote so trainer can see info
+        await axiosSecure.patch(`/slots/${state?.slotId}`, {
+          email: user?.email,
+        });
       }
     } catch (err) {
       console.error("Error processing payment:", err);
@@ -112,10 +107,13 @@ const PaymentDetails = () => {
 
   return (
     <>
-    <Helmet>
-      <title>FitTrack - Payment Details </title>
-      <meta name="description" content="Payment details for your fitness booking" />
-    </Helmet>
+      <Helmet>
+        <title>FitTrack - Payment Details </title>
+        <meta
+          name="description"
+          content="Payment details for your fitness booking"
+        />
+      </Helmet>
       <Card className=" max-w-screen-md mx-auto my-14 payment-page bg-transparent text-gray-400 ring ring-gray-800 p-6 space-y-6">
         <Typography variant="h3" color="deep-orange">
           Payment Page 💸

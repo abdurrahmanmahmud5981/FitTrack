@@ -89,7 +89,8 @@ const TrainerBooking = () => {
         slotName: slot?.slotName,
         packageName: selectedPackage,
         price: packages.find((pkg) => pkg.id === selectedPackage).price,
-       
+        trainerId: slot?.trainerId,
+        slotId: slot._id,    
     };
     navigate(`/slot-payment`, {
       state:state

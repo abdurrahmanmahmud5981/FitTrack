@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Card, Typography, Input, Button } from "@material-tailwind/react";
+import { Card, Typography,  Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 const Login = () => {
   const { signInWithGoogle, signIn } = useAuth();
   const navigate = useNavigate();
-  const location  = useLocation();
+  const location = useLocation();
   const from = location.state?.from.pathname || "/";
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -41,14 +41,16 @@ const Login = () => {
     setIsLoading(true);
     try {
       // Handle login logic here
-      await signIn(data?.email, data?.password);
+      const user = await signIn(data?.email, data?.password);
       Swal.fire({
         title: "Login Successful!",
         text: "Welcome back!",
         icon: "success",
         confirmButtonText: "Continue",
         confirmButtonColor: "#2196f3",
-      })
+      });
+      // save user information in the database if he is new
+      await saveUser(user?.user);
       navigate(from);
     } catch (error) {
       console.error(error);
@@ -58,7 +60,7 @@ const Login = () => {
         icon: "error",
         confirmButtonText: "Ok",
         confirmButtonColor: "#ef4444",
-      })
+      });
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +71,7 @@ const Login = () => {
       setIsLoading(true);
 
       const user = await signInWithGoogle();
-   
+
       // save user information in the database if he is new
       await saveUser(user?.user);
       navigate(from || "/");
@@ -103,17 +105,20 @@ const Login = () => {
         className="w-full max-w-lg min-h-screen mt-10"
       >
         <Card className="p-8 bg-gray-900 border-gray-800 backdrop-blur-3xl py-16">
-          <Typography variant="h4" className=" font-bold text-orange-500 text-center mb-8">
+          <Typography
+            variant="h4"
+            className=" font-bold text-orange-500 text-center mb-8"
+          >
             Welcome Back
           </Typography>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <motion.div variants={inputVariants}>
               <input
-                 type="email"
-                 name="email"
-                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
-                 placeholder="Email"
+                type="email"
+                name="email"
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
+                placeholder="Email"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -121,7 +126,6 @@ const Login = () => {
                     message: "Invalid email address",
                   },
                 })}
-              
               />
               {errors.email && (
                 <Typography color="red" className="mt-1 text-sm">
@@ -133,10 +137,10 @@ const Login = () => {
             <motion.div variants={inputVariants}>
               <div className="relative ">
                 <input
-                 type={showPassword ? "text" : "password"}
-                 name="password"
-                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
-                 placeholder="Password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
+                  placeholder="Password"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -150,7 +154,6 @@ const Login = () => {
                         "Password must contain at least one uppercase letter, one special character, and one number",
                     },
                   })}
-                
                 />
                 <button
                   type="button"
@@ -167,7 +170,11 @@ const Login = () => {
               )}
             </motion.div>
             <motion.div variants={inputVariants}>
-              <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-gray-900 font-semibold py-3 rounded-lg transition-colors" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full bg-orange-500 hover:bg-orange-600 text-gray-900 font-semibold py-3 rounded-lg transition-colors"
+                disabled={isLoading}
+              >
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
             </motion.div>
@@ -188,7 +195,7 @@ const Login = () => {
             <motion.div variants={inputVariants} className="mt-6">
               <Button
                 onClick={handleGoogleLogin}
-               aria-label="Sign in with Google"
+                aria-label="Sign in with Google"
                 className="mt-6 w-full bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 border border-gray-700"
                 disabled={isLoading}
               >
@@ -214,5 +221,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

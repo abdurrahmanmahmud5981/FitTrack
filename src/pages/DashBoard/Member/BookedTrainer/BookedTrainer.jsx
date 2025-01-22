@@ -15,6 +15,7 @@ const BookedTrainer = () => {
   const axiosSecure = useAxiosSecure();
   const { data: trainers = [], isLoading } = useQuery({
     queryKey: ["booked-trainer", user?.email],
+    enabled: !!user?.email,
     queryFn: async () => {
       const response = await axiosSecure(`/bookings/${user?.email}`);
       return response.data;

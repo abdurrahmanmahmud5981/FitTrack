@@ -21,7 +21,7 @@ const ActivityLog = () => {
       return response.data;
     },
   });
-
+ console.log(log);
   const handleOpen = () => setOpen(!open);
 
   if (isLoading) return <LoadingSpinner />;

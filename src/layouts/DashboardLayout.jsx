@@ -21,6 +21,7 @@ import { Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useGetRole from "../hooks/useGetRole";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../components/shared/LodingSpinner";
 
 const sidebarVariants = {
   open: {
@@ -61,8 +62,8 @@ const contentVariants = {
 };
 
 const DashboardLayout = () => {
-  const [role] = useGetRole();
   const { user, logOut } = useAuth();
+  const [role , isLoading] = useGetRole();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ const DashboardLayout = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  if (isLoading) return <LoadingSpinner/>;
   return (
     <div className="min-h-screen bg-gray-100">
       <Helmet>

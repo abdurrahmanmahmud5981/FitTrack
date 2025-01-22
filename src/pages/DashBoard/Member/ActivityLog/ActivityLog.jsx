@@ -21,7 +21,6 @@ const ActivityLog = () => {
       return response.data;
     },
   });
- console.log(log);
   const handleOpen = () => setOpen(!open);
 
   if (isLoading) return <LoadingSpinner />;
@@ -41,7 +40,7 @@ const ActivityLog = () => {
             </Typography>
           </div>
           <div className="p-6">
-            {log ? (
+            {log && !log?.message === "Trainer not found" ? (
               <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse text-left">
                   <thead>

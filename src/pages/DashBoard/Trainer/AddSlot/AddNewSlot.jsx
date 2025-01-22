@@ -14,11 +14,12 @@ import { availableClasses, daysOptions, timesOptions } from "../../../../api";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet-async";
 import LoadingSpinner from "../../../../components/shared/LodingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const AddNewSlot = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
+  const navigate = useNavigate()
   const [selectedDays, setSelectedDays] = useState([]);
   const [slotName, setSlotName] = useState("");
   const [slotTime, setSlotTime] = useState(0);
@@ -60,6 +61,7 @@ const AddNewSlot = () => {
         setSelectedDays([]);
         setSelectedClasses("");
         setSlotTime(0);
+        navigate('/dashboard/manage-slot')
       }
     } catch (error) {
       Swal.fire({

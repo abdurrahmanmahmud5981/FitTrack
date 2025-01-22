@@ -13,6 +13,7 @@ import {
 import auth from "../firebase/firebase.config";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { saveUser } from "../api/uploadImage";
+import LoadingSpinner from '../components/shared/LodingSpinner';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
@@ -91,6 +92,8 @@ const AuthProvider = ({ children }) => {
     logOut,
     updateUserProfile,
   };
+
+  if (loading) return <div className="bg-inherit"> <LoadingSpinner/></div>;
 
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

@@ -44,6 +44,7 @@ const AddNewSlot = () => {
         slotTime,
         days: selectedDays.map((day) => day.value),
         class: selectedClasses.label,
+        membersIds: []
       };
       const res = await axiosSecure.post("/slots", slotData);
       await axiosSecure.patch(`/classes/${selectedClasses.label}`, {

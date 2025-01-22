@@ -89,6 +89,13 @@ const PaymentDetails = () => {
         await axiosSecure.patch(
           `/classes/increment-bookings/${state?.className}`
         );
+        // add the member id in slote so trainer can see info 
+        await axiosSecure.patch(
+          `/slots/add-member/${state?.slotId}`,
+          {
+            memberId: user?.email,
+          }
+        );
       }
     } catch (err) {
       console.error("Error processing payment:", err);

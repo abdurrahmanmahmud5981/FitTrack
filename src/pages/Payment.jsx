@@ -7,7 +7,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY); // Replace with your Stripe public key
@@ -22,6 +22,7 @@ const PaymentDetails = () => {
   const axiosSecure = useAxiosSecure();
   const { state } = useLocation();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [paymentSuccess, setPaymentSuccess] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
@@ -75,6 +76,10 @@ const PaymentDetails = () => {
           icon: "success",
         });
         setPaymentSuccess(true);
+        await axiosSecure.patch(`/slots/${state?.slotId}`, {
+          email: user?.email,
+          name: user?.displayName,
+        });
         // Save payment info to the database
         await axiosSecure.post(`/bookings`, {
           ...state,
@@ -88,9 +93,9 @@ const PaymentDetails = () => {
           `/classes/increment-bookings/${state?.className}`
         );
         // add the member id in slote so trainer can see info
-        await axiosSecure.patch(`/slots/${state?.slotId}`, {
-          email: user?.email,
-        });
+
+        // Redirect to the dashboard
+        navigate("/dashboard/booked-trainer");
       }
     } catch (err) {
       console.error("Error processing payment:", err);

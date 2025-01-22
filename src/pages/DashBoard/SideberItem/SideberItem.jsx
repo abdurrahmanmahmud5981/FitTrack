@@ -10,7 +10,6 @@ const SidebarItem = ({ icon, label, to = "" }) => {
             isActive ? "bg-orange-600 text-white" : ""
           }`
         }
-        partiallyActive={true}
       >
         <span className="text-xl">{icon}</span>
         <Typography className="font-medium">{label}</Typography>

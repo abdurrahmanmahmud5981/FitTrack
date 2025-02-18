@@ -2,6 +2,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../../components/shared/LodingSpinner";
 
 const TABLE_HEAD = ["#", "Name", "Email"];
 
@@ -18,16 +19,7 @@ const NewsletterSubscribers = () => {
   });
 
   // Render loading state
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Typography variant="h5" color="blue-gray" className="font-medium">
-          Loading subscribers...
-        </Typography>
-      </div>
-    );
-  }
-
+  if (isLoading) return <LoadingSpinner/>
   // Render error state
   if (isError) {
     return (

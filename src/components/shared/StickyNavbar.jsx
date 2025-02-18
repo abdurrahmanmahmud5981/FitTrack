@@ -14,9 +14,12 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import logo from "../../assets/logo.svg";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
+import useGetRole from "../../hooks/useGetRole";
 export function StickyNavbar() {
   const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
+  const [role] = useGetRole()
+  console.log(role); 
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,7 +80,7 @@ export function StickyNavbar() {
               </MenuHandler>
               <MenuList>
                 <Link
-                  to="/dashboard"
+                  to="/dashboard/profile"
                   className="p-3 w-full block hover:bg-gray-100 transition duration-200"
                 >
                   Dashboard
@@ -126,7 +129,7 @@ export function StickyNavbar() {
           {user?.email ? (
             <>
               <Link
-                to="/dashboard"
+                to="/dashboard/profile"
                 className="block w-full py-4 hover:text-orange-600 text-left lg:hover:bg-gray-700 transition duration-200"
               >
                 Dashboard

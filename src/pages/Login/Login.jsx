@@ -16,7 +16,32 @@ const Login = () => {
   const from = location.state?.from.pathname || "/";
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [cradentials , setCradentials ] = useState(null)
+  const handleCradentials = (role)=>{
+   if(role==="admin"){
+     setCradentials({
+      email: "admin@example.com",
+      password: "admin@exampleA!1",
+    });
+   }
+   else if(role==="member"){
+    setCradentials({
+      email: "member@example.com",
+      password: "member@exampleA!1",
+    })
+   }
+   else if(role==="trainer"){
+    setCradentials({
+      email: "trainer@example.com",
+      password: "trainer@exampleA!1",
+    })
+   }
+   else{
+     setCradentials(null);
+   }
+   
+  }
+  console.log(cradentials);
   const {
     register,
     handleSubmit,
@@ -96,6 +121,7 @@ const Login = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
       <motion.div
@@ -111,12 +137,17 @@ const Login = () => {
           >
             Welcome Back
           </Typography>
-
+         <div className="flex gap-4 items-center justify-between my-6 flex-wrap">
+         <Button onClick={()=>handleCradentials("admin")} color="amber" className="flex-1">Admin </Button>
+         <Button onClick={()=>handleCradentials("member")}  color="amber" className="flex-1">Member</Button>
+         <Button onClick={()=>handleCradentials("trainer")}  color="amber" className="flex-1">Trainer</Button>
+         </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <motion.div variants={inputVariants}>
               <input
                 type="email"
                 name="email"
+                defaultValue={cradentials ? cradentials.email : ""}
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
                 placeholder="Email"
                 {...register("email", {
@@ -139,6 +170,7 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  defaultValue={cradentials ? cradentials.password : ""}
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
                   placeholder="Password"
                   {...register("password", {

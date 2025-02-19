@@ -14,12 +14,11 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import logo from "../../assets/logo.svg";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
-import useGetRole from "../../hooks/useGetRole";
+
 export function StickyNavbar() {
   const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
-  const [role] = useGetRole()
-  console.log(role); 
+ 
 
   useEffect(() => {
     const handleResize = () => {

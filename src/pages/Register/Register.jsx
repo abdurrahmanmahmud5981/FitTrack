@@ -78,6 +78,7 @@ const Register = () => {
         "Profile picture uploaded successfully",
         "success"
       );
+    // eslint-disable-next-line no-unused-vars
     } catch (error) {
       showAlert(
         "Upload Failed",
@@ -103,10 +104,10 @@ const Register = () => {
 
     setIsLoading(true);
     try {
-      const result = await createUser(data?.email, data?.password);
+      const result =   await createUser(data?.email, data?.password);
       await updateUserProfile(data?.name, imagePreview);
-      await saveUser(result.user);
-      
+     await saveUser(result?.user);
+   
       showAlert(
         "Registration Successful!",
         "Welcome to our community!",
@@ -196,6 +197,7 @@ const formVariants = {
     visible: { x: 0, opacity: 1 },
   };
 
+  // eslint-disable-next-line react/prop-types
   const LoadingSpinner = ({ size = 20 }) => (
     <FaSpinner className="animate-spin" size={size} />
   );

@@ -55,11 +55,9 @@ const AuthProvider = ({ children }) => {
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser?.displayName) {
-        setUser(currentUser);
+      setUser(currentUser);
+      if (currentUser?.email) {
         setLoading(false);
-
-    
         // Get JWT token
         const result = await axiosPublic.post(
           `/jwt`,{
@@ -68,11 +66,9 @@ const AuthProvider = ({ children }) => {
         );
         localStorage.setItem("token", result.data.token);
           // save user information in the database if he is new
-      await saveUser(currentUser);
+      // await saveUser(currentUser);
       } else {
-        setUser(currentUser);
         localStorage.removeItem("token");
-        setLoading(false);
         setLoading(false);
       }
     });
@@ -93,7 +89,7 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
   };
 
-  if (loading) return <div className="bg-inherit"> <LoadingSpinner/></div>;
+  // if (loading) return <div className="bg-inherit"> <LoadingSpinner/></div>;
 
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

@@ -16,38 +16,41 @@ const Login = () => {
   const from = location.state?.from.pathname || "/";
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [cradentials , setCradentials ] = useState(null)
-  const handleCradentials = (role)=>{
-   if(role==="admin"){
-     setCradentials({
-      email: "admin@example.com",
-      password: "admin@exampleA!1",
-    });
-   }
-   else if(role==="member"){
-    setCradentials({
-      email: "member@example.com",
-      password: "member@exampleA!1",
-    })
-   }
-   else if(role==="trainer"){
-    setCradentials({
-      email: "trainer@example.com",
-      password: "trainer@exampleA!1",
-    })
-   }
-   else{
-     setCradentials(null);
-   }
-   
-  }
-  console.log(cradentials);
+ 
+ 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm();
 
+  const handleCradentials = (role)=>{
+
+    let credentials = null;
+
+  if (role === "admin") {
+    credentials = {
+      email: "admin@example.com",
+      password: "admin@exampleA!1",
+    };
+  } else if (role === "member") {
+    credentials = {
+      email: "member@example.com",
+      password: "member@exampleA!1",
+    };
+  } else if (role === "trainer") {
+    credentials = {
+      email: "trainer@example.com",
+      password: "trainer@exampleA!1",
+    };
+  }
+if (credentials) {
+    setValue("email", credentials.email);
+    setValue("password", credentials.password);
+  }
+   }
+ 
   const formVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -123,7 +126,7 @@ const Login = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950 mb-10">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -147,7 +150,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
-                defaultValue={cradentials ? cradentials.email : ""}
+             
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
                 placeholder="Email"
                 {...register("email", {
@@ -170,7 +173,7 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  defaultValue={cradentials ? cradentials.password : ""}
+                  
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-gray-100"
                   placeholder="Password"
                   {...register("password", {

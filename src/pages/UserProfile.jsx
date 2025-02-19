@@ -48,7 +48,7 @@ const UserProfile = () => {
   });
 
   const { name, image, email, role, _id } = userInfo;
-  const [imagePreview, setImagePreview] = useState(image);
+  const [imagePreview, setImagePreview] = useState(user?.photoURL);
   const [userName, setUserName] = useState(name || user?.displayName);
 
   const handleImageChange = async (e) => {
@@ -80,7 +80,8 @@ const UserProfile = () => {
         userName ? userName : name,
         imagePreview ? imagePreview : image
       );
-      const res = await axiosSecure.patch(`/users/${_id}`, profileInfo);
+      await axiosSecure.patch(`/users/${_id}`, profileInfo);
+    
     } catch (error) {
       console.error("Failed to update profile:", error.message);
     } finally {
@@ -116,7 +117,7 @@ const UserProfile = () => {
                     color="deep-orange"
                   >
                     <img
-                      src={image}
+                      src={user?.photoURL}
                       alt={name}
                       className="w-32 h-32 rounded-full object-cover border-2 border-gray-200"
                     />

@@ -1,48 +1,62 @@
-
 import { Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
-import image from '../../assets/hero_slider_bg_3.png';
+import image from "../../assets/hero_slider_bg_3.png";
+
 const AboutSection = () => {
   return (
     <motion.section
-      className="py-10 text-white"
+      className="py-20 px-4 text-white bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
     >
-      <h2 className="text-3xl font-bold text-orange-700 text-center mb-14">About FitTrack</h2>
-      <div className=" grid md:grid-cols-2 gap-8 items-center">
-        {/* Left Content */}
-        <div className="space-y-6 order-2 md:order-1">
-          <p className="text-gray-400">
-            At FitTrack, we are committed to helping individuals achieve their
-            fitness goals in a supportive and empowering environment. With
-            state-of-the-art facilities, expert trainers, and a wide range of
-            programs, we are your go-to destination for health and wellness.
-          </p>
-          <p className="text-gray-400">
-            Founded with the belief that fitness is for everyone, we strive to
-            create a community where every member feels welcome, motivated, and
-            inspired. Whether you&apos;re here to lose weight, build muscle, or just
-            stay active, FitTrack is here to guide you every step of the way.
-          </p>
-         
-           <Button color="deep-orange"  size="md">
-                    Learn More
-                  </Button>
-        </div>
+      {/* Section Heading */}
+      <div className="text-center mb-14">
+        <h2 className="text-4xl font-extrabold text-orange-600 drop-shadow-md">
+          About FitTrack
+        </h2>
+        <p className="mt-2 text-gray-400 max-w-xl mx-auto text-sm">
+          More than just a gym – we’re a community built to elevate every journey.
+        </p>
+      </div>
 
-        {/* Right Image/Illustration */}
+      {/* Grid Layout: Text & Image */}
+      <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+        {/* Text Content */}
         <motion.div
-          className="flex justify-center"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
+          className="space-y-6 order-2 md:order-1"
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
+        >
+          <p className="text-gray-400 leading-relaxed">
+            At <strong className="text-orange-500">FitTrack</strong>, we are committed to helping individuals achieve their fitness goals
+            in a supportive and empowering environment. From expert trainers to cutting-edge
+            equipment, we’re your trusted partner in health and wellness.
+          </p>
+          <p className="text-gray-400 leading-relaxed">
+            We believe fitness should be inclusive, inspiring, and tailored to you. Whether you’re here
+            to lose weight, build strength, or simply feel better – FitTrack is with you every step
+            of the way.
+          </p>
+
+          {/* CTA Button */}
+          <Button color="deep-orange" size="md" className="mt-4">
+            Learn More
+          </Button>
+        </motion.div>
+
+        {/* Image Content */}
+        <motion.div
+          className="flex justify-center order-1 md:order-2"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
           <img
             src={image}
             alt="About FitTrack"
-            className="order-1 md:order-2 w-full object-top rounded-lg shadow-lg h-[400px] object-cover"
+            className="w-full h-[400px] object-cover object-top rounded-lg shadow-lg"
           />
         </motion.div>
       </div>

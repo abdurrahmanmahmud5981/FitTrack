@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
-// Importing icons from React Icons
-import { FaChalkboardTeacher, FaDumbbell, FaCalendarAlt, FaUsers, FaAppleAlt, FaClock } from "react-icons/fa";
+import {
+  FaChalkboardTeacher,
+  FaDumbbell,
+  FaCalendarAlt,
+  FaUsers,
+  FaAppleAlt,
+  FaClock,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const FeaturedSection = () => {
-  // Featured Items Data
   const features = [
     {
       id: 1,
@@ -50,28 +56,53 @@ const FeaturedSection = () => {
 
   return (
     <motion.section
-      className="py-10   text-white "
+      className="relative py-20 px-4 text-white bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <div className="text-center">
-        <h2 className="text-3xl font-bold mb-10 text-orange-700">Why Choose FitTrack?</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature) => (
-            <motion.div
-              key={feature.id}
-              className="rounded-lg ring shadow p-6  transition-all ring-orange-500/50 bg-orange-50/10"
-              whileHover={{ scale: 1.05 }}
-            >
-              <div className="flex justify-center mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-bold  mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-[url('/patterns/dots.svg')] opacity-10 bg-center bg-cover pointer-events-none" />
+
+      {/* Heading */}
+      <div className="relative text-center mb-16 z-10">
+        <h2 className="text-4xl font-extrabold text-orange-600 drop-shadow-md">
+          Why Choose FitTrack?
+        </h2>
+        <p className="mt-3 text-gray-400 max-w-xl mx-auto">
+          Discover the key features that make FitTrack your ultimate destination for health and fitness.
+        </p>
+      </div>
+
+      {/* Features Grid */}
+      <div className="relative z-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        {features.map((feature, index) => (
+          <motion.div
+            key={feature.id}
+            className="rounded-xl ring ring-orange-500/30 bg-white/5 backdrop-blur-md shadow-xl p-6 hover:shadow-orange-400/30 transition-all"
+            whileHover={{ scale: 1.05 }}
+            transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
+          >
+            <div className="flex justify-center mb-4">{feature.icon}</div>
+            <h3 className="text-xl font-semibold text-white text-center mb-2">
+              {feature.title}
+            </h3>
+            <p className="text-gray-400 text-center text-sm">
+              {feature.description}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Call-to-Action */}
+      <div className="relative z-10 text-center mt-16">
+        <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Fitness Journey?</h3>
+        <Link
+          to="/register"
+          className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300"
+        >
+          Join FitTrack Today
+        </Link>
       </div>
     </motion.section>
   );

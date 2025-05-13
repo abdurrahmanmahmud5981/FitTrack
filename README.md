@@ -109,4 +109,99 @@ Welcome to FitTrack, a comprehensive fitness tracking and training management pl
 
 
 ---
-⭐ **Like this project? Give it a star!** ⭐
+
+## 📂 Repository
+
+📦 [GitHub Repo](https://github.com/abdurrahmanmahmud/Fittrack)
+
+---
+
+## 🚀 Setup & Installation
+
+### Prerequisites
+
+* Node.js & npm
+* MongoDB Atlas account
+* Stripe account for test keys
+
+### Clone the Project
+
+```bash
+git clone https://github.com/your-username/Fittrack.git
+cd fittrack
+```
+
+### Install Frontend Dependencies
+
+```bash
+cd client
+npm install
+```
+
+### Install Backend Dependencies
+
+```bash
+git clone https://github.com/your-username/Fittrack-server.git
+cd ../server
+npm install
+```
+
+### Environment Variables
+
+#### Backend `.env`
+
+```env
+PORT=5000
+MONGODB_URI=your_mongo_uri
+JWT_SECRET=your_jwt_secret
+STRIPE_SECRET_KEY=your_stripe_secret_key
+```
+
+#### Frontend `.env`
+
+```env
+VITE_API_URL=http://localhost:5000
+VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+```
+
+### Run Backend
+
+```bash
+cd server
+npm run dev
+```
+
+### Run Frontend
+
+```bash
+cd ../client
+npm run dev
+```
+
+---
+
+
+## 🙌 Contributions
+
+Pull requests are welcome! If you’d like to add features, fix bugs, or improve documentation:
+
+1. Fork the repo
+2. Create your feature branch
+3. Commit changes
+4. Push to your branch
+5. Open a pull request
+
+---
+
+## ⭐ Like this project?
+
+Give it a star on GitHub! ⭐
+
+---
+
+## 🧑‍💻 Author
+
+Made with ❤️ by [Abdur Rahman](https://abdurrahmanmahmud.vercel.app/)
+
+```
+

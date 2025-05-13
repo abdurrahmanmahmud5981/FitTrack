@@ -1,6 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import image from "../../assets/hero_slider_bg_3.png";
+import { Link } from "react-router-dom";
 
 const AboutSection = () => {
   return (
@@ -41,9 +42,13 @@ const AboutSection = () => {
           </p>
 
           {/* CTA Button */}
-          <Button color="deep-orange" size="md" className="mt-4">
-            Learn More
-          </Button>
+          <Link to="/allClasses">
+            <Button
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded shadow-lg transition duration-300"
+            >
+              Learn More
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Image Content */}

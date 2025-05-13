@@ -69,7 +69,7 @@ const TeamSection = () => {
                     className=" -mt-5 border-4 border-orange-500 object-cover object-center"
                     shadow="lg"
                     variant="circular"
-                    style={{ width: "150px", height: "150px" }}
+                    
                   />
                 </CardHeader>
 

@@ -14,16 +14,15 @@ import {
 import Select from "react-select";
 import { FiUpload, FiTrash2 } from "react-icons/fi";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import uploadImage from "../../api/uploadImage";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { daysOptions, timesOptions } from "../../api";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import uploadImage from "../../api/uploadImage";
-import { daysOptions, timesOptions } from "../../api";
-
-// Skills options
+// Skill Options
 const skillsOptions = [
   "Yoga",
   "Zumba",
@@ -34,10 +33,9 @@ const skillsOptions = [
 ];
 
 const BeTrainer = () => {
-  const navigate = useNavigate();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
-
   const [profileImage, setProfileImage] = useState(user?.photoURL);
 
   const {
@@ -60,36 +58,34 @@ const BeTrainer = () => {
     },
   });
 
-  // Handle profile image upload
+  // Image upload handler
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    const photoURL = await uploadImage(file);
-    if (photoURL) {
-      setProfileImage(photoURL);
+    if (file) {
+      const photoURL = await uploadImage(file);
+      if (photoURL) setProfileImage(photoURL);
     }
   };
 
-  // Remove uploaded profile image
   const handleRemoveImage = () => {
     setProfileImage(null);
   };
 
-  // Form submission
+  // Form submission handler
   const onSubmit = async (data) => {
     if (!profileImage) {
-      Swal.fire({
+      return Swal.fire({
         title: "Missing Image",
         text: "Please upload a profile image before submitting.",
         icon: "error",
       });
-      return;
     }
 
     const trainerData = {
       ...data,
       fullName: user?.displayName,
       profileImage,
-      availableDays: data.availableDays.map((day) => day.value),
+      availableDays: data.availableDays.map((d) => d.value),
       availableTime: data.availableTime.value,
       status: "Pending",
     };
@@ -99,94 +95,61 @@ const BeTrainer = () => {
       if (response.data?.insertedId) {
         Swal.fire({
           title: "Application Submitted",
-          text: "Your application has been received. We'll get back to you soon.",
+          text: "Your application has been successfully submitted.",
           icon: "success",
         });
         navigate("/dashboard/activity-log");
       } else {
-        throw new Error(response.data?.message || "Unknown server error");
+        Swal.fire({
+          title: "Submission Failed",
+          text: response.data?.message || "Something went wrong.",
+          icon: "error",
+        });
       }
-    } catch (error) {
+    } catch (err) {
       Swal.fire({
-        title: "Submission Failed",
-        text: error.message,
+        title: "Server Error",
+        text: err.message,
         icon: "error",
       });
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto my-16">
+    <div className="max-w-3xl mx-auto my-16 px-4">
       <Helmet>
-        <title>FitTrack | Become a Trainer</title>
-        <meta
-          name="description"
-          content="Apply to become a certified fitness trainer at FitTrack. Complete your profile, set your availability, and join our team."
-        />
-        <meta property="og:title" content="FitTrack | Become a Trainer" />
-        <meta
-          property="og:description"
-          content="Apply to become a certified fitness trainer at FitTrack. Complete your profile, set your availability, and join our team."
-        />
+        <title>FitTrack - Become a Trainer</title>
+        <meta name="description" content="Apply to become a professional trainer at FitTrack." />
+        <meta property="og:title" content="FitTrack - Become a Trainer" />
+        <meta property="og:description" content="Submit your credentials to become a certified trainer at FitTrack." />
       </Helmet>
 
       <Card className="shadow-lg bg-transparent text-white ring ring-gray-800">
         <CardBody>
-          <h2 className="text-2xl font-semibold mb-6">Become a Trainer</h2>
+          <h2 className="text-2xl font-semibold mb-6">Trainer Application Form</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* User Info */}
+            {/* Basic Info */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block mb-2 font-medium">Full Name</label>
-                <Input
-                  type="text"
-                  defaultValue={user?.displayName}
-                  readOnly
-                  className="cursor-not-allowed text-gray-300"
-                />
-              </div>
-              <div>
-                <label className="block mb-2 font-medium">Email</label>
-                <Input
-                  type="email"
-                  defaultValue={user?.email}
-                  readOnly
-                  className="cursor-not-allowed text-gray-300"
-                />
-              </div>
+              <Input label="Full Name" value={user?.displayName} readOnly className="text-gray-400 cursor-not-allowed" />
+              <Input label="Email" value={user?.email} readOnly className="text-gray-400 cursor-not-allowed" />
             </div>
 
-            {/* Image Upload */}
+            {/* Profile Image */}
             <div>
               <label className="block mb-2 font-medium">Profile Image</label>
               <div className="flex items-center gap-3">
-                <label
-                  htmlFor="profileImage"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-100 rounded-md cursor-pointer hover:bg-blue-200 transition"
-                >
-                  <FiUpload size={18} />
-                  Upload Image
+                <label htmlFor="profileImage" className="cursor-pointer px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 flex items-center gap-2">
+                  <FiUpload size={18} /> Upload
                 </label>
-                <input
-                  id="profileImage"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
+                <input type="file" id="profileImage" className="hidden" accept="image/*" onChange={handleImageUpload} />
               </div>
-
               {profileImage && (
-                <div className="mt-3 relative">
-                  <img
-                    src={profileImage}
-                    alt="Profile Preview"
-                    className="w-32 h-32 object-cover rounded-md border shadow-sm"
-                  />
+                <div className="relative mt-3">
+                  <img src={profileImage} alt="Profile" className="w-32 h-32 object-cover rounded-md border" />
                   <button
                     type="button"
-                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
                     onClick={handleRemoveImage}
                   >
                     <FiTrash2 size={16} />
@@ -195,78 +158,59 @@ const BeTrainer = () => {
               )}
             </div>
 
-            {/* Skills Selection */}
+            {/* Skills */}
             <div>
               <label className="block mb-2 font-medium">Skills</label>
               <List className="grid sm:grid-cols-2 gap-4">
                 {skillsOptions.map((skill) => (
-                  <ListItem
-                    key={skill}
-                    className="p-0 hover:bg-transparent active:bg-transparent"
-                  >
-                    <label
-                      htmlFor={skill}
-                      className="flex w-full items-center cursor-pointer px-3 py-2"
-                    >
-                      <ListItemPrefix className="mr-3">
+                  <ListItem key={skill} className="p-0">
+                    <label htmlFor={skill} className="flex w-full items-center cursor-pointer px-3 py-2">
+                      <ListItemPrefix>
                         <Checkbox
                           id={skill}
                           value={skill}
-                          defaultChecked={getValues("selectedSkills")?.includes(skill)}
                           {...register("selectedSkills", {
                             validate: (value) =>
-                              value?.length > 0 || "Please select at least one skill.",
+                              (value?.length > 0) || "Please select at least one skill.",
                           })}
+                          defaultChecked={getValues("selectedSkills")?.includes(skill)}
                           onChange={(e) => {
                             const value = e.target.value;
-                            const selected = getValues("selectedSkills") || [];
-                            const updated = selected.includes(value)
-                              ? selected.filter((s) => s !== value)
-                              : [...selected, value];
-                            setValue("selectedSkills", updated, {
-                              shouldValidate: true,
-                            });
+                            const current = getValues("selectedSkills") || [];
+                            const updated = current.includes(value)
+                              ? current.filter((s) => s !== value)
+                              : [...current, value];
+                            setValue("selectedSkills", updated, { shouldValidate: true });
                           }}
                           ripple={false}
+                          className="hover:before:opacity-0"
                           containerProps={{ className: "p-0" }}
                         />
                       </ListItemPrefix>
-                      <Typography className="font-medium text-gray-300">
-                        {skill}
-                      </Typography>
+                      <Typography className="text-gray-300">{skill}</Typography>
                     </label>
                   </ListItem>
                 ))}
               </List>
               {errors.selectedSkills && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.selectedSkills.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.selectedSkills.message}</p>
               )}
             </div>
 
-            {/* Availability */}
+            {/* Schedule */}
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block mb-2 font-medium">Available Days</label>
                 <Controller
                   name="availableDays"
                   control={control}
-                  rules={{ required: "Please select at least one day." }}
+                  rules={{ required: "Please select available days." }}
                   render={({ field }) => (
-                    <Select
-                      {...field}
-                      isMulti
-                      options={daysOptions}
-                      placeholder="Select available days..."
-                      className="text-gray-900"
-                    />
+                    <Select {...field} isMulti options={daysOptions} placeholder="Select days..." className="text-gray-900" />
                   )}
                 />
                 {errors.availableDays && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.availableDays.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.availableDays.message}</p>
                 )}
               </div>
 
@@ -275,84 +219,61 @@ const BeTrainer = () => {
                 <Controller
                   name="availableTime"
                   control={control}
-                  rules={{ required: "Please select an available time." }}
+                  rules={{ required: "Please select available time." }}
                   render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={timesOptions}
-                      placeholder="Select available time..."
-                      className="text-gray-900"
-                    />
+                    <Select {...field} options={timesOptions} placeholder="Select time..." className="text-gray-900" />
                   )}
                 />
                 {errors.availableTime && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.availableTime.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.availableTime.message}</p>
                 )}
               </div>
             </div>
 
-            {/* Age and Experience */}
+            {/* Personal Info */}
             <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block mb-2 font-medium">Age</label>
-                <Input
-                  type="number"
-                  placeholder="Enter your age"
-                  {...register("age", {
-                    required: "Age is required.",
-                    min: { value: 18, message: "You must be at least 18 years old." },
-                  })}
-                  className="text-gray-300"
-                />
-                {errors.age && (
-                  <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block mb-2 font-medium">Years of Experience</label>
-                <Input
-                  type="number"
-                  placeholder="Enter your experience"
-                  {...register("experience", {
-                    required: "Experience is required.",
-                    min: { value: 0, message: "Please enter a valid number." },
-                  })}
-                  className="text-gray-300"
-                />
-                {errors.experience && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.experience.message}
-                  </p>
-                )}
-              </div>
+              <Input
+                type="number"
+                label="Age"
+                placeholder="Enter your age"
+                {...register("age", {
+                  required: "Age is required.",
+                  min: { value: 18, message: "Minimum age is 18." },
+                })}
+                className="text-gray-300"
+              />
+              <Input
+                type="number"
+                label="Experience (Years)"
+                placeholder="Years of experience"
+                {...register("experience", {
+                  required: "Experience is required.",
+                  min: { value: 0, message: "Must be 0 or more." },
+                })}
+                className="text-gray-300"
+              />
             </div>
+            {errors.age && <p className="text-red-500 text-sm">{errors.age.message}</p>}
+            {errors.experience && <p className="text-red-500 text-sm">{errors.experience.message}</p>}
 
             {/* Biography */}
             <div>
               <label className="block mb-2 font-medium">Biography</label>
               <Textarea
                 rows={5}
-                placeholder="Tell us a bit about yourself..."
+                placeholder="Write a brief biography..."
                 {...register("biography", {
                   required: "Biography is required.",
-                  minLength: {
-                    value: 10,
-                    message: "Biography should be at least 10 characters long.",
-                  },
+                  minLength: { value: 10, message: "At least 10 characters." },
                 })}
                 className="text-gray-300"
               />
               {errors.biography && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.biography.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.biography.message}</p>
               )}
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <Button color="orange" type="submit" fullWidth>
               Submit Application
             </Button>

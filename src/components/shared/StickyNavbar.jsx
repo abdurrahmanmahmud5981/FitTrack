@@ -15,11 +15,13 @@ import useAuth from "../../hooks/useAuth";
 import logo from "../../assets/logo.svg";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
 
+import useIsAdmin from "../../hooks/useIsAdmin";
+
 export function StickyNavbar() {
   const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
- 
-
+  const [isAdmin] = useIsAdmin()
+  console.log(isAdmin)
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) {
@@ -79,7 +81,10 @@ export function StickyNavbar() {
               </MenuHandler>
               <MenuList>
                 <Link
-                  to="/dashboard/profile"
+                  to={`/dashboard/${isAdmin
+                      ? "balance"
+                      : "profile"
+                    }`}
                   className="p-3 w-full block hover:bg-gray-100 transition duration-200"
                 >
                   Dashboard
@@ -114,9 +119,9 @@ export function StickyNavbar() {
           onClick={() => setOpenNav(!openNav)}
         >
           {openNav ? (
-           <RiCloseLargeLine size={30} color="white" />
+            <RiCloseLargeLine size={30} color="white" />
           ) : (
-           <RiMenu3Fill size={40} color="white" />
+            <RiMenu3Fill size={40} color="white" />
           )}
         </IconButton>
       </div>

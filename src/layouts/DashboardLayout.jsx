@@ -131,11 +131,11 @@ const DashboardLayout = () => {
             {/* Admin Routes */}
             {role === "admin" && (
               <div className="space-y-1 md:space-y-2">
+                <SidebarItem icon={<FaDollarSign />} label="Overview" to="/dashboard/balance" onClick={closeSidebarOnMobile} />
                 <SidebarItem icon={<FaClipboardList />} label="Subscribers" to="/dashboard/newsletter-subscribers" onClick={closeSidebarOnMobile} />
                 <SidebarItem icon={<FaPlusCircle />} label="Add Class" to="/dashboard/add-new-class" onClick={closeSidebarOnMobile} />
                 <SidebarItem icon={<FaUsers />} label="All Trainers" to="/dashboard/all-trainer" onClick={closeSidebarOnMobile} />
                 <SidebarItem icon={<FaChalkboardTeacher />} label="Applied Trainers" to="/dashboard/applied-trainers" onClick={closeSidebarOnMobile} />
-                <SidebarItem icon={<FaDollarSign />} label="Balance" to="/dashboard/balance" onClick={closeSidebarOnMobile} />
                 <SidebarItem icon={<FaComments />} label="Forum Post" to="/dashboard/admin/add-new-forum-post" onClick={closeSidebarOnMobile} />
               </div>
             )}

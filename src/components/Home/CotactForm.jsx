@@ -33,7 +33,7 @@ const ContactForm = () => {
 
         {/* Contact Form */}
         <motion.div
-          className="p-8 bg-white/5 backdrop-blur rounded-xl ring-1 ring-orange-900/60 shadow-xl"
+          className="p-8 bg-white/5 backdrop-blur rounded-xl ring-1 ring-orange-500/60 primaryBg shadow-xl"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
@@ -114,7 +114,7 @@ const ContactForm = () => {
 
 // Reusable Card Component
 const ContactInfoCard = ({ title, info }) => (
-  <div className="p-6 rounded-lg ring-1 ring-orange-800/60 shadow-md bg-white/5">
+  <div className="p-6 rounded-lg ring-1 ring-orange-500/60 shadow-md primaryBg">
     <h3 className="text-xl font-semibold text-orange-600 mb-2">{title}</h3>
     <p className="text-gray-400">{info}</p>
   </div>

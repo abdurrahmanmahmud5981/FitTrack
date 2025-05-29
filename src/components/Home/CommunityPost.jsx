@@ -67,7 +67,7 @@ const CommunityPosts = () => {
               }) => (
                 <Card
                   key={_id}
-                  className="bg-gray-800 border border-gray-700 rounded-lg shadow-md hover:shadow-xl transition duration-300 flex flex-col justify-between"
+                  className="primaryBg flex flex-col justify-between"
                 >
                   <CardBody className="pb-0">
                     <div className="flex items-center mb-4">

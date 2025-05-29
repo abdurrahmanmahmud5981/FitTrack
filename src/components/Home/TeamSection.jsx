@@ -60,33 +60,33 @@ const TeamSection = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.6, type: "spring" }}
             >
-              <Card className="bg-gradient-to-tr from-black via-gray-900 to-orange-900/60 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <CardHeader className="bg-transparent shadow-none flex justify-center pt-6">
+              <Card className="primaryBg ">
+                <CardHeader className="bg-transparent shadow-none flex  pt-6">
                   <Avatar
                     src={trainer.photo}
-                    alt={`Trainer - ${trainer.name}`}
+                    alt={`Trainer - ${trainer?.name}`}
                     size="xl"  
-                    className=" -mt-5 border-4 border-orange-500 object-cover object-center"
+                    className=" -mt-6 border-4 border-orange-500/20 object-cover object-center"
                     shadow="lg"
                     variant="circular"
                     
                   />
                 </CardHeader>
 
-                <CardBody className="flex flex-col items-center pb-0">
+                <CardBody className="flex flex-col items-start pb-0">
                   <Typography
                     variant="h4"
                     className="mb-2 font-semibold text-orange-400"
                   >
                     {trainer.name}
                   </Typography>
-                  <Typography className="text-gray-400 mb-4 text-center">
+                  <Typography className="text-gray-400 mb-4 ">
                     {trainer.bio}
                   </Typography>
                 </CardBody>
 
                 <CardFooter className="pt-0 pb-6">
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col">
                     <div className="mb-2">{trainer.icon}</div>
                     <Typography
                       variant="h6"
@@ -94,7 +94,7 @@ const TeamSection = () => {
                     >
                       Expertise
                     </Typography>
-                    <ul className="list-disc list-inside text-gray-400 text-sm text-center">
+                    <ul className="list-disc list-inside text-gray-400 text-sm ">
                       {trainer.expertise.map((skill, idx) => (
                         <li key={idx}>{skill}</li>
                       ))}

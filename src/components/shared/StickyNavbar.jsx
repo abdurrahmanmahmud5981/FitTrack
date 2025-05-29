@@ -21,7 +21,7 @@ export function StickyNavbar() {
   const { user, logOut } = useAuth();
   const [openNav, setOpenNav] = useState(false);
   const [isAdmin] = useIsAdmin()
-  console.log(isAdmin)
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) {

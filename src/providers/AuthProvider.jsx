@@ -12,8 +12,7 @@ import {
 
 import auth from "../firebase/firebase.config";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import { saveUser } from "../api/uploadImage";
-import LoadingSpinner from '../components/shared/LodingSpinner';
+
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
@@ -65,6 +64,8 @@ const AuthProvider = ({ children }) => {
           }
         );
         localStorage.setItem("token", result.data.token);
+        axiosPublic.defaults.headers.common["Authorization"] =
+          `Bearer ${result.data.token}`;
           // save user information in the database if he is new
       // await saveUser(currentUser);
       } else {

@@ -56,7 +56,7 @@ const FeaturedSection = () => {
 
   return (
     <motion.section
-      className="relative py-20 px-4 text-white bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden"
+      className="relative py-20 px-4 text-white  overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}

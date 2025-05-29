@@ -79,7 +79,7 @@ const FeaturedSection = () => {
         {features.map((feature, index) => (
           <motion.div
             key={feature.id}
-            className="rounded-xl ring ring-orange-500/30 bg-white/5 backdrop-blur-md shadow-xl p-6 hover:shadow-orange-400/30 transition-all"
+            className="  p-6 primaryBg"
             whileHover={{ scale: 1.05 }}
             transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
           >

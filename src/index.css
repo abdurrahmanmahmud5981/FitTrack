@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.primaryBg{
+    @apply  bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-lg hover:shadow-orange-500/10 transition-all duration-300
+}
